@@ -1,0 +1,89 @@
+---
+import SectionHeading from './SectionHeading.astro';
+import { identity, interests } from '../../data/site';
+---
+
+<section class="section container about" aria-labelledby="about">
+  <SectionHeading id="about" eyebrow="About" index="S / 05" title="关于" />
+
+  <div class="about-panel reveal">
+    <div class="about-main">
+      <p class="about-lead">{identity.roleZh}</p>
+      <p class="about-body">{identity.narrative}</p>
+      <p class="about-status">{identity.status} · ACMer · Based in {identity.basedIn}</p>
+    </div>
+
+    <div class="about-side">
+      <ul class="about-tags" role="list" aria-label="关注方向">
+        {interests.map((tag) => <li>{tag}</li>)}
+      </ul>
+    </div>
+  </div>
+</section>
+
+<style>
+  .about-panel {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) minmax(240px, 0.34fr);
+    gap: clamp(28px, 6vw, 96px);
+    align-items: end;
+    padding-block: clamp(32px, 5vw, 72px);
+    border-top: 1px solid var(--line-subtle);
+    border-bottom: 1px solid var(--line-subtle);
+  }
+
+  .about-main {
+    display: grid;
+    gap: var(--space-6);
+    max-width: 760px;
+  }
+
+  .about-lead {
+    font-family: var(--font-serif-cn);
+    font-size: clamp(28px, 4vw, 56px);
+    font-weight: 900;
+    line-height: 1.18;
+    color: var(--text-primary);
+  }
+
+  .about-body {
+    max-width: 54ch;
+    font-size: clamp(16px, 1.7vw, 20px);
+    line-height: 1.7;
+    color: var(--text-secondary);
+  }
+
+  .about-status {
+    font-family: var(--font-mono);
+    font-size: var(--fs-meta);
+    letter-spacing: 0.04em;
+    color: var(--text-tertiary);
+  }
+
+  .about-side {
+    display: grid;
+    gap: var(--space-6);
+  }
+
+  .about-tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-2);
+  }
+
+  .about-tags li {
+    border: 1px solid var(--line-subtle);
+    border-radius: var(--radius-sm);
+    padding: 5px 9px;
+    font-family: var(--font-mono);
+    font-size: 11px;
+    letter-spacing: 0.06em;
+    color: var(--text-secondary);
+  }
+
+  @media (max-width: 767px) {
+    .about-panel {
+      grid-template-columns: 1fr;
+    }
+  }
+</style>

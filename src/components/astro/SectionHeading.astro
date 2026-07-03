@@ -1,0 +1,48 @@
+---
+interface Props {
+  id?: string;
+  eyebrow?: string;
+  title: string;
+  index?: string;
+}
+const { id, eyebrow, title, index } = Astro.props;
+---
+
+<header class="sh reveal" id={id}>
+  <div class="sh-top">
+    {eyebrow && <span class="sh-eyebrow">{eyebrow}</span>}
+    {index && <span class="sh-index">{index}</span>}
+  </div>
+  <h2 class="sh-title">{title}</h2>
+</header>
+
+<style>
+  .sh { margin-bottom: clamp(28px, 4vw, 56px); }
+  .sh-top {
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    gap: var(--space-4);
+    padding-bottom: var(--space-3);
+    border-bottom: 1px solid var(--line-subtle);
+    font-family: var(--font-mono);
+  }
+  .sh-eyebrow {
+    font-size: var(--fs-meta);
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--accent);
+  }
+  .sh-index {
+    font-size: var(--fs-meta);
+    letter-spacing: 0.1em;
+    color: var(--text-tertiary);
+  }
+  .sh-title {
+    margin-top: var(--space-6);
+    font-family: var(--font-display);
+    font-size: var(--fs-section);
+    font-weight: 680;
+    letter-spacing: -0.02em;
+  }
+</style>

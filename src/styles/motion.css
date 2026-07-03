@@ -1,0 +1,125 @@
+/*
+  动效基线
+  --------------------------------
+  第一版只放“静态可见”的进入动画占位与 reduced-motion 降级。
+  真正的 React Bits 标志性交互在 Phase 3 再接入 (DESIGN §8)。
+*/
+
+/* 区块进入：轻微错位显现。默认隐藏，加 .is-visible 后显现。
+   Phase 3 用 IntersectionObserver 切换；当前先保证无 JS 时也可见 —— 见底部降级。 */
+.reveal {
+  opacity: 0;
+  transform: translateY(24px);
+  transition:
+    opacity var(--dur-enter) var(--ease-out),
+    transform var(--dur-enter) var(--ease-out);
+  transition-delay: calc(var(--reveal-i, 0) * 70ms);
+}
+
+.reveal.is-visible {
+  opacity: 1;
+  transform: none;
+}
+
+/* 无 JS 时（尚未接入 observer），内容必须可读：直接显现。
+   接入 observer 后移除此回退或由脚本接管。 */
+.no-js .reveal,
+html:not(.js) .reveal {
+  opacity: 1;
+  transform: none;
+}
+
+/* 全局鼠标氛围光：让空白区域也有轻微反馈，组件 hover 只做重点强调。 */
+.cursor-ambient {
+  position: fixed;
+  inset: 0;
+  z-index: 12;
+  pointer-events: none;
+  opacity: 0;
+  background:
+    radial-gradient(
+      520px circle at var(--cursor-x, 50vw) var(--cursor-y, 50vh),
+      rgba(183, 247, 42, 0.075),
+      rgba(183, 247, 42, 0.028) 34%,
+      transparent 72%
+    );
+  mix-blend-mode: screen;
+  transition: opacity 180ms var(--ease-out);
+}
+
+.is-pointer-active .cursor-ambient {
+  opacity: 1;
+}
+
+/* 轻量交互：cursor spotlight + magnet，不改变信息结构。 */
+.glare-hover {
+  --glare-radius: var(--radius-sm);
+  --glare-size: 180px;
+  --magnet-x: 0px;
+  --magnet-y: 0px;
+  position: relative;
+  overflow: hidden;
+  isolation: isolate;
+  transform: translate3d(var(--magnet-x), var(--magnet-y), 0);
+  transition:
+    color var(--dur-hover) var(--ease-out),
+    border-color var(--dur-hover) var(--ease-out),
+    background-color var(--dur-hover) var(--ease-out),
+    transform 220ms var(--ease-out);
+}
+
+.glare-hover::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  border-radius: var(--glare-radius);
+  pointer-events: none;
+  background: radial-gradient(
+    var(--glare-size) circle at var(--hover-x, 50%) var(--hover-y, 50%),
+    rgba(183, 247, 42, 0.095),
+    rgba(183, 247, 42, 0.035) 38%,
+    transparent 72%
+  );
+  mix-blend-mode: screen;
+  opacity: 0;
+  transform: none;
+  transition: opacity 220ms var(--ease-out);
+}
+
+.glare-hover > * {
+  position: relative;
+  z-index: 1;
+}
+
+@media (hover: hover) {
+  .glare-hover:hover::after,
+  .glare-hover:focus-visible::after {
+    opacity: 1;
+  }
+}
+
+/* 减少动态效果：内容直接显示，关闭所有进入与悬停位移 (§11) */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+
+  .reveal {
+    opacity: 1;
+    transform: none;
+  }
+
+  .glare-hover {
+    transform: none;
+  }
+
+  .cursor-ambient {
+    display: none;
+  }
+}

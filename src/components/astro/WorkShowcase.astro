@@ -1,0 +1,483 @@
+---
+import { Image } from 'astro:assets';
+import type { CollectionEntry } from 'astro:content';
+import SectionHeading from './SectionHeading.astro';
+
+interface Props {
+  projects: CollectionEntry<'projects'>[];
+}
+
+const { projects } = Astro.props;
+
+const labels: Record<string, { title: string; side: string; mode: 'wide-stack' | 'poster' }> = {
+  flowcast: { title: 'Flowcast', side: '流转', mode: 'wide-stack' },
+  'in-the-word': { title: 'In-the-word', side: '字里行间', mode: 'poster' },
+  scriptstudio: { title: 'ScriptStudio', side: '搭映', mode: 'poster' },
+};
+---
+
+<section class="section container work-showcase" aria-labelledby="work" data-work-showcase>
+  <SectionHeading id="work" eyebrow="Selected work" index="S / 02" title="作品集" />
+
+  <div class="work-shell">
+    <div class="work-list" role="list" aria-label="精选项目">
+      {projects.map((project, i) => {
+        const meta = labels[project.id] ?? {
+          title: project.data.title,
+          side: project.data.title,
+          mode: 'poster' as const,
+        };
+
+        return (
+          <article
+            class:list={['work-item', 'reveal', { 'is-active': i === 0 }]}
+            role="listitem"
+            data-work-item
+            data-work-index={i}
+            style={`--reveal-i:${i}`}
+          >
+            <div class="work-link glare-hover" data-magnet>
+              <span class="work-num">{String(project.data.order).padStart(2, '0')}</span>
+              <span class="work-text">
+                <span class="work-title">{meta.title}</span>
+                <span class="work-line">{project.data.tagline}</span>
+              </span>
+              <span class="work-side">{meta.side}</span>
+            </div>
+          </article>
+        );
+      })}
+    </div>
+
+    <div class="work-preview reveal" aria-live="polite" style="--reveal-i:3">
+      {projects.map((project, i) => {
+        const meta = labels[project.id] ?? {
+          title: project.data.title,
+          side: project.data.title,
+          mode: 'poster' as const,
+        };
+        const images = meta.mode === 'wide-stack'
+          ? [project.data.cover, project.data.gallery[0]].filter(Boolean)
+          : [project.data.cover, project.data.gallery[0]].filter(Boolean);
+
+        return (
+          <div
+            class:list={['preview-card', `preview-card--${meta.mode}`, { 'is-active': i === 0 }]}
+            data-work-preview
+            data-work-index={i}
+            aria-label={`${meta.title} 作品预览`}
+          >
+            <span class="preview-images">
+              {images.map((img, imageIndex) => (
+                <span class="preview-frame" data-preview-frame style={`--card-i:${imageIndex}`}>
+                  {img && (
+                    <Image
+                      src={img}
+                      alt={`${meta.title} 作品图 ${imageIndex + 1}`}
+                      widths={[640, 960, 1400]}
+                      sizes="(max-width: 899px) 100vw, 52vw"
+                    />
+                  )}
+                </span>
+              ))}
+            </span>
+          </div>
+        );
+      })}
+    </div>
+  </div>
+</section>
+
+<style>
+  .work-showcase {
+    position: relative;
+  }
+
+  .work-shell {
+    display: grid;
+    grid-template-columns: minmax(280px, 0.76fr) minmax(0, 1.24fr);
+    gap: clamp(24px, 4vw, 64px);
+    align-items: start;
+  }
+
+  .work-list {
+    display: flex;
+    flex-direction: column;
+    border-top: 1px solid var(--line-subtle);
+  }
+
+  .work-item {
+    border-bottom: 1px solid var(--line-subtle);
+  }
+
+  .work-link {
+    position: relative;
+    display: grid;
+    grid-template-columns: 52px minmax(0, 1fr) auto;
+    align-items: center;
+    gap: 20px;
+    min-height: clamp(118px, 13vw, 176px);
+    padding-block: var(--space-6);
+    isolation: isolate;
+    cursor: default;
+    --glare-radius: var(--radius-md);
+  }
+
+  .work-link::before {
+    content: '';
+    position: absolute;
+    inset: 10px -14px;
+    z-index: -1;
+    border-radius: var(--radius-md);
+    background: var(--layer-1);
+    opacity: 0;
+    transform: scaleX(0.98);
+    transform-origin: left;
+    transition:
+      opacity var(--dur-hover) var(--ease-out),
+      transform var(--dur-hover) var(--ease-out);
+  }
+
+  .work-num {
+    font-family: var(--font-mono);
+    font-weight: 250;
+    font-size: clamp(28px, 3vw, 42px);
+    color: var(--text-tertiary);
+    font-variant-numeric: tabular-nums;
+    line-height: 0.9;
+    transition: color var(--dur-hover) var(--ease-out);
+  }
+
+  .work-text {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    min-width: 0;
+  }
+
+  .work-title {
+    font-family: var(--font-display);
+    font-size: clamp(26px, 3.6vw, 52px);
+    font-weight: 680;
+    letter-spacing: -0.028em;
+    line-height: 0.95;
+    transition: color var(--dur-hover) var(--ease-out);
+  }
+
+  .work-line {
+    max-width: 38ch;
+    color: var(--text-secondary);
+    font-size: 15px;
+    line-height: 1.55;
+  }
+
+  .work-side {
+    writing-mode: vertical-rl;
+    font-family: var(--font-serif-cn);
+    font-size: clamp(18px, 2vw, 30px);
+    font-weight: 700;
+    color: var(--text-tertiary);
+    transition:
+      color var(--dur-hover) var(--ease-out),
+      transform var(--dur-hover) var(--ease-out);
+  }
+
+  .work-preview {
+    position: sticky;
+    top: 86px;
+    min-height: clamp(520px, 72vh, 820px);
+  }
+
+  .preview-card {
+    position: absolute;
+    inset: 0;
+    opacity: 0;
+    pointer-events: none;
+    transform: translateY(18px) scale(0.985);
+    transition:
+      opacity 420ms var(--ease-out),
+      transform 520ms var(--ease-out);
+  }
+
+  .preview-card.is-active {
+    opacity: 1;
+    pointer-events: auto;
+    transform: none;
+  }
+
+  .preview-images {
+    display: grid;
+    gap: clamp(14px, 2vw, 24px);
+  }
+
+  .preview-card--wide-stack .preview-images {
+    height: auto;
+    align-content: start;
+    grid-template-rows: auto auto;
+    grid-template-columns: 1fr;
+  }
+
+  .preview-card--poster .preview-images {
+    grid-template-columns: repeat(2, minmax(180px, 0.46fr));
+    justify-content: center;
+    align-items: start;
+  }
+
+  .preview-frame {
+    --spot-x: 50%;
+    --spot-y: 50%;
+    --spot-o: 0;
+    --spot-radius: 300px;
+    --frame-x: 0px;
+    --frame-y: 0px;
+    --frame-r: 0deg;
+    position: relative;
+    display: block;
+    border-radius: var(--radius-lg);
+    border: 1px solid oklch(1 0 0 / 0.1);
+    background: var(--surface-1);
+    overflow: hidden;
+    box-shadow:
+      inset 0 1px 0 oklch(1 0 0 / 0.055),
+      0 18px 54px oklch(0 0 0 / 0.16);
+    transform: translate3d(var(--frame-x), var(--frame-y), 0) rotate(var(--frame-r));
+    transition:
+      transform 260ms var(--ease-out),
+      border-color 240ms var(--ease-out),
+      box-shadow 240ms var(--ease-out);
+  }
+
+  .preview-frame::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    z-index: 2;
+    padding: 1px;
+    border-radius: inherit;
+    pointer-events: none;
+    background: radial-gradient(
+      var(--spot-radius) circle at var(--spot-x) var(--spot-y),
+      rgba(183, 247, 42, calc(var(--spot-o) * 0.72)) 0%,
+      rgba(183, 247, 42, calc(var(--spot-o) * 0.28)) 30%,
+      transparent 62%
+    );
+    -webkit-mask:
+      linear-gradient(#fff 0 0) content-box,
+      linear-gradient(#fff 0 0);
+    -webkit-mask-composite: xor;
+    mask:
+      linear-gradient(#fff 0 0) content-box,
+      linear-gradient(#fff 0 0);
+    mask-composite: exclude;
+    opacity: 0.96;
+  }
+
+  .preview-frame::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    z-index: 1;
+    pointer-events: none;
+    background: radial-gradient(
+      var(--spot-radius) circle at var(--spot-x) var(--spot-y),
+      rgba(183, 247, 42, calc(var(--spot-o) * 0.14)),
+      transparent 68%
+    );
+    opacity: 1;
+    transition:
+      background 240ms var(--ease-out);
+  }
+
+  .preview-card.is-active .preview-frame.is-lit {
+    transform: translate3d(var(--frame-x), calc(var(--frame-y) - 5px), 0) rotate(var(--frame-r));
+    border-color: rgba(183, 247, 42, 0.32);
+    box-shadow:
+      0 22px 68px oklch(0 0 0 / 0.24),
+      0 0 34px rgba(183, 247, 42, 0.06),
+      inset 0 1px 0 oklch(1 0 0 / 0.08);
+  }
+
+  .preview-card--wide-stack .preview-frame {
+    aspect-ratio: auto;
+  }
+
+  .preview-card--wide-stack .preview-frame:nth-child(1) {
+    width: 82%;
+    justify-self: start;
+    z-index: 2;
+    --frame-r: -0.7deg;
+  }
+
+  .preview-card--wide-stack .preview-frame:nth-child(2) {
+    width: 82%;
+    justify-self: end;
+    z-index: 1;
+    --frame-r: 0.6deg;
+  }
+
+  .preview-card--poster .preview-frame {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    max-height: min(72vh, 720px);
+  }
+
+  .preview-card--poster .preview-frame:nth-child(1) {
+    z-index: 2;
+    --frame-y: 28px;
+    --frame-r: -1.1deg;
+  }
+
+  .preview-card--poster .preview-frame:nth-child(2) {
+    z-index: 1;
+    --frame-x: -10px;
+    --frame-y: -10px;
+    --frame-r: 0.9deg;
+  }
+
+  .preview-frame :global(img) {
+    display: block;
+    width: 100%;
+    height: auto;
+    filter: saturate(0.94) contrast(1.03);
+    transition: transform 700ms var(--ease-out);
+  }
+
+  .preview-card--poster .preview-frame :global(img) {
+    max-height: min(72vh, 720px);
+    object-fit: contain;
+  }
+
+  .preview-card.is-active .preview-frame.is-lit :global(img) {
+    transform: scale(1.006);
+  }
+
+  @media (hover: hover) {
+    .work-item:hover .work-link::before,
+    .work-item.is-active .work-link::before {
+      opacity: 1;
+      transform: none;
+    }
+
+    .work-item:hover .work-title,
+    .work-item:hover .work-num,
+    .work-item.is-active .work-title,
+    .work-item.is-active .work-num {
+      color: var(--accent);
+    }
+
+    .work-item:hover .work-side,
+    .work-item.is-active .work-side {
+      color: var(--accent);
+      transform: translateY(-4px);
+    }
+  }
+
+  @media (max-width: 999px) {
+    .work-shell {
+      grid-template-columns: 1fr;
+    }
+
+    .work-preview {
+      position: relative;
+      top: auto;
+      min-height: 640px;
+      order: 2;
+    }
+
+    .work-list {
+      order: 1;
+    }
+  }
+
+  @media (max-width: 639px) {
+    .work-preview { min-height: 560px; }
+    .work-link {
+      grid-template-columns: 42px minmax(0, 1fr);
+      min-height: 116px;
+    }
+    .work-side { display: none; }
+    .preview-card--poster .preview-images {
+      grid-template-columns: repeat(2, minmax(140px, 1fr));
+      gap: 12px;
+    }
+    .preview-card--wide-stack .preview-frame,
+    .preview-card--poster .preview-frame {
+      width: 100%;
+      --frame-x: 0px;
+      --frame-y: 0px;
+      --frame-r: 0deg;
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .preview-frame {
+      transform: none;
+      transition: none;
+    }
+  }
+</style>
+
+<script>
+  document.querySelectorAll<HTMLElement>('[data-work-showcase]').forEach((root) => {
+    const items = Array.from(root.querySelectorAll<HTMLElement>('[data-work-item]'));
+    const previews = Array.from(root.querySelectorAll<HTMLElement>('[data-work-preview]'));
+    const frames = Array.from(root.querySelectorAll<HTMLElement>('[data-preview-frame]'));
+    const canAnimate = window.matchMedia('(hover: hover) and (pointer: fine) and (prefers-reduced-motion: no-preference)');
+
+    const resetFrame = (frame: HTMLElement) => {
+      frame.classList.remove('is-lit');
+      frame.style.setProperty('--spot-o', '0');
+    };
+
+    const activate = (index: string | null) => {
+      items.forEach((item) => {
+        item.classList.toggle('is-active', item.getAttribute('data-work-index') === index);
+      });
+      previews.forEach((preview) => {
+        preview.classList.toggle('is-active', preview.getAttribute('data-work-index') === index);
+      });
+      frames.forEach(resetFrame);
+    };
+
+    items.forEach((item) => {
+      const index = item.getAttribute('data-work-index');
+      item.addEventListener('pointerenter', () => activate(index));
+      item.addEventListener('focusin', () => activate(index));
+    });
+
+    root.addEventListener('pointermove', (event: PointerEvent) => {
+      if (!canAnimate.matches) return;
+
+      const activeFrames = frames.filter((frame) => frame.closest<HTMLElement>('[data-work-preview]')?.classList.contains('is-active'));
+      activeFrames.forEach((frame) => {
+        const rect = frame.getBoundingClientRect();
+        const centerX = rect.left + rect.width / 2;
+        const centerY = rect.top + rect.height / 2;
+        const distance = Math.max(
+          0,
+          Math.hypot(event.clientX - centerX, event.clientY - centerY) -
+            Math.max(rect.width, rect.height) / 2
+        );
+        const proximity = 190;
+        const fadeDistance = 420;
+        const intensity = distance <= proximity
+          ? 1
+          : distance <= fadeDistance
+            ? (fadeDistance - distance) / (fadeDistance - proximity)
+            : 0;
+        const relativeX = Math.max(0, Math.min(100, ((event.clientX - rect.left) / rect.width) * 100));
+        const relativeY = Math.max(0, Math.min(100, ((event.clientY - rect.top) / rect.height) * 100));
+
+        frame.style.setProperty('--spot-x', `${relativeX}%`);
+        frame.style.setProperty('--spot-y', `${relativeY}%`);
+        frame.style.setProperty('--spot-o', intensity.toFixed(3));
+        frame.classList.toggle('is-lit', intensity > 0.12);
+      });
+    });
+
+    root.addEventListener('pointerleave', () => {
+      frames.forEach(resetFrame);
+    });
+  });
+</script>

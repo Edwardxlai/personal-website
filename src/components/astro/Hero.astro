@@ -1,0 +1,351 @@
+---
+import { getCollection } from 'astro:content';
+import { identity, hero } from '../../data/site';
+
+const projects = (await getCollection('projects', ({ data }) => !data.draft)).sort(
+  (a, b) => a.data.order - b.data.order
+);
+---
+
+<section class="hero" id="hero" aria-label="个人介绍">
+  <div class="hero-bg" aria-hidden="true"></div>
+  <div class="hero-rays" aria-hidden="true"></div>
+
+  <div class="container hero-inner">
+    <div class="hero-layout">
+      <div class="hero-copy">
+        <!-- 身份条 -->
+        <div class="hero-id">
+          <span class="hero-name-cn">{identity.mark}</span>
+          <span class="hero-avail"><i></i>{identity.roleTag}</span>
+        </div>
+
+        <!-- 巨型主张：先给出名字，再给出方向 -->
+        <h1 class="hero-thesis">
+          {hero.thesis.map((line, i) => (
+            <span class="thesis-line">
+              {line}{i === hero.thesis.length - 1 && <em class="thesis-mark" aria-hidden="true"></em>}
+            </span>
+          ))}
+        </h1>
+
+        <div class="hero-foot">
+          {hero.lead && <p class="hero-lead">{hero.lead}</p>}
+
+          <div class="hero-proof" aria-label="个人信号">
+            <span class="glare-hover" data-magnet><b>5M+</b> 多平台内容曝光</span>
+            <span class="glare-hover" data-magnet><b>AI</b> 自媒体工作流</span>
+            <span class="glare-hover" data-magnet><b>BUILD</b> 内容产品实验</span>
+          </div>
+
+          <!-- 项目主线索引 -->
+          <nav class="hero-mainline" aria-label="项目主线">
+            {projects.map((p, i) => (
+              <Fragment>
+                {i > 0 && <span class="ml-arrow" aria-hidden="true">→</span>}
+                <a class="ml-item glare-hover" href={`#work`} data-magnet>
+                  <span class="ml-num">{String(p.data.order).padStart(2, '0')}</span>
+                  <span class="ml-word">{p.data.title}</span>
+                </a>
+              </Fragment>
+            ))}
+          </nav>
+
+          <div class="hero-meta">
+            <span>{identity.roleEn}</span>
+            <span class="dot" aria-hidden="true">/</span>
+            <span class="hero-public-note">Build in public</span>
+            <span class="dot" aria-hidden="true">/</span>
+            <span>Based in {identity.basedIn}</span>
+            <span class="dot" aria-hidden="true">/</span>
+            <span class="text-tertiary">{identity.status}</span>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<style>
+  .hero {
+    position: relative;
+    min-height: clamp(720px, 100svh, 920px);
+    display: flex;
+    align-items: center;
+    overflow: hidden;
+  }
+
+  .hero-bg {
+    position: absolute;
+    inset: 0;
+    z-index: 0;
+    pointer-events: none;
+    background:
+      radial-gradient(48% 42% at 82% 26%, var(--accent-soft), transparent 72%),
+      radial-gradient(55% 60% at 12% 88%, oklch(0.2 0.016 255 / 0.7), transparent 70%);
+  }
+
+  .hero-rays {
+    position: absolute;
+    inset: 0;
+    z-index: 0;
+    pointer-events: none;
+    opacity: 0.82;
+    mix-blend-mode: screen;
+    mask-image: radial-gradient(84% 74% at 82% 4%, black 0%, black 52%, transparent 86%);
+  }
+
+  .hero-rays::before {
+    content: '';
+    position: absolute;
+    inset: -28% -22% 12% 34%;
+    pointer-events: none;
+    background:
+      radial-gradient(42% 36% at 78% 20%, rgba(183, 247, 42, 0.22), transparent 72%),
+      radial-gradient(46% 42% at 58% 6%, rgba(210, 255, 142, 0.12), transparent 70%),
+      radial-gradient(36% 28% at 92% 0%, rgba(235, 255, 198, 0.16), transparent 74%),
+      radial-gradient(54% 44% at 88% 34%, rgba(86, 128, 74, 0.14), transparent 78%);
+    filter: blur(36px);
+    opacity: 0.68;
+    transform: translate3d(0, 0, 0) rotate(-4deg) scale(1.04);
+    animation: hero-aurora-drift 12s var(--ease-out) infinite alternate;
+  }
+
+  .hero-rays::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    background:
+      radial-gradient(34% 24% at 82% 10%, rgba(240, 255, 210, 0.15), transparent 78%),
+      linear-gradient(90deg, var(--canvas) 0%, transparent 32%, transparent 76%, var(--canvas) 100%),
+      linear-gradient(180deg, transparent 0%, transparent 58%, var(--canvas) 96%);
+    opacity: 0.62;
+    animation: hero-aurora-pulse 7s var(--ease-out) infinite alternate;
+  }
+
+  .hero-inner {
+    position: relative;
+    z-index: 1;
+    width: 100%;
+    padding-top: 120px;
+  }
+
+  .hero-layout {
+    max-width: min(1040px, 100%);
+  }
+
+  .hero-copy {
+    min-width: 0;
+  }
+
+  /* ---- 身份条 ---- */
+  .hero-id {
+    display: flex;
+    align-items: baseline;
+    gap: var(--space-2);
+    font-family: var(--font-mono);
+    font-size: var(--fs-meta);
+    letter-spacing: 0.04em;
+    color: var(--text-tertiary);
+    border-bottom: 1px solid var(--line-subtle);
+    padding-bottom: var(--space-4);
+    margin-bottom: clamp(28px, 4vw, 52px);
+  }
+  .hero-name-cn {
+    font-family: var(--font-display);
+    font-weight: 700;
+    font-size: 15px;
+    letter-spacing: 0.02em;
+    color: var(--text-primary);
+  }
+  .hero-name-en { letter-spacing: 0.18em; text-transform: uppercase; }
+  .hero-avail {
+    display: inline-flex;
+    align-items: center;
+    gap: 7px;
+    color: var(--text-secondary);
+  }
+  .hero-avail i {
+    width: 6px; height: 6px; border-radius: 50%;
+    background: var(--accent);
+    box-shadow: 0 0 12px var(--accent);
+  }
+
+  /* ---- 巨型主张 ---- */
+  .hero-thesis {
+    font-family: var(--font-serif-cn);
+    font-weight: 900;
+    font-size: clamp(44px, 5.8vw, 82px);
+    line-height: 1.04;
+    letter-spacing: -0.035em;
+    color: var(--text-primary);
+    display: flex;
+    flex-direction: column;
+  }
+  .thesis-line {
+    display: block;
+    white-space: nowrap;
+  }
+  :global(.js) .thesis-line {
+    opacity: 0;
+    transform: translateY(0.35em);
+    animation: thesis-rise 760ms var(--ease-out) forwards;
+  }
+  :global(.js) .thesis-line:nth-child(2) { animation-delay: 90ms; }
+  :global(.js) .thesis-line:nth-child(3) { animation-delay: 180ms; }
+  @keyframes thesis-rise {
+    to { opacity: 1; transform: none; }
+  }
+  .thesis-mark {
+    display: inline-block;
+    width: 0.34em;
+    height: 0.34em;
+    margin-left: 0.18em;
+    background: var(--accent);
+    vertical-align: 0.06em;
+  }
+
+  /* ---- 脚部：lead + 主线 + 元数据 ---- */
+  .hero-foot {
+    margin-top: clamp(28px, 4vw, 56px);
+    display: grid;
+    gap: var(--space-6);
+  }
+  .hero-lead {
+    font-size: var(--fs-lead);
+    line-height: 1.5;
+    color: var(--text-secondary);
+    max-width: 40ch;
+  }
+
+  .hero-proof {
+    display: flex;
+    align-items: center;
+    gap: var(--space-3);
+    flex-wrap: wrap;
+    color: var(--text-tertiary);
+  }
+  .hero-proof span {
+    display: inline-flex;
+    align-items: baseline;
+    gap: 8px;
+    min-height: 34px;
+    padding: 5px 10px;
+    border: 1px solid var(--line-subtle);
+    border-radius: var(--radius-sm);
+    font-size: var(--fs-meta);
+    --glare-radius: var(--radius-sm);
+  }
+  .hero-proof b {
+    font-family: var(--font-mono);
+    font-weight: 400;
+    color: var(--accent);
+    font-variant-numeric: tabular-nums;
+  }
+
+  .hero-mainline {
+    display: flex;
+    align-items: center;
+    gap: var(--space-3);
+    flex-wrap: wrap;
+    padding-top: var(--space-4);
+    border-top: 1px solid var(--line-subtle);
+    font-family: var(--font-mono);
+  }
+  .ml-item {
+    display: inline-flex;
+    align-items: baseline;
+    gap: 8px;
+    padding: 4px 6px;
+    margin: -4px -6px;
+    --glare-radius: var(--radius-sm);
+    transition: color var(--dur-hover) var(--ease-out);
+  }
+  .ml-num { color: var(--text-tertiary); font-size: 14px; }
+  .ml-word {
+    font-family: var(--font-body);
+    font-weight: 500;
+    font-size: clamp(16px, 1.8vw, 21px);
+    color: var(--text-primary);
+  }
+  .ml-arrow { color: var(--text-tertiary); }
+  @media (hover: hover) {
+    .ml-item:hover .ml-word { color: var(--accent); }
+    .ml-item:hover .ml-num { color: var(--accent); }
+  }
+
+  .hero-meta {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: var(--space-3);
+    font-family: var(--font-mono);
+    font-size: var(--fs-meta);
+    letter-spacing: 0.03em;
+    color: var(--text-secondary);
+  }
+  .hero-meta .dot { color: var(--text-tertiary); }
+  .hero-public-note {
+    color: var(--text-tertiary);
+  }
+
+  @keyframes hero-aurora-drift {
+    0% {
+      opacity: 0.58;
+      transform: translate3d(3%, -2%, 0) rotate(-7deg) scale(1.04);
+    }
+    50% {
+      opacity: 0.78;
+      transform: translate3d(-4%, 3%, 0) rotate(-2deg) scale(1.1);
+    }
+    100% {
+      opacity: 0.66;
+      transform: translate3d(2%, 6%, 0) rotate(-9deg) scale(1.06);
+    }
+  }
+
+  @keyframes hero-aurora-pulse {
+    from {
+      opacity: 0.42;
+      transform: translate3d(0, -1%, 0);
+    }
+    to {
+      opacity: 0.68;
+      transform: translate3d(-2%, 2%, 0);
+    }
+  }
+
+  @media (max-width: 639px) {
+    .hero-inner { padding-top: 96px; }
+    .hero-id { flex-wrap: wrap; }
+    .thesis-line { white-space: normal; }
+    .hero-rays {
+      opacity: 0.34;
+      mask-image: radial-gradient(94% 66% at 82% 0%, black 0%, black 46%, transparent 88%);
+    }
+    .hero-rays::before {
+      inset: -18% -42% 30% 16%;
+      opacity: 0.42;
+    }
+  }
+
+  @media (max-width: 999px) {
+    .hero-rays {
+      opacity: 0.42;
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .hero-rays {
+      opacity: 0.18;
+    }
+    .hero-rays::before {
+      animation: none;
+    }
+    .hero-rays::after {
+      animation: none;
+    }
+  }
+</style>

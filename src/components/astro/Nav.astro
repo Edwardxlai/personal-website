@@ -1,0 +1,165 @@
+---
+import { identity, nav } from '../../data/site';
+---
+
+<header class="site-nav" data-nav>
+  <div class="container nav-inner">
+    <a href="#hero" class="brand glare-hover" aria-label={`${identity.nameZh} 首页`} data-magnet>
+      <span class="brand-mark">{identity.mark}</span>
+      <span class="brand-status" aria-hidden="true">· {identity.roleTag}</span>
+    </a>
+
+    <nav class="nav-links" aria-label="主导航">
+      {nav.map((item) => (
+        <a href={item.href} class="nav-link glare-hover" data-magnet>{item.label}</a>
+      ))}
+    </nav>
+
+    <!-- 手机端：带文字的 Menu 按钮，而不是无标签三横线 (DESIGN §7) -->
+    <button class="nav-toggle glare-hover" aria-expanded="false" aria-controls="mobile-menu" data-magnet>
+      Menu
+    </button>
+  </div>
+
+  <div id="mobile-menu" class="mobile-menu" hidden>
+    <nav aria-label="移动端导航">
+      {nav.map((item) => (
+        <a href={item.href} class="mobile-link">{item.label}</a>
+      ))}
+    </nav>
+  </div>
+</header>
+
+<style>
+  .site-nav {
+    position: fixed;
+    inset: 0 0 auto 0;
+    z-index: 50;
+    height: 72px;
+    display: flex;
+    align-items: center;
+    background: transparent;
+    transition: background var(--dur-hover) var(--ease-out),
+      border-color var(--dur-hover) var(--ease-out);
+    border-bottom: 1px solid transparent;
+  }
+
+  /* 滚过首屏 70% 后由脚本加 .is-scrolled */
+  .site-nav.is-scrolled {
+    background: color-mix(in oklch, var(--canvas) 88%, transparent);
+    backdrop-filter: blur(8px);
+    border-bottom-color: var(--line-subtle);
+  }
+
+  .nav-inner {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: var(--space-6);
+  }
+
+  .brand {
+    display: inline-flex;
+    align-items: baseline;
+    gap: 6px;
+    padding: 5px 8px;
+    margin: -5px -8px;
+    font-family: var(--font-display);
+    font-weight: 700;
+    letter-spacing: 0.02em;
+  }
+
+  .brand-status {
+    font-size: var(--fs-meta);
+    color: var(--accent);
+    letter-spacing: 0.08em;
+  }
+
+  .nav-links {
+    display: flex;
+    gap: var(--space-6);
+  }
+
+  .nav-link {
+    font-size: 14px;
+    letter-spacing: 0.04em;
+    color: var(--text-secondary);
+    padding: 5px 8px;
+    margin: -5px -8px;
+    --glare-radius: var(--radius-sm);
+    transition: color var(--dur-hover) var(--ease-out);
+  }
+
+  .nav-link:hover {
+    color: var(--text-primary);
+  }
+
+  .nav-toggle {
+    display: none;
+    background: none;
+    border: none;
+    cursor: pointer;
+    font-size: 14px;
+    letter-spacing: 0.04em;
+    color: var(--text-primary);
+    min-height: 44px;
+    padding-inline: 4px;
+  }
+
+  .mobile-menu {
+    position: fixed;
+    inset: 72px 0 0 0;
+    background: var(--canvas);
+    padding: var(--space-8) var(--content-pad);
+    display: flex;
+    flex-direction: column;
+  }
+
+  .mobile-link {
+    font-family: var(--font-display);
+    font-size: var(--fs-section);
+    font-weight: 650;
+    padding-block: var(--space-4);
+    border-bottom: 1px solid var(--line-subtle);
+  }
+
+  @media (max-width: 767px) {
+    .site-nav { height: 60px; }
+    .nav-links { display: none; }
+    .nav-toggle { display: inline-flex; }
+    .mobile-menu { inset: 60px 0 0 0; }
+  }
+
+  @media (min-width: 768px) {
+    .mobile-menu { display: none; }
+  }
+</style>
+
+<script>
+  // 滚动态：超过首屏 70% 给导航加底色
+  const navEl = document.querySelector('[data-nav]');
+  const onScroll = () => {
+    if (!navEl) return;
+    navEl.classList.toggle('is-scrolled', window.scrollY > window.innerHeight * 0.7);
+  };
+  window.addEventListener('scroll', onScroll, { passive: true });
+  onScroll();
+
+  // 移动端菜单开合
+  const toggle = document.querySelector('.nav-toggle');
+  const menu = document.getElementById('mobile-menu');
+  toggle?.addEventListener('click', () => {
+    const open = toggle.getAttribute('aria-expanded') === 'true';
+    toggle.setAttribute('aria-expanded', String(!open));
+    toggle.textContent = open ? 'Menu' : 'Close';
+    if (menu) menu.hidden = open;
+  });
+  // 点击菜单项后关闭
+  menu?.querySelectorAll('a').forEach((a) =>
+    a.addEventListener('click', () => {
+      toggle?.setAttribute('aria-expanded', 'false');
+      if (toggle) toggle.textContent = 'Menu';
+      menu.hidden = true;
+    })
+  );
+</script>

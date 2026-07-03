@@ -1,0 +1,119 @@
+---
+import SectionHeading from './SectionHeading.astro';
+import { selectedWorks } from '../../data/site';
+---
+
+<section class="section container output" aria-labelledby="output">
+  <SectionHeading id="output" eyebrow="Writing / Video" index="S / 04" title="代表作" />
+
+  <ol class="output-list" role="list">
+    {selectedWorks.map((w, i) => (
+      <li class="output-row reveal" style={`--reveal-i:${i}`}>
+        <a class="output-link glare-hover" href={w.href} target="_blank" rel="noopener noreferrer" data-magnet>
+          <span class="output-num">{w.slot}</span>
+          <span class="output-main">
+            <span class="output-platform">{w.platform}</span>
+            <span class="output-title">{w.title}</span>
+          </span>
+          <span class="output-stat">{w.stat}</span>
+          <span class="output-arrow" aria-hidden="true">↗</span>
+        </a>
+      </li>
+    ))}
+  </ol>
+</section>
+
+<style>
+  .output-list {
+    display: flex;
+    flex-direction: column;
+    border-top: 1px solid var(--line-subtle);
+  }
+
+  .output-row {
+    border-bottom: 1px solid var(--line-subtle);
+  }
+
+  .output-link {
+    display: grid;
+    grid-template-columns: 56px minmax(0, 1fr) minmax(120px, auto) 24px;
+    align-items: baseline;
+    gap: var(--space-6);
+    padding-block: clamp(24px, 4vw, 52px);
+    padding-inline: var(--space-3);
+    margin-inline: calc(var(--space-3) * -1);
+    --glare-radius: var(--radius-md);
+  }
+
+  .output-num {
+    font-family: var(--font-mono);
+    font-weight: 250;
+    font-size: clamp(30px, 4vw, 56px);
+    color: var(--text-tertiary);
+    line-height: 0.9;
+    font-variant-numeric: tabular-nums;
+  }
+
+  .output-main {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-2);
+    min-width: 0;
+  }
+
+  .output-platform {
+    font-family: var(--font-mono);
+    font-size: 11px;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    color: var(--accent);
+  }
+
+  .output-title {
+    font-family: var(--font-serif-cn);
+    font-weight: 700;
+    font-size: clamp(20px, 2.5vw, 34px);
+    line-height: 1.38;
+    color: var(--text-primary);
+    transition: color var(--dur-hover) var(--ease-out);
+  }
+
+  .output-stat {
+    justify-self: end;
+    font-family: var(--font-mono);
+    font-size: var(--fs-meta);
+    color: var(--text-tertiary);
+    white-space: nowrap;
+  }
+
+  .output-arrow {
+    color: var(--text-tertiary);
+    transition:
+      color var(--dur-hover) var(--ease-out),
+      transform var(--dur-hover) var(--ease-out);
+  }
+
+  @media (hover: hover) {
+    a.output-link:hover .output-title,
+    a.output-link:hover .output-num {
+      color: var(--accent);
+    }
+
+    a.output-link:hover .output-arrow {
+      color: var(--accent);
+      transform: translate(4px, -4px);
+    }
+  }
+
+  @media (max-width: 639px) {
+    .output-link {
+      grid-template-columns: 44px minmax(0, 1fr) 20px;
+      gap: var(--space-4);
+    }
+
+    .output-stat {
+      grid-column: 2 / 3;
+      justify-self: start;
+    }
+  }
+</style>

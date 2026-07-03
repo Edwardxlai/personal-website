@@ -1,0 +1,82 @@
+---
+import SectionHeading from './SectionHeading.astro';
+import { experience } from '../../data/site';
+---
+
+<section class="section container" aria-labelledby="experience">
+  <SectionHeading id="experience" eyebrow="Trajectory" index="S / 01" title="经历与轨迹" />
+
+  <ol class="exp-list" role="list">
+    {experience.map((item) => (
+      <li class="exp-row reveal">
+        <div class="exp-period">
+          <time>{item.period}</time>
+          <span class="exp-index">{item.index}</span>
+        </div>
+        <div class="exp-org">
+          <h3>{item.org}</h3>
+          <p class="exp-title text-secondary">{item.title}</p>
+        </div>
+        <p class="exp-note text-secondary">{item.note}</p>
+      </li>
+    ))}
+  </ol>
+</section>
+
+<style>
+  .exp-list {
+    display: flex;
+    flex-direction: column;
+  }
+
+  /* 编辑式横向记录，不用圆角卡片 (DESIGN §02) */
+  .exp-row {
+    display: grid;
+    grid-template-columns: 2fr 4fr 6fr;
+    gap: var(--space-6);
+    padding-block: 40px;
+    border-top: 1px solid var(--line-subtle);
+    transition: background var(--dur-hover) var(--ease-out);
+  }
+  .exp-row:last-child {
+    border-bottom: 1px solid var(--line-subtle);
+  }
+
+  .exp-period {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    gap: var(--space-4);
+    font-size: var(--fs-meta);
+    letter-spacing: 0.04em;
+    color: var(--text-tertiary);
+  }
+  .exp-index { font-variant-numeric: tabular-nums; }
+
+  .exp-org h3 {
+    font-size: var(--fs-project);
+    font-weight: 620;
+    letter-spacing: -0.018em;
+    transition: color var(--dur-hover) var(--ease-out);
+  }
+  .exp-title { margin-top: 6px; }
+
+  .exp-note {
+    line-height: 1.6;
+    transition: transform var(--dur-hover) var(--ease-out);
+  }
+
+  @media (hover: hover) {
+    .exp-row:hover .exp-org h3 { color: var(--accent); }
+    .exp-row:hover .exp-note { transform: translateX(6px); }
+  }
+
+  @media (max-width: 767px) {
+    .exp-row {
+      grid-template-columns: 1fr;
+      gap: var(--space-3);
+      padding-block: var(--space-8);
+    }
+    .exp-note:hover { transform: none; }
+  }
+</style>

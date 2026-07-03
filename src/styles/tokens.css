@@ -1,0 +1,84 @@
+/*
+  设计令牌 (Design Tokens)
+  --------------------------------
+  所有视觉规则的单一来源。来自 docs/DESIGN.md 第 4-8 节。
+  颜色优先 OKLCH，并提供 hex 降级值（注释中标注近似值）。
+  深色单主题，第一版不做亮色模式。
+*/
+
+:root {
+  /* ---------- 颜色 (§4) ---------- */
+  --canvas: oklch(0.145 0.012 255);          /* #101318 页面主背景 */
+  --surface-1: oklch(0.18 0.014 255);        /* #171b21 浮层 / 图片占位 */
+  --surface-2: oklch(0.22 0.016 255);        /* #20252c 高层级交互表面 */
+
+  --text-primary: oklch(0.94 0.006 110);     /* #eeeee9 标题 / 正文 */
+  --text-secondary: oklch(0.72 0.01 255);    /* #a3a9b2 说明文字 */
+  --text-tertiary: oklch(0.55 0.012 255);    /* #747b85 元数据 */
+
+  --line-subtle: oklch(1 0 0 / 0.08);        /* 分隔线 */
+  --line-strong: oklch(1 0 0 / 0.16);
+
+  --accent: oklch(0.89 0.215 125);           /* #b7f72a 品牌高亮 */
+  --accent-soft: oklch(0.89 0.13 125 / 0.18);/* 背景高光 */
+  --on-accent: oklch(0.17 0.025 125);        /* #172006 高亮按钮文字 */
+  --danger: oklch(0.67 0.19 27);             /* #ef675f 表单错误 */
+
+  /* 表面亮度层级 (§9) —— 深色主题靠亮度而非阴影建立深度 */
+  --layer-1: oklch(1 0 0 / 0.02);
+  --layer-2: oklch(1 0 0 / 0.04);
+  --layer-prominent: oklch(1 0 0 / 0.055);
+
+  /* ---------- 字体 (§5) ---------- 自托管，见 BaseLayout 导入 */
+  --font-display: 'Archivo Variable', 'Noto Sans SC', system-ui, sans-serif; /* 拉丁展示：超大姓名/英文标题 */
+  --font-serif-cn: 'Noto Serif SC', 'Songti SC', 'SimSun', serif;            /* 中文编辑型巨标题（主张） */
+  --font-body: 'Noto Sans SC', 'Archivo Variable', system-ui, sans-serif;    /* 中文正文 */
+  --font-mono: 'JetBrains Mono Variable', ui-monospace, 'SFMono-Regular', monospace; /* 序号/标签/规格 */
+
+  /* ---------- 间距尺度 (§6) ---------- */
+  --space-1: 4px;
+  --space-2: 8px;
+  --space-3: 12px;
+  --space-4: 16px;
+  --space-6: 24px;
+  --space-8: 32px;
+  --space-12: 48px;
+  --space-16: 64px;
+  --space-24: 96px;
+  --space-36: 144px;
+  --space-48: 192px;
+
+  /* 区块垂直间距，随断点收敛 */
+  --section-gap: clamp(44px, 7vw, 96px);
+
+  /* ---------- 布局网格 (§6) ---------- */
+  --content-max: 1440px;
+  --content-pad: clamp(20px, 4vw, 72px);
+  --measure: 65ch;            /* 正文最大宽度 */
+
+  /* ---------- 圆角 (§7) ---------- */
+  --radius-sm: 6px;
+  --radius-md: 12px;
+  --radius-lg: 18px;
+  --radius-xl: 28px;
+  --radius-pill: 999px;
+
+  /* ---------- 动效 (§8) ---------- */
+  --dur-fast: 120ms;          /* 快速反馈 */
+  --dur-hover: 180ms;         /* 普通悬停 */
+  --dur-enter: 520ms;         /* 内容进入 / 首屏归位 */
+  --dur-transition: 720ms;    /* 大型转场 */
+  --ease-out: cubic-bezier(0.16, 1, 0.3, 1);   /* 主缓动 */
+  --ease-in: cubic-bezier(0.4, 0, 1, 1);       /* 退出缓动 */
+
+  /* ---------- 字号层级 (§5) ---------- */
+  --fs-thesis: clamp(40px, 8.5vw, 132px);   /* Hero 巨型主张（中文 serif） */
+  --fs-hero: clamp(40px, 7vw, 116px);       /* 拉丁姓名 */
+  --fs-display: clamp(40px, 6vw, 92px);     /* 内页大标题 */
+  --fs-section: clamp(30px, 4vw, 60px);     /* 区块标题 */
+  --fs-project: clamp(26px, 3vw, 44px);     /* 项目名 */
+  --fs-numeral: clamp(40px, 7vw, 120px);    /* 巨号序号 01/02/03 */
+  --fs-lead: clamp(19px, 2.2vw, 23px);
+  --fs-body: 17px;
+  --fs-meta: 13px;
+}

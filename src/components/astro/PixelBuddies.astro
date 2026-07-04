@@ -1,0 +1,344 @@
+---
+/*
+  像素搭档 (Pixel Pals) —— 安静的待机小场景
+  --------------------------------
+  Hero 右下角的装饰场景：像素 Edward 和小机器人面对面。
+  对应社交媒体头像（圆眼镜 + 圆头机器人 + 举手指手势）。
+
+  实现约束：
+  - 只用 --accent 单色分五档亮度（实色 color-mix）做像素明暗：
+    光源在右上（与 Hero 极光一致），左侧阴影列 / 右侧高光 / 刘海下阴影行；
+  - 粗像素建模：特征 ≥2 格宽（眼镜 4 格、瞳孔 2 格、嘴 4 格）；
+  - 待机动作全部克制且无横向位移：眨眼 4.6s / 机器人落地式小跳 2.2s /
+    天线呼吸 2.2s / 每轮 12s Edward 举一次手指（头像签名手势）；
+  - 交互：z-index 必须高过 .hero-inner（否则文字容器挡掉鼠标事件）；
+    悬停发光提速，点击彩蛋（机器人蹦跳 + 像素爱心 + Edward 举手指）。
+*/
+
+const LEVELS: Record<string, number> = { '#': 1, '=': 2, '+': 3, '-': 4, '.': 5 };
+
+type Px = { x: number; y: number; w: number; lv: number };
+
+/** 把 ASCII 像素图逐行扫描，同字符横向连续段合并成一个 rect */
+function toRects(map: readonly string[]): Px[] {
+  const out: Px[] = [];
+  map.forEach((row, y) => {
+    let x = 0;
+    while (x < row.length) {
+      const ch = row[x];
+      if (!(ch in LEVELS)) {
+        x++;
+        continue;
+      }
+      let w = 1;
+      while (row[x + w] === ch) w++;
+      out.push({ x, y, w, lv: LEVELS[ch] });
+      x += w;
+    }
+  });
+  return out;
+}
+
+/* Edward 14×16（画布右侧 2 列留给举起的手臂）：帧 A 站立
+   明暗：# 最亮 → = 高光 → + 中间调 → - 暗调 → . 阴影 */
+const HUMAN_A = [
+  '  #  #  #',
+  ' =#########',
+  '=###########',
+  '=#..------##',
+  ' ####++####',
+  ' #++#--#++#',
+  ' .---------',
+  ' .--++++---',
+  '  .-------',
+  '    .---',
+  ' .++++++++=',
+  '..++++++++==',
+  '..++++++++==',
+  '-- .++++= --',
+  '  --    --',
+  ' ++=    ++=',
+] as const;
+
+/* Edward 14×16：帧 B 举手指（头像同款手势） */
+const HUMAN_B = [
+  '  #  #  #',
+  ' =#########',
+  '=###########',
+  '=#..------## -',
+  ' ####++####  -',
+  ' #++#--#++#  +',
+  ' .---------  +',
+  ' .--++++--- ++',
+  '  .-------  +',
+  '    .---   ++',
+  '..+++++++++=',
+  '..++++++++==',
+  '..++++++++==',
+  '-- .++++=',
+  '  --    --',
+  ' ++=    ++=',
+] as const;
+
+/* 小机器人 10×11：大眼睛 + 宽嘴 + 胸口核心灯，左侧受光面用 = 过渡 */
+const ROBOT = [
+  '    -',
+  '    +',
+  '  =#####',
+  ' =#######',
+  '=#------##',
+  '=-##--##-#',
+  '=--++++--#',
+  ' =#######',
+  '  =++++#',
+  ' =++##++#',
+  '  #    #',
+] as const;
+
+/* 点击彩蛋的像素爱心 7×6 */
+const HEART = [
+  ' ## ##',
+  '#######',
+  '#######',
+  ' #####',
+  '  ###',
+  '   #',
+] as const;
+---
+
+<div class="pals" aria-hidden="true">
+  <div class="duo">
+    <div class="pal">
+      <svg class="body human" viewBox="0 0 14 16" shape-rendering="crispEdges">
+        <g class="hf hf-a">
+          {toRects(HUMAN_A).map((r) => (
+            <rect x={r.x} y={r.y} width={r.w} height="1" class={`lv${r.lv}`} />
+          ))}
+        </g>
+        <g class="hf hf-b">
+          {toRects(HUMAN_B).map((r) => (
+            <rect x={r.x} y={r.y} width={r.w} height="1" class={`lv${r.lv}`} />
+          ))}
+        </g>
+        <g class="blink">
+          <rect class="lv1" x="2" y="5" width="2" height="1" />
+          <rect class="lv1" x="8" y="5" width="2" height="1" />
+        </g>
+      </svg>
+    </div>
+
+    <div class="pal">
+      <svg class="heart" viewBox="0 0 7 6" shape-rendering="crispEdges">
+        {toRects(HEART).map((r) => (
+          <rect x={r.x} y={r.y} width={r.w} height="1" class={`lv${r.lv}`} />
+        ))}
+      </svg>
+      <svg class="body robot" viewBox="0 0 10 11" shape-rendering="crispEdges">
+        {toRects(ROBOT).map((r) => (
+          <rect x={r.x} y={r.y} width={r.w} height="1" class={`lv${r.lv}`} />
+        ))}
+        <rect class="ant lv1" x="4" y="0" width="1" height="1" />
+      </svg>
+    </div>
+  </div>
+
+  <i class="ground"></i>
+</div>
+
+<script>
+  // 点击彩蛋：机器人蹦跳 + 像素爱心 + Edward 举手指（约 1.8s 后复位）
+  const pals = document.querySelector('.pals');
+  let cheerTimer: ReturnType<typeof setTimeout> | undefined;
+  pals?.addEventListener('click', () => {
+    pals.classList.add('cheer');
+    clearTimeout(cheerTimer);
+    cheerTimer = setTimeout(() => pals.classList.remove('cheer'), 1800);
+  });
+</script>
+
+<style>
+  .pals {
+    --px: 8px;
+    --cycle: 12s;
+    position: absolute;
+    /* 必须高于 .hero-inner，否则文字容器会挡住鼠标事件，悬停/点击都失效 */
+    z-index: 2;
+    right: clamp(84px, 11vw, 208px);
+    bottom: clamp(132px, 21%, 200px);
+    cursor: pointer;
+    user-select: none;
+  }
+
+  /* ---- 五档实色明暗（避免半透明叠层穿透） ---- */
+  .lv1 { fill: var(--accent); }
+  .lv2 { fill: color-mix(in oklab, var(--accent) 72%, var(--canvas)); }
+  .lv3 { fill: color-mix(in oklab, var(--accent) 50%, var(--canvas)); }
+  .lv4 { fill: color-mix(in oklab, var(--accent) 27%, var(--canvas)); }
+  .lv5 { fill: color-mix(in oklab, var(--accent) 14%, var(--canvas)); }
+
+  .duo {
+    display: flex;
+    align-items: flex-end;
+    gap: calc(var(--px) * 4);
+  }
+
+  .pal {
+    position: relative;
+    line-height: 0;
+  }
+
+  .body {
+    display: block;
+    filter: drop-shadow(0 0 16px var(--accent-soft));
+    transition: filter var(--dur-hover) var(--ease-out);
+  }
+  .human {
+    width: calc(var(--px) * 14);
+    height: calc(var(--px) * 16);
+  }
+  .robot {
+    width: calc(var(--px) * 10);
+    height: calc(var(--px) * 11);
+    animation: pals-bob 2.2s infinite;
+  }
+
+  /* ---- 逐帧：站立 / 举手指 ---- */
+  .hf-a { animation: pals-hf-a var(--cycle) infinite; }
+  .hf-b {
+    opacity: 0;
+    animation: pals-hf-b var(--cycle) infinite;
+  }
+  /* 眨眼：瞳孔短暂变成镜片亮色 */
+  .blink {
+    opacity: 0;
+    animation: pals-blink 4.6s infinite;
+  }
+
+  /* ---- 天线呼吸 ---- */
+  .ant {
+    opacity: 0.2;
+    animation: pals-ant 2.2s infinite;
+  }
+
+  /* ---- 点击彩蛋 ---- */
+  .heart {
+    position: absolute;
+    left: calc(var(--px) * 2);
+    top: calc(var(--px) * -4);
+    width: calc(var(--px) * 7);
+    height: calc(var(--px) * 6);
+    opacity: 0;
+  }
+  .cheer .heart { animation: pals-heart 1.8s forwards; }
+  .cheer .robot { animation: pals-cheer 0.45s infinite; }
+  .cheer .hf-a { animation: none; opacity: 0; }
+  .cheer .hf-b { animation: none; opacity: 1; }
+
+  /* ---- 地面 ---- */
+  .ground {
+    display: block;
+    height: 2px;
+    margin-top: 2px;
+    margin-inline: calc(var(--px) * -2);
+    background: repeating-linear-gradient(
+      90deg,
+      color-mix(in oklab, var(--accent) 28%, transparent) 0 var(--px),
+      transparent var(--px) calc(var(--px) * 2)
+    );
+  }
+
+  /* ---- 悬停：结对提速 ---- */
+  @media (hover: hover) {
+    .pals:hover .body {
+      filter: drop-shadow(0 0 26px color-mix(in oklab, var(--accent) 30%, transparent));
+    }
+    .pals:hover .robot { animation-duration: 1s; }
+    .pals:hover .ant {
+      animation: none;
+      opacity: 1;
+    }
+  }
+
+  /* ---- 入场 ---- */
+  :global(.js) .pals {
+    opacity: 0;
+    animation: pals-in 800ms var(--ease-out) 480ms forwards;
+  }
+
+  /* ---- 主循环：待机眨眼/小跳，每轮 68-90% Edward 举一次手指 ---- */
+  @keyframes pals-hf-a {
+    0%, 67.9% { opacity: 1; }
+    68%, 90% { opacity: 0; }
+    90.1%, 100% { opacity: 1; }
+  }
+  @keyframes pals-hf-b {
+    0%, 67.9% { opacity: 0; }
+    68%, 90% { opacity: 1; }
+    90.1%, 100% { opacity: 0; }
+  }
+  @keyframes pals-ant {
+    0%, 69.9% { opacity: 0.2; }
+    70%, 94.9% { opacity: 1; }
+    95%, 100% { opacity: 0.2; }
+  }
+  @keyframes pals-blink {
+    0%, 91.9% { opacity: 0; }
+    92%, 100% { opacity: 1; }
+  }
+  /* 机器人原地小跳：大部分时间落地，短暂离地后回来 */
+  @keyframes pals-bob {
+    0%, 79.9% { transform: none; }
+    80%, 89.9% { transform: translateY(calc(var(--px) * -1)); }
+    90%, 100% { transform: none; }
+  }
+  @keyframes pals-cheer {
+    0%, 49.9% { transform: none; }
+    50%, 100% { transform: translateY(calc(var(--px) * -2)); }
+  }
+  @keyframes pals-heart {
+    0%, 5% {
+      opacity: 0;
+      transform: none;
+    }
+    6%, 30% {
+      opacity: 1;
+      transform: none;
+    }
+    31%, 55% {
+      opacity: 1;
+      transform: translateY(calc(var(--px) * -1));
+    }
+    56%, 78% {
+      opacity: 1;
+      transform: translateY(calc(var(--px) * -2));
+    }
+    79%, 100% {
+      opacity: 0;
+      transform: translateY(calc(var(--px) * -3));
+    }
+  }
+  @keyframes pals-in {
+    from {
+      opacity: 0;
+      transform: translateY(12px);
+    }
+    to {
+      opacity: 1;
+      transform: none;
+    }
+  }
+
+  @media (min-width: 1440px) {
+    .pals { --px: 9px; }
+  }
+  @media (max-width: 1099px) {
+    .pals { display: none; }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .pals,
+    .pals :global(*) {
+      animation: none !important;
+    }
+    .pals { opacity: 1; }
+  }
+</style>

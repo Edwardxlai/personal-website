@@ -25,8 +25,8 @@ export const identity = {
   // 教育信息推荐写法（brand-source §1）
   status: '北交本 + 北邮硕',
   email: 'edwardxlaime@gmail.com',
-  github: 'https://github.com/Edwardsamaxl',
-  githubHandle: 'Edwardsamaxl',
+  github: 'https://github.com/Edwardxlai',
+  githubHandle: 'Edwardxlai',
 } as const;
 
 // Hero 巨型主张（编辑×系统方向）—— 问题即主张

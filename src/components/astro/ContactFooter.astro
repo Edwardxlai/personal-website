@@ -64,6 +64,10 @@ const marqueeWords = 'AI WORKFLOW · 下一代内容 · CONTENT SYSTEMS · 写 /
 <style>
   .contact { padding-top: 180px; }
 
+  @media (max-width: 767px) {
+    .contact { padding-top: var(--section-gap); }
+  }
+
   /* ---- 跑马灯气氛条 ---- */
   .contact-marquee {
     overflow: hidden;

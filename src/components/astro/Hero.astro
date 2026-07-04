@@ -43,13 +43,13 @@ const projects = (await getCollection('projects', ({ data }) => !data.draft)).so
           <!-- 项目主线索引 -->
           <nav class="hero-mainline" aria-label="项目主线">
             {projects.map((p, i) => (
-              <Fragment>
+              <span class="ml-pair">
                 {i > 0 && <span class="ml-arrow" aria-hidden="true">→</span>}
                 <a class="ml-item glare-hover" href={`#work`} data-magnet>
                   <span class="ml-num">{String(p.data.order).padStart(2, '0')}</span>
                   <span class="ml-word">{p.data.title}</span>
                 </a>
-              </Fragment>
+              </span>
             ))}
           </nav>
 
@@ -255,6 +255,12 @@ const projects = (await getCollection('projects', ({ data }) => !data.draft)).so
     padding-top: var(--space-4);
     border-top: 1px solid var(--line-subtle);
     font-family: var(--font-mono);
+  }
+  /* 箭头 + 项目名绑成一个整体一起换行，避免箭头孤立在行尾 */
+  .ml-pair {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--space-3);
   }
   .ml-item {
     display: inline-flex;

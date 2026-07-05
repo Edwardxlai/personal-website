@@ -154,6 +154,14 @@ export const selectedWorks: readonly WorkSlot[] = [
   },
   {
     slot: '02',
+    platform: '抖音作品',
+    hint: '个人网站制作教程',
+    title: '如何从 0 到 1 制作自己的个人网站',
+    href: 'https://v.douyin.com/tBcT1w3yJRs',
+    stat: '单条赞藏 500+',
+  },
+  {
+    slot: '03',
     platform: 'X',
     hint: '英文输出',
     title: '如何成为一颗冉冉升起的学术新星：三个 AI 赋能论文写作的方法',
@@ -161,7 +169,7 @@ export const selectedWorks: readonly WorkSlot[] = [
     stat: '赞 + 书签 1K+',
   },
   {
-    slot: '03',
+    slot: '04',
     platform: 'X 观点',
     hint: '财富自由路径讨论',
     title: '普通人最快实现财富自由的路径',
@@ -169,7 +177,7 @@ export const selectedWorks: readonly WorkSlot[] = [
     stat: '单篇 20K+ 浏览',
   },
   {
-    slot: '04',
+    slot: '05',
     platform: '小红书',
     hint: 'AI PPT 制作教程',
     title: '如何用 AI 做出精美 PPT',

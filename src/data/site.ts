@@ -93,7 +93,7 @@ export const signalBoard = [
     blurb: 'AI 产品观察与观点输出',
     stat: '1M+',
     statLabel: '累计曝光',
-    href: 'https://x.com/lnxinsh00633331',
+    href: 'https://x.com/edwardxlaime',
   },
   {
     platform: 'Threads',
@@ -195,7 +195,7 @@ export const contact = {
     { label: 'GitHub', href: identity.github },
     { label: '抖音', href: 'https://www.douyin.com/user/MS4wLjABAAAAQn5DxuKcbNPeh-1dvPJ6YjCUu0dYhSvanWFgI7PBOU7zxidoyL6dSrNFOVISBkaH' },
     { label: '小红书', href: 'https://www.xiaohongshu.com/user/profile/62c44930000000001b024533' },
-    { label: 'X', href: 'https://x.com/lnxinsh00633331' },
+    { label: 'X', href: 'https://x.com/edwardxlaime' },
     { label: 'Threads', href: 'https://www.threads.com/@ledwardsama' },
   ],
 } as const;

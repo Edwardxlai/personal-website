@@ -162,11 +162,11 @@ export const selectedWorks: readonly WorkSlot[] = [
   },
   {
     slot: '03',
-    platform: 'X',
-    hint: '英文输出',
-    title: '如何成为一颗冉冉升起的学术新星：三个 AI 赋能论文写作的方法',
-    href: 'https://x.com/lnxinsh00633331/status/2070782483159732644',
-    stat: '赞 + 书签 1K+',
+    platform: '小红书',
+    hint: '学术成长与 AI 论文写作',
+    title: '如何成为一颗冉冉升起的学术新星😆',
+    href: 'https://www.xiaohongshu.com/discovery/item/6a3f6393000000000f005e53?source=webshare&xhsshare=pc_web&xsec_token=ABvr5luWHFLgiD_oHKLWo6cO_UCHNENgLjg2zJl7G38EA=&xsec_source=pc_share',
+    stat: '单篇赞藏 2K+',
   },
   {
     slot: '04',
@@ -178,11 +178,19 @@ export const selectedWorks: readonly WorkSlot[] = [
   },
   {
     slot: '05',
-    platform: '小红书',
-    hint: 'AI PPT 制作教程',
-    title: '如何用 AI 做出精美 PPT',
-    href: 'https://www.xiaohongshu.com/discovery/item/6a049fd6000000003503a59e?source=webshare&xhsshare=pc_web&xsec_token=ABviu0T7n-sCqwGDGkmaZafeJfPTMFGD38EY2n244LLnY=&xsec_source=pc_share',
-    stat: 'AI 创作内容累计 14K+ 赞藏',
+    platform: 'X 文章',
+    hint: '中国游资拆解',
+    title: '白毛股神打得过中国股神吗？中国游资拆解之——退学炒股',
+    href: 'https://x.com/edwardxlaime/status/2073736476945248676?s=20',
+    stat: '单篇 15K+ 浏览',
+  },
+  {
+    slot: '06',
+    platform: 'X 视频',
+    hint: 'AI 视频创作工具教学',
+    title: 'Google Flow 保姆级教学，自媒体人必学的 AI 工具！',
+    href: 'https://x.com/edwardxlaime/status/2082819835738673261?s=20',
+    stat: '系列视频赞藏 500+',
   },
 ];
 

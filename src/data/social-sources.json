@@ -1,0 +1,7 @@
+[
+  {"id":"douyin-study","platform":"抖音","label":"考研账号","url":"https://www.douyin.com/user/MS4wLjABAAAAzaMQlMN59ZkwjV2RupWMpp09xgtrJ6HKDlWLGH2l5w4JVzEw1pJkchK90_3Smbkw","hosts":["www.douyin.com","v.douyin.com"]},
+  {"id":"douyin-ai","platform":"抖音","label":"AI 账号","url":"https://www.douyin.com/user/MS4wLjABAAAAQn5DxuKcbNPeh-1dvPJ6YjCUu0dYhSvanWFgI7PBOU7zxidoyL6dSrNFOVISBkaH","hosts":["www.douyin.com","v.douyin.com"]},
+  {"id":"x","platform":"X","label":"edwardxlaime","url":"https://x.com/edwardxlaime","hosts":["x.com","twitter.com"]},
+  {"id":"threads","platform":"Threads","label":"ledwardsama","url":"https://www.threads.com/@ledwardsama","hosts":["www.threads.com","www.threads.net"]},
+  {"id":"xiaohongshu","platform":"小红书","label":"Edward","url":"https://www.xiaohongshu.com/user/profile/62c44930000000001b024533","hosts":["www.xiaohongshu.com","xhslink.com"]}
+]

@@ -1,6 +1,6 @@
 ---
 import SectionHeading from './SectionHeading.astro';
-import { signalBoard } from '../../data/site';
+import { socialSignals, lastChecked, formatDate } from '../../data/social';
 
 // 信号条静态高度节奏（纯装饰，不编码数据）
 const BAR_COUNT = 7;
@@ -10,7 +10,7 @@ const BAR_COUNT = 7;
   <SectionHeading id="content" eyebrow="Signal board" index="S / 03" title="全平台信号台" />
 
   <ul class="sb-list" role="list">
-    {signalBoard.map((s, i) => (
+    {socialSignals.map((s, i) => (
       <li class="sb-row reveal" style={`--reveal-i:${i}`}>
         <a class="sb-link glare-hover" href={s.href} target="_blank" rel="noopener noreferrer" data-magnet>
           <span class="sb-live"><i aria-hidden="true"></i>{s.status}</span>
@@ -30,6 +30,8 @@ const BAR_COUNT = 7;
           <span class="sb-stat">
             <b>{s.stat}</b>
             <em>{s.statLabel}</em>
+            {s.asOf && <small>{s.asOf}</small>}
+            {s.extra.map(line => <small class="sb-extra">{line}</small>)}
           </span>
 
           <span class="sb-arrow" aria-hidden="true">↗</span>
@@ -37,9 +39,13 @@ const BAR_COUNT = 7;
       </li>
     ))}
   </ul>
+  <p class="sb-note">{lastChecked ? `最近核对 ${formatDate(lastChecked)} · ` : ''}每周整理公开数据；暂未取得的新数据保留原记录，各项日期单独标注</p>
 </section>
 
 <style>
+  .sb-note { margin-top: 20px; font-size: 12px; line-height: 1.8; color: var(--text-secondary); }
+  .sb-stat small { font-size: 10px; color: var(--text-secondary); margin-top: 6px; line-height: 1.6; text-align: right; }
+  .sb-stat .sb-extra { max-width: 220px; color: var(--accent); }
   .sb-list { display: flex; flex-direction: column; }
   .sb-row { border-top: 1px solid var(--line-subtle); }
   .sb-row:last-child { border-bottom: 1px solid var(--line-subtle); }
@@ -80,6 +86,7 @@ const BAR_COUNT = 7;
     box-shadow: 0 0 10px var(--accent);
     animation: sb-pulse 2.4s var(--ease-out) infinite;
   }
+  .sb-live { letter-spacing: .02em; }
   @keyframes sb-pulse {
     0%, 100% { opacity: 1; }
     50% { opacity: 0.35; }

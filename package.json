@@ -8,7 +8,9 @@
     "build": "astro build",
     "preview": "astro preview",
     "astro": "astro",
-    "check": "astro check"
+    "check": "astro check",
+    "social:collect": "node scripts/collect-social.mjs",
+    "social:apply": "node scripts/apply-social.mjs"
   },
   "dependencies": {
     "@astrojs/sitemap": "^3.2.1",

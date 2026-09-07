@@ -2,6 +2,7 @@
 import { Image } from 'astro:assets';
 import type { CollectionEntry } from 'astro:content';
 import SectionHeading from './SectionHeading.astro';
+import FdeFieldNotes from './FdeFieldNotes.astro';
 
 interface Props {
   projects: CollectionEntry<'projects'>[];
@@ -9,15 +10,15 @@ interface Props {
 
 const { projects } = Astro.props;
 
-const labels: Record<string, { title: string; side: string; mode: 'wide-stack' | 'poster' }> = {
+const labels: Record<string, { title: string; side: string; mode: 'wide-stack' | 'poster' | 'field-notes' }> = {
   flowcast: { title: 'Flowcast', side: '流转', mode: 'wide-stack' },
   'in-the-word': { title: 'In-the-word', side: '字里行间', mode: 'poster' },
-  scriptstudio: { title: 'ScriptStudio', side: '搭映', mode: 'poster' },
+  scriptstudio: { title: 'FDE 实践', side: '业务现场', mode: 'field-notes' },
 };
 ---
 
 <section class="section container work-showcase" aria-labelledby="work" data-work-showcase>
-  <SectionHeading id="work" eyebrow="Selected work" index="S / 02" title="作品集" />
+  <SectionHeading id="work" eyebrow="Selected work / In progress" index="S / 02" title="项目记录" />
 
   <div class="work-shell">
     <div class="work-list" role="list" aria-label="精选项目">
@@ -36,14 +37,14 @@ const labels: Record<string, { title: string; side: string; mode: 'wide-stack' |
             data-work-index={i}
             style={`--reveal-i:${i}`}
           >
-            <div class="work-link glare-hover" data-magnet>
+            <button type="button" class="work-link glare-hover" data-magnet aria-pressed={i === 0}>
               <span class="work-num">{String(project.data.order).padStart(2, '0')}</span>
               <span class="work-text">
                 <span class="work-title">{meta.title}</span>
                 <span class="work-line">{project.data.tagline}</span>
               </span>
               <span class="work-side">{meta.side}</span>
-            </div>
+            </button>
           </article>
         );
       })}
@@ -66,8 +67,9 @@ const labels: Record<string, { title: string; side: string; mode: 'wide-stack' |
             data-work-preview
             data-work-index={i}
             aria-label={`${meta.title} 作品预览`}
+            inert={i !== 0}
           >
-            <span class="preview-images">
+            {meta.mode === 'field-notes' ? <FdeFieldNotes /> : <span class="preview-images">
               {images.map((img, imageIndex) => (
                 <span class="preview-frame" data-preview-frame style={`--card-i:${imageIndex}`}>
                   {img && (
@@ -80,7 +82,7 @@ const labels: Record<string, { title: string; side: string; mode: 'wide-stack' |
                   )}
                 </span>
               ))}
-            </span>
+            </span>}
           </div>
         );
       })}
@@ -111,6 +113,12 @@ const labels: Record<string, { title: string; side: string; mode: 'wide-stack' |
   }
 
   .work-link {
+    width: 100%;
+    text-align: left;
+    font: inherit;
+    color: inherit;
+    border: 0;
+    background: transparent;
     position: relative;
     display: grid;
     grid-template-columns: 52px minmax(0, 1fr) auto;
@@ -119,7 +127,7 @@ const labels: Record<string, { title: string; side: string; mode: 'wide-stack' |
     min-height: clamp(118px, 13vw, 176px);
     padding-block: var(--space-6);
     isolation: isolate;
-    cursor: default;
+    cursor: pointer;
     --glare-radius: var(--radius-md);
   }
 
@@ -189,8 +197,8 @@ const labels: Record<string, { title: string; side: string; mode: 'wide-stack' |
   }
 
   .preview-card {
-    position: absolute;
-    inset: 0;
+    grid-area: 1 / 1;
+    visibility: hidden;
     opacity: 0;
     pointer-events: none;
     transform: translateY(18px) scale(0.985);
@@ -200,6 +208,7 @@ const labels: Record<string, { title: string; side: string; mode: 'wide-stack' |
   }
 
   .preview-card.is-active {
+    visibility: visible;
     opacity: 1;
     pointer-events: auto;
     transform: none;
@@ -209,6 +218,9 @@ const labels: Record<string, { title: string; side: string; mode: 'wide-stack' |
     display: grid;
     gap: clamp(14px, 2vw, 24px);
   }
+
+  .work-preview { display: grid; }
+  .work-link:focus-visible { outline: 2px solid var(--accent); outline-offset: 6px; }
 
   .preview-card--wide-stack .preview-images {
     height: auto;
@@ -433,9 +445,11 @@ const labels: Record<string, { title: string; side: string; mode: 'wide-stack' |
     const activate = (index: string | null) => {
       items.forEach((item) => {
         item.classList.toggle('is-active', item.getAttribute('data-work-index') === index);
+        item.querySelector('button')?.setAttribute('aria-pressed', String(item.getAttribute('data-work-index') === index));
       });
       previews.forEach((preview) => {
         preview.classList.toggle('is-active', preview.getAttribute('data-work-index') === index);
+        preview.inert = preview.getAttribute('data-work-index') !== index;
       });
       frames.forEach(resetFrame);
     };
@@ -444,6 +458,7 @@ const labels: Record<string, { title: string; side: string; mode: 'wide-stack' |
       const index = item.getAttribute('data-work-index');
       item.addEventListener('pointerenter', () => activate(index));
       item.addEventListener('focusin', () => activate(index));
+      item.addEventListener('click', () => activate(index));
     });
 
     root.addEventListener('pointermove', (event: PointerEvent) => {

@@ -1,9 +1,6 @@
 ---
-title: ScriptStudio
-tagline: 选两个人设，给一个场景，让 AI 把角色碰撞变成剧本、分镜和视频。
+title: FDE 实践
+tagline: 走进电商业务现场，把人的经验、数据的口径和 AI 能执行的工作接起来
 order: 3
-cover: ../../assets/projects/scriptstudio/cover.png
-gallery:
-  - ../../assets/projects/scriptstudio/sample.png
 draft: false
 ---

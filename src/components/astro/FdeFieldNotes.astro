@@ -1,0 +1,37 @@
+---
+const steps = [
+  { title: '先看人怎么做事', detail: '跟着业务走一遍，把判断条件、重复动作和需要人拍板的地方记下来' },
+  { title: '让同一个词指同一件事', detail: '从指标表和属性表入手，写清数字怎么算、来自哪里、什么时候才算完整' },
+  { title: '把数据接到工作台', detail: '围绕经营看板与投放流程，推进数据接入，让页面上的数能回到来源' },
+  { title: '再决定哪些交给 AI', detail: '梳理可执行的规则与动作，把异常和人工接管的出口一起设计进去' },
+];
+---
+
+<div class="field-notes">
+  <header class="field-meta"><span>FIELD NOTES / 03</span><span class="field-status">持续实践中</span></header>
+  <p class="field-kicker">FORWARD DEPLOYED ENGINEERING</p>
+  <h3>让 AI 走进<br />真实的业务现场<span>↘</span></h3>
+  <p class="field-intro">我现在做 FDE，面对的是电商业务里具体的人、流程和数据；最近在推进的，是把业务经验写清楚，把数据口径对齐，再一点点接到实际工作里</p>
+  <ol>
+    {steps.map((step, i) => (
+      <li><span class="step-number">0{i + 1}</span><div><h4>{step.title}</h4><p>{step.detail}</p></div></li>
+    ))}
+  </ol>
+  <footer><span>业务拆解 / 数据口径 / Ontology / 工作台</span><span>进行时 ↗</span></footer>
+</div>
+
+<style>
+  .field-notes { padding: clamp(22px, 3vw, 40px); background: var(--surface-1); border-top: 2px solid var(--accent); color: var(--text-primary); }
+  .field-meta, footer { display: flex; justify-content: space-between; flex-wrap: wrap; gap: 12px; font-family: var(--font-mono); font-size: 10px; letter-spacing: .06em; color: var(--text-secondary); }
+  .field-status { color: var(--accent); }
+  .field-kicker { margin-top: 28px; font-family: var(--font-mono); font-size: 10px; letter-spacing: .13em; color: var(--text-secondary); }
+  h3 { position: relative; margin-top: 12px; font-family: var(--font-serif-cn); font-size: clamp(27px, 3vw, 43px); line-height: 1.4; letter-spacing: -.025em; }
+  h3 span { color: var(--accent); margin-left: 12px; }
+  .field-intro { margin-top: 18px; font-size: 14px; line-height: 1.9; color: var(--text-secondary); }
+  ol { margin-top: 26px; list-style: none; padding: 0; }
+  li { display: grid; grid-template-columns: 28px 1fr; gap: 12px; padding: 15px 0; border-top: 1px solid var(--line-strong); }
+  .step-number { font-family: var(--font-mono); font-size: 11px; color: var(--accent); padding-top: 3px; }
+  h4 { font-size: 15px; font-weight: 500; }
+  li p { margin-top: 5px; font-size: 12px; line-height: 1.8; color: var(--text-secondary); }
+  footer { padding-top: 22px; margin-top: 8px; border-top: 1px solid var(--line-strong); font-size: 9px; }
+</style>

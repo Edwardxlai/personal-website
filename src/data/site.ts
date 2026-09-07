@@ -13,14 +13,14 @@ export const identity = {
   // 首页超大标识使用的短标记
   mark: 'Edward',
   // 顶部身份短标签：不暗示接单状态，只说明当前身份方向
-  roleTag: 'AI CREATOR',
+  roleTag: 'FDE / AI CREATOR',
   // 克制版身份（brand-source 首页身份候选）
-  roleEn: 'AI product builder & creator',
+  roleEn: 'Forward Deployed Engineer & creator',
   // 中文强势版
-  roleZh: '用 AI 重新定义自媒体。',
+  roleZh: '在业务现场，把 AI 做成能用的东西',
   // 叙事版（用于 About）
   narrative:
-    '关注 AI 如何重写内容生产、分发和复用。',
+    '我现在做 FDE，深入电商业务，梳理流程与数据口径，也持续分享 AI 实践和创作工作流',
   basedIn: '北京',
   // 教育信息推荐写法（brand-source §1）
   status: '北交本 + 北邮硕',

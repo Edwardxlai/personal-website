@@ -1,0 +1,226 @@
+/* P1—P5 —— 屏 3。浅底，与其余三屏同一底色。
+ * 参考 P-1 / P-4 rb-stepper / C-2 / X-4，结构说明见 build/render-stages.js 顶部。
+ *
+ * 数轴几何（audit.js 里有硬检查，别顺手改坏）：
+ *   .paxis__rail 是唯一的定位上下文；.pnode 绝对定位到 left:X%，
+ *   圆盒 .pnode__dot 是它的普通流子元素（align-items:center），所以五个圆的 x 必然不同。
+ *   轴线 left:10%/right:10%，只画在首尾圆心之间。进度条 left:10%，宽度 (idx/4)*80%。
+ *   轴线和进度条都用 top: calc(--plab + --pdot/2 - 自己厚度/2)，几何中心一律落在圆心，
+ *   所以「轴线穿过圆心」这条检查跟厚度无关。
+ *   圆盒尺寸恒定 --pdot，所有状态变化都发生在 ::before 上——
+ *   ⚠ 直接改 .pnode__dot 的宽高，五个圆的 cy 会不一样，当场 FAIL。
+ *
+ * 三态全部收在 .pnode 的自定义属性里，子元素只读变量，
+ * 避免 hover / :active / .is-active 三种状态各写一条规则互相打架。
+ */
+
+.sec--p { padding: 80px 0 88px; }
+
+/* ── 钉住块 + 行程 ──────────────────────────────────────
+ * 桌面端有 JS 时 .pstage 加 is-scrub：pin（屏头 + 数轴 + 面板）粘在 top 76，
+ * 下面一段 4 × --pstep 的空行程，滚过去的过程里 P1 → P5 逐格推进。
+ * 嫌拖就只动 --pstep；彻底不要就 JS 不加 is-scrub，页面回到纯点击，样式一个不变。
+ * js/stages.js 读 pin 的 top 算进度，这里改了那边自动跟。 */
+.pstage { position: relative; --pstep: 20vh; }
+.js .pstage.is-scrub .pstage__pin { position: sticky; top: 76px; }
+.pstage__track { display: none; }
+.js .pstage.is-scrub .pstage__track { display: block; height: calc(4 * var(--pstep)); }
+.pstage__pin .shead { margin-bottom: 40px; }
+
+/* ── 节点行 ─────────────────────────────────────────────── */
+.paxis__rail {
+  --pdot: 36px;        /* 圆盒，恒定 */
+  --plab: 32px;        /* 圆上方的短标行：19px 文字 + 13px 间距 */
+  --ptrack: 2px;
+  --pnw: 20%;          /* 节点列宽 = 节点间距，五列严丝合缝铺满整条轴，列与列之间没有点不到的死缝 */
+  position: relative;
+  height: calc(var(--plab) + var(--pdot));
+}
+.paxis__line, .paxis__prog {
+  position: absolute;
+  height: var(--ptrack); border-radius: 1px;
+  top: calc(var(--plab) + var(--pdot) / 2 - var(--ptrack) / 2);   /* 线心 = 圆心 */
+}
+.paxis__line { left: 10%; right: 10%; background: var(--line-2); transform-origin: left center; }
+.paxis__prog {
+  left: 10%;
+  width: calc(var(--p, 0) * 80%);                                  /* --p = idx/4 → 端点落圆心 */
+  background: var(--accent);
+  transition: width 360ms var(--ease);
+}
+
+.pnode {
+  --ring: var(--line-2); --ringW: 1px;
+  --num: var(--ink-3); --numW: 500;
+  --lab: var(--ink-3); --labW: 300;
+  --halo: 0 0 0 0 transparent;
+  --lift: 0 1px 2px rgba(12, 26, 32, 0.10);
+  --disc: 1;
+  position: absolute;
+  top: 0;
+  left: var(--x);
+  transform: translateX(-50%);
+  width: var(--pnw);
+  padding-top: var(--plab);
+  display: flex; flex-direction: column; align-items: center;
+  cursor: pointer;
+}
+.pnode__short {
+  position: absolute; top: 0; left: 0; right: 0;
+  height: 19px; line-height: 19px; text-align: center;
+  font-size: var(--fs-small); color: var(--lab); font-weight: var(--labW);
+  transition: color var(--t-swap) var(--ease);
+}
+/* 圆盒恒定 36×36，只做定位；看得见的圆盘是 ::before。audit 量的是这个盒子 */
+.pnode__dot { position: relative; flex: 0 0 auto; width: var(--pdot); height: var(--pdot); }
+.pnode__dot::before {
+  content: ""; position: absolute; inset: 0; border-radius: 50%;
+  background: var(--panel);
+  box-shadow: inset 0 0 0 var(--ringW) var(--ring), var(--halo), var(--lift);
+  transform: scale(var(--disc));
+  transition: box-shadow var(--t-swap) var(--ease), transform 160ms var(--ease);
+}
+.pnode__face {
+  position: absolute; inset: 0;
+  display: flex; align-items: center; justify-content: center;
+  font-family: var(--mono); font-size: 12px; font-weight: var(--numW); letter-spacing: 0.02em;
+  color: var(--num);
+  transition: color var(--t-swap) var(--ease);
+}
+/* 到达涟漪（P-1 的 pulse）：从圆向外扩一圈细环，620ms，只跑一次 */
+.pnode__ping {
+  position: absolute; inset: 0; border-radius: 50%;
+  border: 1.5px solid var(--accent);
+  opacity: 0; pointer-events: none;
+}
+.pnode.is-pulse .pnode__ping { animation: pping 620ms var(--ease-out) forwards; }
+@keyframes pping {
+  from { opacity: 0.6; transform: scale(0.9); }
+  to   { opacity: 0;   transform: scale(1.9); }
+}
+
+/* 三态 */
+.pnode.is-passed { --ring: var(--accent); --ringW: 1.5px; --num: var(--accent); --lab: var(--ink-2); }
+.pnode.is-active {
+  --ring: var(--accent); --ringW: 2px;
+  --num: var(--accent); --numW: 600;
+  --lab: var(--ink); --labW: 500;
+  /* 3px 底色间隙 + 1px 橙外环：间隙把轨道切开，外环正好圈住橙 / 灰的交界。是一圈线，不是光晕 */
+  --halo: 0 0 0 3px var(--bg), 0 0 0 4px var(--accent);
+}
+@media (hover: hover) {
+  .pnode:not(.is-active):hover { --disc: 1.06; --lift: 0 3px 8px rgba(12, 26, 32, 0.14); }
+  .pnode:not(.is-active):not(.is-passed):hover { --ring: var(--line-3); --num: var(--ink); --lab: var(--ink-2); }
+  .pnode.is-passed:hover { --lab: var(--ink); }
+  .pnode.is-active:hover { --lift: 0 3px 8px rgba(12, 26, 32, 0.14); }
+}
+/* :active 必须写在 hover 之后：--disc / --lift 同权重靠顺序定胜负。按下压平，90ms 到位 */
+.pnode:active { --disc: 0.94; --lift: 0 0 0 rgba(12, 26, 32, 0); }
+.pnode:active .pnode__dot::before { transition-duration: var(--t-press); }
+/* 焦点环画在圆盘上：按钮本体 228px 宽，画在按钮上是一条横框 */
+.pnode:focus { outline: none; }
+.pnode:focus-visible .pnode__dot::before { outline: 2px solid var(--accent); outline-offset: 3px; }
+
+/* ── 面板：白底 + 1px 外圈 ─────────────────────────────────
+ * 外圈用 box-shadow 画不用 border：绝对定位子元素的百分比按 padding box 算，
+ * 用 border 会让引线在 90% 处偏 0.8px；用 shadow 后面板与 rail 同宽同原点，引线与圆心 x 误差 0。 */
+.ppanel {
+  position: relative;
+  margin-top: 22px;
+  padding: 36px 40px 38px;
+  border-radius: 2px;
+  background: var(--panel);
+  box-shadow: 0 0 0 1px var(--line), 0 18px 36px -28px rgba(12, 26, 32, 0.28);
+}
+/* 开口 + 引线：::before 是 14×2 的白条，盖掉面板上沿那 1px 线（开口）；::after 是 1px 橙引线穿过开口 */
+.ppanel__open {
+  position: absolute; top: -14px;
+  left: calc(10% + var(--p, 0) * 80%);
+  width: 14px; height: 18px; margin-left: -7px;
+  pointer-events: none;
+  transition: left 360ms var(--ease);
+}
+.ppanel__open::before { content: ""; position: absolute; left: 0; right: 0; top: 13px; height: 2px; background: var(--panel); }
+.ppanel__open::after { content: ""; position: absolute; left: calc(50% - 0.5px); top: 0; bottom: 0; width: 1px; background: var(--accent); }
+
+/* 开着 JS 时五张卡片叠在同一个网格格子里：容器高度自动等于最高的那张，切换时下面的内容一动不动。
+ * 切换有方向：往后走新卡从右边进、旧卡往左退，往回走反过来，和进度条的推进方向一致。 */
+.js .ppanel { display: grid; grid-template-columns: minmax(0, 1fr); --enter: 12px; --exit: -12px; }
+.js .ppanel.is-back { --enter: -12px; --exit: 12px; }
+.js .pcard {
+  grid-area: 1 / 1;
+  opacity: 0; visibility: hidden;
+  transform: translate3d(var(--enter), 0, 0);
+  transition: opacity 180ms var(--ease), transform 220ms var(--ease), visibility 0s linear 180ms;
+}
+.js .pcard.is-active {
+  opacity: 1; visibility: visible; transform: none;
+  transition: opacity 220ms var(--ease) 40ms, transform 260ms var(--ease-out) 40ms, visibility 0s;
+}
+.js .pcard.is-leaving { transform: translate3d(var(--exit), 0, 0); }
+/* 关掉 JS 时五张卡片顺着往下排，靠细线分隔 */
+.pcard + .pcard { margin-top: 36px; padding-top: 32px; border-top: 1px solid var(--line); }
+.js .pcard + .pcard { margin-top: 0; padding-top: 0; border-top: 0; }
+
+/* 两栏：左边「这一阶段在干什么」，右边「要盘哪几条」 */
+.pcard {
+  display: grid;
+  grid-template-columns: minmax(0, 46fr) minmax(0, 54fr);
+  gap: 0 48px;
+  align-items: start;
+}
+.pcard__title { font-family: var(--serif); font-size: var(--fs-h3); line-height: 1.32; }
+.pcard__lead { margin-top: 14px; font-size: var(--fs-lede); line-height: 1.68; color: var(--ink-2); max-width: 24em; }
+/* 视角：一行小字署名，和 C 屏的「涉及部门」是同一个写法 */
+.pcard__view { margin-top: 18px; font-size: var(--fs-small); color: var(--ink-2); }
+.pcard__view span {
+  font-family: var(--mono); font-size: var(--fs-micro); letter-spacing: 0.14em;
+  text-transform: uppercase; color: var(--ink-3); margin-right: 14px;
+}
+
+.plist__cap {
+  font-size: 12px; letter-spacing: 0.06em; line-height: 1.6; color: var(--ink-3);
+  padding: 4px 0 10px; border-bottom: 1px solid var(--line-2);
+}
+.plist__i {
+  display: grid; grid-template-columns: 6em minmax(0, 1fr); column-gap: 16px;
+  padding: 11px 0; border-top: 1px solid var(--line);
+}
+.plist__i:first-child { border-top: 0; }
+.plist__k { font-size: var(--fs-body); line-height: 1.6; color: var(--ink); }
+.plist__v { font-size: var(--fs-small); line-height: 1.75; padding-top: 1px; color: var(--ink-2); }
+
+/* ── 入场：只接 motion.js 给 rail 加的 is-in 信号 ────────────
+ * 轨道画出 → 五个圆依次落下 → 短标亮起。动画做在 .pnode__dot 上不做在 .pnode 上：
+ * .rv 的 transform 会盖掉 .pnode 自己的 translateX(-50%)，五个圆会横向跳位。 */
+.js .paxis__rail.rv .paxis__line { transform: scaleX(0); transition: transform 560ms var(--ease-out) 260ms; }
+.js .paxis__rail.rv.is-in .paxis__line { transform: none; }
+.js .paxis__rail.rv .pnode__dot {
+  opacity: 0; transform: translateY(8px);
+  transition: opacity 260ms linear calc(380ms + var(--i) * 90ms), transform 420ms var(--ease-out) calc(380ms + var(--i) * 90ms);
+}
+.js .paxis__rail.rv .pnode__short { opacity: 0; transition: opacity 260ms linear calc(420ms + var(--i) * 90ms); }
+.js .paxis__rail.rv.is-in .pnode__dot, .js .paxis__rail.rv.is-in .pnode__short { opacity: 1; transform: none; }
+
+@media (max-width: 900px) {
+  .sec--p { padding: 84px 0 72px; }
+  /* 手机上五个中文短标挤不下，只留圆里的编号。圆 36 + .tapx 兜到 44 */
+  .paxis__rail { --plab: 0px; }
+  .pnode__short { display: none; }
+  .ppanel { margin-top: 18px; padding: 26px 22px 28px; }
+  .ppanel__open { top: -12px; height: 16px; }
+  .ppanel__open::before { top: 11px; }
+  .pcard { grid-template-columns: minmax(0, 1fr); }
+  .pcard__side { margin-top: 22px; }
+}
+
+/* 动效降级：位置和状态一次到位，只是不给过渡——内容一个字都不能少 */
+@media (prefers-reduced-motion: reduce) {
+  .paxis__prog, .ppanel__open, .pnode__dot::before, .pnode__face, .pnode__short,
+  .js .pcard, .js .pcard.is-active, .js .lvd.is-active { transition: none !important; animation: none !important; }
+  .js .pcard { transform: none !important; }
+  .js .paxis__rail.rv .paxis__line, .js .paxis__rail.rv .pnode__dot, .js .paxis__rail.rv .pnode__short {
+    opacity: 1 !important; transform: none !important; transition: none !important;
+  }
+  .pnode__ping { animation: none !important; opacity: 0 !important; }
+}

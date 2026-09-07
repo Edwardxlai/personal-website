@@ -2,7 +2,7 @@
 import { Image } from 'astro:assets';
 import type { CollectionEntry } from 'astro:content';
 import SectionHeading from './SectionHeading.astro';
-import FdeFieldNotes from './FdeFieldNotes.astro';
+import FdeRoadmap from './FdeRoadmap.astro';
 
 interface Props {
   projects: CollectionEntry<'projects'>[];
@@ -13,7 +13,7 @@ const { projects } = Astro.props;
 const labels: Record<string, { title: string; side: string; mode: 'wide-stack' | 'poster' | 'field-notes' }> = {
   flowcast: { title: 'Flowcast', side: '流转', mode: 'wide-stack' },
   'in-the-word': { title: 'In-the-word', side: '字里行间', mode: 'poster' },
-  scriptstudio: { title: 'FDE 实践', side: '业务现场', mode: 'field-notes' },
+  scriptstudio: { title: 'FDE Roadmap', side: '我的理解', mode: 'field-notes' },
 };
 ---
 
@@ -23,6 +23,7 @@ const labels: Record<string, { title: string; side: string; mode: 'wide-stack' |
   <div class="work-shell">
     <div class="work-list" role="list" aria-label="精选项目">
       {projects.map((project, i) => {
+        const Tag = project.id === 'scriptstudio' ? 'a' : 'button';
         const meta = labels[project.id] ?? {
           title: project.data.title,
           side: project.data.title,
@@ -37,14 +38,14 @@ const labels: Record<string, { title: string; side: string; mode: 'wide-stack' |
             data-work-index={i}
             style={`--reveal-i:${i}`}
           >
-            <button type="button" class="work-link glare-hover" data-magnet aria-pressed={i === 0}>
+            <Tag type={Tag === 'button' ? 'button' : undefined} href={Tag === 'a' ? '/fde-roadmap/' : undefined} class="work-link glare-hover" data-magnet aria-pressed={Tag === 'button' ? i === 0 : undefined}>
               <span class="work-num">{String(project.data.order).padStart(2, '0')}</span>
               <span class="work-text">
                 <span class="work-title">{meta.title}</span>
                 <span class="work-line">{project.data.tagline}</span>
               </span>
               <span class="work-side">{meta.side}</span>
-            </button>
+            </Tag>
           </article>
         );
       })}
@@ -69,7 +70,7 @@ const labels: Record<string, { title: string; side: string; mode: 'wide-stack' |
             aria-label={`${meta.title} 作品预览`}
             inert={i !== 0}
           >
-            {meta.mode === 'field-notes' ? <FdeFieldNotes /> : <span class="preview-images">
+            {meta.mode === 'field-notes' ? <FdeRoadmap /> : <span class="preview-images">
               {images.map((img, imageIndex) => (
                 <span class="preview-frame" data-preview-frame style={`--card-i:${imageIndex}`}>
                   {img && (

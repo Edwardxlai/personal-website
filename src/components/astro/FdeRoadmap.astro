@@ -1,0 +1,30 @@
+<a class="roadmap" href="/fde-roadmap/" aria-label="打开我对 FDE 工作的 roadmap 理解">
+  <div class="roadmap-meta"><span>MY FDE ROADMAP</span><span>打开阅读 ↗</span></div>
+  <h3>我对 FDE 工作<br />的理解</h3>
+  <p>做 FDE 之后，我把自己的理解整理成了这张图</p>
+  <div class="roadmap-path">
+    <div><b>C1–C4</b><span>业务怎样运转</span></div>
+    <i aria-hidden="true">↓</i>
+    <div><b>P1–P5</b><span>FDE 怎么推进</span></div>
+    <i aria-hidden="true">↓</i>
+    <div><b>L1–L5</b><span>AI 化走到哪一步</span></div>
+  </div>
+  <span class="roadmap-footer">从业务现场出发 <span aria-hidden="true">↗</span></span>
+</a>
+
+<style>
+  .roadmap { display: block; padding: clamp(24px, 3.5vw, 48px); background: var(--surface-1); border-top: 2px solid var(--accent); }
+  .roadmap-meta { display: flex; justify-content: space-between; flex-wrap: wrap; gap: 12px; font-family: var(--font-mono); font-size: 10px; color: var(--accent); letter-spacing: .06em; }
+  h3 { margin-top: 44px; font-family: var(--font-serif-cn); font-size: clamp(30px, 3.3vw, 48px); line-height: 1.4; letter-spacing: -.025em; }
+  p { margin-top: 20px; color: var(--text-secondary); font-size: 14px; line-height: 1.9; }
+  .roadmap-path { margin-top: 40px; }
+  .roadmap-path div { display: flex; justify-content: space-between; align-items: baseline; gap: 18px; border-bottom: 1px solid var(--line-strong); padding: 12px 0; }
+  .roadmap-path b { font-family: var(--font-mono); font-size: clamp(24px, 2.8vw, 38px); font-weight: 300; white-space: nowrap; }
+  .roadmap-path span { color: var(--text-secondary); font-size: 13px; }
+  .roadmap-path i { display: block; font-style: normal; color: var(--accent); padding-top: 10px; }
+  .roadmap-footer { display: flex; justify-content: space-between; margin-top: 44px; color: var(--text-secondary); font-size: 12px; }
+  .roadmap-footer span { color: var(--accent); font-size: 24px; transition: transform 180ms var(--ease-out); }
+  .roadmap:focus-visible { outline: 2px solid var(--accent); outline-offset: 6px; }
+  @media (hover:hover) { .roadmap:hover .roadmap-footer span { transform: translate(4px, -4px); } }
+  @media (prefers-reduced-motion:reduce) { .roadmap-footer span { transition: none; } }
+</style>

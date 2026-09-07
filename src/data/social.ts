@@ -1,5 +1,6 @@
 import snapshotJson from './social-snapshot.json';
 import sources from './social-sources.json';
+import overridesJson from './social-overrides.json';
 import { signalBoard, selectedWorks } from './site';
 
 type Evidence = { sourceId: string; asOf: string; evidenceUrl: string; quote: string };
@@ -11,6 +12,7 @@ type Snapshot = {
   metrics: Metric[];
 };
 const snapshot = snapshotJson as Snapshot;
+const overrides: Record<string, { key: string; value: string; label: string; asOf: string }> = overridesJson;
 export const formatDate = (value: string) => new Date(value).toLocaleDateString('zh-CN', { timeZone: 'Asia/Shanghai', year: 'numeric', month: '2-digit', day: '2-digit' });
 export const recentWorks = [...snapshot.works]
   .sort((a, b) => Date.parse(b.publishedAt) - Date.parse(a.publishedAt))
@@ -24,7 +26,9 @@ export const socialSignals = signalBoard.map(s => {
   const metrics = snapshot.metrics.filter(m => m.sourceId === id);
   // Existing cumulative milestones keep their own meaning and historical date.
   const key = s.platform === '抖音' ? 'likesAndSaves' : s.platform === 'X' ? 'impressions' : 'views';
-  const primary = metrics.find(m => m.key === key);
+  const verified = metrics.find(m => m.key === key);
+  const reported = overrides[id];
+  const primary = verified && (!reported || Date.parse(verified.asOf) >= Date.parse(reported.asOf)) ? verified : reported ?? verified;
   const extra = snapshot.metrics.filter(m => (m.sourceId === id && m.key !== key) || (s.platform === '抖音' && m.sourceId === 'douyin-ai'));
   const historical = s.platform !== 'GitHub';
   return {

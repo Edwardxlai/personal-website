@@ -1,0 +1,255 @@
+/* L1—L5 —— 屏 4
+ *
+ * 上半是「图」，下半是「文」，同一句话不出现两次（结构见 build/render-levels.js）。
+ *
+ * 五列基线一致靠的是：点阵五列共用同一个 viewBox，svg 撑满列宽、height:auto，
+ * 于是五列点阵高度完全相等；点阵上下每一层都是单行文本。
+ * 只要没有哪一层会换行，自然流下来的每一层就都落在同一条线上，
+ * 不需要 subgrid，也不怕浏览器不支持。
+ * ⚠ 往列里加东西前先想清楚它会不会换行——会换行就会把下面全部内容顶歪。
+ *
+ * 点从「小、浅、散」走到「大、深、齐」：半径、明度、抖动三个参数同向。
+ * 数量仍然表达「有多少公司在这一级」，但第一眼读到的是方向，不是 L1 那一团。
+ *
+ * 标注线 grid-column: 1 / calc(span+1) → 右端天然精确对齐 L3 列的右边缘。
+ */
+
+.lv {
+  display: grid;
+  grid-template-columns: repeat(5, minmax(0, 1fr));
+  gap: 26px;
+  align-items: start;
+}
+
+/* ── FDE 作用区间：一条带端点刻度的标注线，不是浮在上面的横条 ──
+ * 原来是「白底 + 顶部橙线」的色块，读者只看到一个条，看不出它在标注什么。
+ * 改成制图里的尺寸线：横线跨 L1—L3，两端各一道朝下的刻度，
+ * 右端那道正好落在 L3 和 L4 的分界上——「管到这里为止」是画出来的，不是写出来的。
+ * 整屏唯一的强调色线就是这一条，因为只有这条线本身带信息。 */
+.lv__band {
+  position: relative;
+  grid-row: 1;
+  grid-column: 1 / calc(var(--span) + 1);
+  padding-bottom: 13px;
+  margin-bottom: 20px;
+  border-bottom: 1px solid var(--accent);
+}
+.lv__band-label {
+  font-family: var(--mono);
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--accent);
+}
+/* 行宽一律用 em 不用 ch：ch 量的是「0」的宽度，中文一个字有一个 em 宽，
+ * 拿 ch 写出来的行宽只有想要的一半，整段会被挤成又窄又高的一条。 */
+.lv__band-note {
+  margin-top: 5px;
+  font-size: var(--fs-small);
+  line-height: 1.7;
+  color: var(--ink-2);
+  max-width: 50em;
+}
+/* 两道刻度：左端标起点，右端标终点。
+ * 右端这道一路画到下面五列的顶线上（1px 边框 + 20px 间距），
+ * 正好落在 L3 和 L4 的分界，「到这里为止」就是画出来的。
+ * 左端只点一下起点，短一截，两端不等长才不会看成一个方框。 */
+.lv__band::before,
+.lv__band::after {
+  content: "";
+  position: absolute;
+  top: 100%;
+  width: 1px;
+  background: var(--accent);
+}
+.lv__band::before { left: 0; height: 8px; }
+.lv__band::after { right: 0; height: 21px; }
+
+/* ── 每一级 ───────────────────────────────────────────────
+ * 每一列是一个 tab（js/levels.js）：点它，下半屏只显示这一级的说明。
+ * 列的状态只靠三样东西说话：顶边那条线（默认 1px 淡线 / hover --line-3 / 选中 2px 强调色）、
+ * 名字的字重、点阵的明度（hover 和选中各提亮 12 个点）。不浮白块——
+ * 五列高度不齐，白块会像掉出来一张卡。按下沉 1px。 */
+.lv__col {
+  grid-row: 2;
+  position: relative;
+  padding: 13px 0 12px;
+  border-top: 1px solid var(--line);
+  cursor: pointer;
+  transition: border-color var(--t-swap) var(--ease), transform var(--t-press) var(--ease);
+}
+/* 顶边那条线单独用伪元素画：2px 的选中线不能撑高列，否则五列基线就歪了 */
+.lv__col::before {
+  content: "";
+  position: absolute; left: 0; right: 0; top: -1px; height: 2px;
+  background: var(--accent);
+  transform: scaleX(0); transform-origin: left;
+  transition: transform var(--t-swap) var(--ease-out);
+}
+@media (hover: hover) {
+  .lv__col:hover { border-top-color: var(--line-3); }
+  .lv__col:hover .lv__dots circle { fill: color-mix(in srgb, var(--ink) calc(var(--dotmix) + 12%), var(--bg)); }
+}
+.lv__col:active { transform: translateY(1px); }
+.lv__col.is-active { border-top-color: transparent; }
+.lv__col.is-active::before { transform: scaleX(1); }
+.lv__col.is-active .lv__name { font-weight: 700; }
+.lv__col.is-active .lv__dots circle { fill: color-mix(in srgb, var(--ink) calc(var(--dotmix) + 12%), var(--bg)); }
+.lv__col:focus { outline: none; }
+.lv__col:focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; border-radius: 3px; }
+.lv__id {
+  font-family: var(--mono);
+  font-size: 12px; font-weight: 600;
+  letter-spacing: 0.1em; color: var(--accent);
+}
+.lv__name { font-family: var(--serif); font-size: 21px; margin-top: 4px; }
+.lv__en {
+  font-family: var(--mono); font-size: 9.5px; letter-spacing: 0.17em;
+  color: var(--ink-3); margin-top: 3px;
+}
+
+/* ── 点阵 ─────────────────────────────────────────────── */
+.lv__plot { margin-top: 20px; }
+.lv__dots { width: 100%; height: auto; }
+
+/* 五级明度从 --ink 兑出来，不硬写灰阶：换掉底色或墨色时这条坡道自己跟着走。
+ * L1 只有 24% 墨，91 个小点合起来是一层浅浅的底纹；
+ * L5 是满墨的两个大点。读者被 L5 的对比度拉过去，不是被 L1 的面积拉过去。
+ * 明度写成列级变量 --dotmix：hover / 选中时各提亮 12 个点（上面的规则），L5 封顶。 */
+.lv__col[data-level="L1"] { --dotmix: 24%; }
+.lv__col[data-level="L2"] { --dotmix: 36%; }
+.lv__col[data-level="L3"] { --dotmix: 52%; }
+.lv__col[data-level="L4"] { --dotmix: 74%; }
+.lv__col[data-level="L5"] { --dotmix: 88%; }
+.lv__dots circle { fill: color-mix(in srgb, var(--ink) var(--dotmix), var(--bg)); transition: fill var(--t-swap) var(--ease); }
+
+/* 地基线：点阵是从底往上长的，这条线就是它们站的地面。
+ * 五列都有，不像原来那样只有带实例的 L4 / L5 才有一条线。 */
+.lv__stat {
+  border-top: 1px solid var(--line-2);
+  padding-top: 11px;
+}
+.lv__pop { font-size: var(--fs-small); line-height: 1.6; color: var(--ink); }
+/* 实例名紧跟在量词下面，中间不要撑开一整行——正文 1.75 的行距在这两行小字上太松，
+ * 松到看着像两件不相干的东西 */
+.lv__marks { margin-top: 5px; }
+.lv__marks li {
+  font-size: var(--fs-small);
+  line-height: 1.55;
+  color: var(--ink-2);
+  padding-top: 2px;
+}
+
+/* 「点阵只表达相对多少」那行声明挪到说明块下面：说明块要紧跟在五列底下，
+ * 老板点一列，结果就在手指旁边，不是在 150px 开外 */
+.lv__note {
+  margin-top: 18px;
+  font-family: var(--mono); font-size: var(--fs-micro);
+  letter-spacing: 0.08em; color: var(--ink-3);
+}
+
+/* ── 五级说明：一句话概括（lede）+ 展开（正文） ───────────
+ * 概括那一行走 --fs-lede：整页 46px 和 10.5px 之间原来是空的，
+ * 这一屏的中间层就落在这五行上。 */
+.lvds {
+  margin-top: 22px;
+  border-top: 1px solid var(--line-2);
+}
+.lvd {
+  display: grid;
+  grid-template-columns: 168px minmax(0, 1fr);
+  gap: 30px;
+  padding: 24px 0 26px;
+  border-bottom: 1px solid var(--line);
+}
+/* 有 JS 时只显示选中那一级；切换走 220ms 的上浮淡入（和 C 屏面板切换同一个动作） */
+.js .lvd { display: none; }
+.js .lvd.is-active { display: grid; animation: swapin var(--t-swap) var(--ease); }
+.lvd__id {
+  font-family: var(--mono); font-size: 12px; font-weight: 600;
+  letter-spacing: 0.1em; color: var(--ink-3);
+  line-height: 1.5;
+}
+/* 编号在上、名称在下，跟上半屏每一列的头是同一个排法 */
+.lvd__id span {
+  display: block;
+  font-family: var(--serif); font-size: 17px; font-weight: 600;
+  letter-spacing: 0; color: var(--ink);
+  margin-top: 2px;
+}
+.lvd__lede {
+  font-family: var(--serif);
+  font-size: var(--fs-lede);
+  line-height: 1.6;
+  color: var(--ink);
+  max-width: 30em;
+}
+.lvd__text {
+  margin-top: 11px;
+  font-size: var(--fs-body);
+  color: var(--ink-2);
+  max-width: 44em;
+}
+
+/* ── 收尾 ───────────────────────────────────────────────
+ * 整页最后一块：一句结论 + 反过来说的那一半 + MOCK 声明。
+ * 和上面隔一条通栏细线，不翻底色（全页单一底色），靠字号和一道 44px 短线起手。 */
+.sec--l { padding-bottom: 0; }
+
+.lvclose {
+  margin-top: 72px;
+  padding: 64px 0 72px;
+  border-top: 1px solid var(--line);
+}
+.lvclose__lead {
+  position: relative;
+  font-family: var(--serif);
+  font-size: var(--fs-h3);
+  line-height: 1.62;
+  color: var(--ink);
+  max-width: 26em;
+}
+.lvclose__lead::before {
+  content: "";
+  display: block;
+  width: 44px; height: 2px;
+  background: var(--accent);
+  margin-bottom: 28px;
+}
+.lvclose__body {
+  margin-top: 22px;
+  font-size: var(--fs-body);
+  line-height: 1.9;
+  color: var(--ink-2);
+  max-width: 40em;
+}
+.lvclose .mocknote { margin-top: 44px; }
+
+/* ── 窄屏：每一级变成「左标签 + 右图表」的一条横带 ──────────
+ * 单纯把五列堆起来会变成五根长条，点阵、文字、实例混在一块没有停顿。
+ * 拆成两栏之后，左边一列编号名称是固定的锚，右边点阵和结论各自成块。 */
+@media (max-width: 1000px) {
+  .lv { grid-template-columns: 1fr; gap: 0; }
+  .lv__band { grid-row: auto; grid-column: 1 / -1; margin-bottom: 26px; }
+
+  .lv__col {
+    grid-row: auto;
+    display: grid;
+    grid-template-columns: 92px minmax(0, 1fr);
+    column-gap: 20px;
+    align-items: start;
+    padding: 16px 0 20px;
+  }
+  .lv__head { grid-column: 1; grid-row: 1; }
+  .lv__plot { grid-column: 2; grid-row: 1; margin-top: 2px; }
+  .lv__stat { grid-column: 2; grid-row: 2; margin-top: 12px; }
+  .lv__dots { max-width: 200px; }
+
+  .lvds { margin-top: 44px; }
+  .lvd { grid-template-columns: 1fr; gap: 10px; padding: 20px 0 22px; }
+  .lvd__id span { display: inline-block; margin-left: 10px; margin-top: 0; }
+  .lvd__lede { max-width: none; }
+
+  .lvclose { margin-top: 64px; padding: 60px 0 56px; }
+}

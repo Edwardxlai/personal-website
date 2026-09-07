@@ -1,0 +1,708 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>业务 AI 化方法图谱 · 从业务现场决定 AI 进入哪里</title>
+<meta name="description" content="C1—C4 看业务本身，P1—P5 看 FDE 怎样逐步理解这条链路，L1—L5 看这家公司整体走到了哪一步">
+<link rel="icon" href="data:,">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" media="print" onload="this.media='all'"
+  href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600&family=Noto+Sans+SC:wght@300;400;500;700&family=Noto+Serif+SC:wght@400;600;700&display=swap">
+<link rel="stylesheet" href="css/tokens.css">
+<link rel="stylesheet" href="css/base.css">
+<link rel="stylesheet" href="css/motion.css">
+<link rel="stylesheet" href="css/hero.css">
+<link rel="stylesheet" href="css/layers.css">
+<link rel="stylesheet" href="css/stages.css">
+<link rel="stylesheet" href="css/levels.css">
+</head>
+<body>
+<script>document.documentElement.className+=" js";</script>
+<header class="nav">
+  <div class="wrap nav__inner">
+    <a class="nav__brand" href="/#work">
+      <b>← Edward</b><i>回到个人站</i>
+    </a>
+    <nav class="nav__list" aria-label="页面章节">
+      <a class="nav__item" href="#c" data-nav="c"><b>C1—C4</b><i>业务分层</i></a>
+      <a class="nav__item" href="#p" data-nav="p"><b>P1—P5</b><i>落地路径</i></a>
+      <a class="nav__item" href="#l" data-nav="l"><b>L1—L5</b><i>AI 化状态</i></a>
+    </nav>
+    <p class="nav__owner">FDE · 业务 AI 化方法图谱</p>
+  </div>
+  <span class="nav__prog" data-page-prog aria-hidden="true"></span>
+</header>
+<main id="main">
+<section id="hero" class="hero">
+  <canvas class="dotfield" data-dotfield aria-hidden="true"></canvas>
+
+  <div class="wrap hero__grid">
+    <div class="hero__lead">
+      <p class="eyebrow rv rv--fine" style="--d:0ms">FIELDWORK-DRIVEN AI <i>/</i> <span>一套从真实业务现场出发的 FDE 工作方式</span></p>
+      <h1 class="hero__claim">
+        <span class="hero__line" data-split="1" style="--d:120ms">先把业务还原出来，</span>
+        <span class="hero__line" data-split="1" style="--d:386ms">最后再决定</span>
+        <span class="hero__line" data-split="1" style="--d:564ms"><em>AI 应该进入哪里</em></span>
+      </h1>
+      <p class="hero__sub rv" style="--d:870ms">先把业务链路、判断和边界讲清楚，再让<span class="hero__sub-key">AI 进入合适的位置</span></p>
+    </div>
+
+    <figure class="hero__figure" data-hero-figure>
+      <svg class="iso iso--hero" viewBox="-180 -28 470 650" aria-label="C1 至 C4 四层的剪影" xmlns="http://www.w3.org/2000/svg">
+  <defs><linearGradient id="h-sheen" x1="0" y1="0" x2="0.3" y2="1"><stop offset="0" stop-color="#ffffff" stop-opacity="0.9"/><stop offset="0.55" stop-color="#ffffff" stop-opacity="0"/><stop offset="1" stop-color="#0c1a20" stop-opacity="0.045"/></linearGradient><filter id="h-blur" x="-20%" y="-60%" width="140%" height="220%"><feGaussianBlur stdDeviation="4"/></filter><clipPath id="h-clip-1"><polygon points="0,122 270,257 110,337 -160,202"/></clipPath><clipPath id="h-clip-2"><polygon points="0,244 270,379 110,459 -160,324"/></clipPath><clipPath id="h-clip-3"><polygon points="0,366 270,501 110,581 -160,446"/></clipPath></defs>
+  <a class="iso-slab" href="#c" data-layer="C4" style="--i:3;--r:0" aria-label="C4 数据与结果反馈，跳到 C 屏"><g class="iso-slab__in"><polygon class="iso-face iso-face--right" points="270,501 110,581 110,603 270,523"/><polygon class="iso-face iso-face--left" points="-160,446 110,581 110,603 -160,468"/><polygon class="iso-face iso-face--top" points="0,366 270,501 110,581 -160,446"/><polygon class="iso-sheen" points="0,366 270,501 110,581 -160,446" fill="url(#h-sheen)"/><polygon class="iso-shade" clip-path="url(#h-clip-3)" filter="url(#h-blur)" points="-160,346 110,481 270,401 270,419 110,499 -160,364"/><g class="iso-cubes"><g class="iso-cube iso-cube--live" style="--k:0" data-tool="0"><polygon class="iso-cube__right" points="81.2,475.8 61.2,485.8 61.2,499.8 81.2,489.8"/><polygon class="iso-cube__left" points="41.2,475.8 61.2,485.8 61.2,499.8 41.2,489.8"/><polygon class="iso-cube__top" points="61.2,465.8 81.2,475.8 61.2,485.8 41.2,475.8"/><circle class="iso-cube__dot" cx="61.2" cy="475.8" r="1.9"/></g><g class="iso-cube iso-cube--trial" style="--k:1" data-tool="1"><polygon class="iso-cube__right" points="109.2,489.8 89.2,499.8 89.2,513.8 109.2,503.8"/><polygon class="iso-cube__left" points="69.2,489.8 89.2,499.8 89.2,513.8 69.2,503.8"/><polygon class="iso-cube__top" points="89.2,479.8 109.2,489.8 89.2,499.8 69.2,489.8"/><circle class="iso-cube__dot" cx="89.2" cy="489.8" r="1.9"/></g><g class="iso-cube iso-cube--trial" style="--k:2" data-tool="2"><polygon class="iso-cube__right" points="137.2,503.8 117.2,513.8 117.2,527.8 137.2,517.8"/><polygon class="iso-cube__left" points="97.2,503.8 117.2,513.8 117.2,527.8 97.2,517.8"/><polygon class="iso-cube__top" points="117.2,493.8 137.2,503.8 117.2,513.8 97.2,503.8"/><circle class="iso-cube__dot" cx="117.2" cy="503.8" r="1.9"/></g><g class="iso-cube iso-cube--explore" style="--k:3" data-tool="3"><polygon class="iso-cube__right" points="165.2,517.8 145.2,527.8 145.2,541.8 165.2,531.8"/><polygon class="iso-cube__left" points="125.2,517.8 145.2,527.8 145.2,541.8 125.2,531.8"/><polygon class="iso-cube__top" points="145.2,507.8 165.2,517.8 145.2,527.8 125.2,517.8"/></g></g><text class="iso-tag" transform="matrix(0.894,0.447,0,1,-132,442)"><tspan class="iso-tag__arrow">→</tspan><tspan class="iso-tag__id" dx="7">C4</tspan><tspan class="iso-tag__en" dx="11">DATA &amp; FEEDBACK</tspan></text></g><g class="iso-note iso-note--hover"><line class="iso-note__l" x1="-163" y1="446" x2="-190" y2="446"/><circle class="iso-note__d" cx="-160" cy="446" r="2.6"/><text class="iso-note__t" x="-198" y="450.5" text-anchor="end">数据与结果反馈</text></g></a>
+  <a class="iso-slab" href="#c" data-layer="C3" style="--i:2;--r:1" aria-label="C3 渠道经营，跳到 C 屏"><g class="iso-slab__in"><polygon class="iso-face iso-face--right" points="270,379 110,459 110,481 270,401"/><polygon class="iso-face iso-face--left" points="-160,324 110,459 110,481 -160,346"/><polygon class="iso-face iso-face--top" points="0,244 270,379 110,459 -160,324"/><polygon class="iso-sheen" points="0,244 270,379 110,459 -160,324" fill="url(#h-sheen)"/><polygon class="iso-shade" clip-path="url(#h-clip-2)" filter="url(#h-blur)" points="-160,224 110,359 270,279 270,297 110,377 -160,242"/><g class="iso-cubes"><g class="iso-cube iso-cube--live" style="--k:0" data-tool="0"><polygon class="iso-cube__right" points="25.2,325.8 5.2,335.8 5.2,349.8 25.2,339.8"/><polygon class="iso-cube__left" points="-14.8,325.8 5.2,335.8 5.2,349.8 -14.8,339.8"/><polygon class="iso-cube__top" points="5.2,315.8 25.2,325.8 5.2,335.8 -14.8,325.8"/><circle class="iso-cube__dot" cx="5.2" cy="325.8" r="1.9"/></g><g class="iso-cube iso-cube--trial" style="--k:1" data-tool="1"><polygon class="iso-cube__right" points="53.2,339.8 33.2,349.8 33.2,363.8 53.2,353.8"/><polygon class="iso-cube__left" points="13.2,339.8 33.2,349.8 33.2,363.8 13.2,353.8"/><polygon class="iso-cube__top" points="33.2,329.8 53.2,339.8 33.2,349.8 13.2,339.8"/><circle class="iso-cube__dot" cx="33.2" cy="339.8" r="1.9"/></g><g class="iso-cube iso-cube--live" style="--k:2" data-tool="2"><polygon class="iso-cube__right" points="81.2,353.8 61.2,363.8 61.2,377.8 81.2,367.8"/><polygon class="iso-cube__left" points="41.2,353.8 61.2,363.8 61.2,377.8 41.2,367.8"/><polygon class="iso-cube__top" points="61.2,343.8 81.2,353.8 61.2,363.8 41.2,353.8"/><circle class="iso-cube__dot" cx="61.2" cy="353.8" r="1.9"/></g><g class="iso-cube iso-cube--trial" style="--k:3" data-tool="3"><polygon class="iso-cube__right" points="109.2,367.8 89.2,377.8 89.2,391.8 109.2,381.8"/><polygon class="iso-cube__left" points="69.2,367.8 89.2,377.8 89.2,391.8 69.2,381.8"/><polygon class="iso-cube__top" points="89.2,357.8 109.2,367.8 89.2,377.8 69.2,367.8"/><circle class="iso-cube__dot" cx="89.2" cy="367.8" r="1.9"/></g><g class="iso-cube iso-cube--explore" style="--k:4" data-tool="4"><polygon class="iso-cube__right" points="137.2,381.8 117.2,391.8 117.2,405.8 137.2,395.8"/><polygon class="iso-cube__left" points="97.2,381.8 117.2,391.8 117.2,405.8 97.2,395.8"/><polygon class="iso-cube__top" points="117.2,371.8 137.2,381.8 117.2,391.8 97.2,381.8"/></g><g class="iso-cube iso-cube--live" style="--k:5" data-tool="5"><polygon class="iso-cube__right" points="165.2,395.8 145.2,405.8 145.2,419.8 165.2,409.8"/><polygon class="iso-cube__left" points="125.2,395.8 145.2,405.8 145.2,419.8 125.2,409.8"/><polygon class="iso-cube__top" points="145.2,385.8 165.2,395.8 145.2,405.8 125.2,395.8"/><circle class="iso-cube__dot" cx="145.2" cy="395.8" r="1.9"/></g></g><text class="iso-tag" transform="matrix(0.894,0.447,0,1,-132,320)"><tspan class="iso-tag__arrow">→</tspan><tspan class="iso-tag__id" dx="7">C3</tspan><tspan class="iso-tag__en" dx="11">CHANNEL OPERATION</tspan></text></g><g class="iso-note iso-note--hover"><line class="iso-note__l" x1="-163" y1="324" x2="-190" y2="324"/><circle class="iso-note__d" cx="-160" cy="324" r="2.6"/><text class="iso-note__t" x="-198" y="328.5" text-anchor="end">渠道经营</text></g></a>
+  <a class="iso-slab" href="#c" data-layer="C2" style="--i:1;--r:2" aria-label="C2 产品与素材准备，跳到 C 屏"><g class="iso-slab__in"><polygon class="iso-face iso-face--right" points="270,257 110,337 110,359 270,279"/><polygon class="iso-face iso-face--left" points="-160,202 110,337 110,359 -160,224"/><polygon class="iso-face iso-face--top" points="0,122 270,257 110,337 -160,202"/><polygon class="iso-sheen" points="0,122 270,257 110,337 -160,202" fill="url(#h-sheen)"/><polygon class="iso-shade" clip-path="url(#h-clip-1)" filter="url(#h-blur)" points="-160,102 110,237 270,157 270,175 110,255 -160,120"/><g class="iso-cubes"><g class="iso-cube iso-cube--live" style="--k:0" data-tool="0"><polygon class="iso-cube__right" points="109.2,245.8 89.2,255.8 89.2,269.8 109.2,259.8"/><polygon class="iso-cube__left" points="69.2,245.8 89.2,255.8 89.2,269.8 69.2,259.8"/><polygon class="iso-cube__top" points="89.2,235.8 109.2,245.8 89.2,255.8 69.2,245.8"/><circle class="iso-cube__dot" cx="89.2" cy="245.8" r="1.9"/></g><g class="iso-cube iso-cube--live" style="--k:1" data-tool="1"><polygon class="iso-cube__right" points="137.2,259.8 117.2,269.8 117.2,283.8 137.2,273.8"/><polygon class="iso-cube__left" points="97.2,259.8 117.2,269.8 117.2,283.8 97.2,273.8"/><polygon class="iso-cube__top" points="117.2,249.8 137.2,259.8 117.2,269.8 97.2,259.8"/><circle class="iso-cube__dot" cx="117.2" cy="259.8" r="1.9"/></g><g class="iso-cube iso-cube--trial" style="--k:2" data-tool="2"><polygon class="iso-cube__right" points="165.2,273.8 145.2,283.8 145.2,297.8 165.2,287.8"/><polygon class="iso-cube__left" points="125.2,273.8 145.2,283.8 145.2,297.8 125.2,287.8"/><polygon class="iso-cube__top" points="145.2,263.8 165.2,273.8 145.2,283.8 125.2,273.8"/><circle class="iso-cube__dot" cx="145.2" cy="273.8" r="1.9"/></g></g><text class="iso-tag" transform="matrix(0.894,0.447,0,1,-132,198)"><tspan class="iso-tag__arrow">→</tspan><tspan class="iso-tag__id" dx="7">C2</tspan><tspan class="iso-tag__en" dx="11">PRODUCT &amp; CREATIVE</tspan></text></g><g class="iso-note iso-note--hover"><line class="iso-note__l" x1="-163" y1="202" x2="-190" y2="202"/><circle class="iso-note__d" cx="-160" cy="202" r="2.6"/><text class="iso-note__t" x="-198" y="206.5" text-anchor="end">产品与素材准备</text></g></a>
+  <a class="iso-slab" href="#c" data-layer="C1" style="--i:0;--r:3" aria-label="C1 决策与商品企划，跳到 C 屏"><g class="iso-slab__in"><polygon class="iso-face iso-face--right" points="270,135 110,215 110,237 270,157"/><polygon class="iso-face iso-face--left" points="-160,80 110,215 110,237 -160,102"/><polygon class="iso-face iso-face--top" points="0,0 270,135 110,215 -160,80"/><polygon class="iso-sheen" points="0,0 270,135 110,215 -160,80" fill="url(#h-sheen)"/><g class="iso-cubes"><g class="iso-cube iso-cube--trial" style="--k:0" data-tool="0"><polygon class="iso-cube__right" points="109.2,123.8 89.2,133.8 89.2,147.8 109.2,137.8"/><polygon class="iso-cube__left" points="69.2,123.8 89.2,133.8 89.2,147.8 69.2,137.8"/><polygon class="iso-cube__top" points="89.2,113.8 109.2,123.8 89.2,133.8 69.2,123.8"/><circle class="iso-cube__dot" cx="89.2" cy="123.8" r="1.9"/></g><g class="iso-cube iso-cube--trial" style="--k:1" data-tool="1"><polygon class="iso-cube__right" points="137.2,137.8 117.2,147.8 117.2,161.8 137.2,151.8"/><polygon class="iso-cube__left" points="97.2,137.8 117.2,147.8 117.2,161.8 97.2,151.8"/><polygon class="iso-cube__top" points="117.2,127.8 137.2,137.8 117.2,147.8 97.2,137.8"/><circle class="iso-cube__dot" cx="117.2" cy="137.8" r="1.9"/></g><g class="iso-cube iso-cube--explore" style="--k:2" data-tool="2"><polygon class="iso-cube__right" points="165.2,151.8 145.2,161.8 145.2,175.8 165.2,165.8"/><polygon class="iso-cube__left" points="125.2,151.8 145.2,161.8 145.2,175.8 125.2,165.8"/><polygon class="iso-cube__top" points="145.2,141.8 165.2,151.8 145.2,161.8 125.2,151.8"/></g></g><text class="iso-tag" transform="matrix(0.894,0.447,0,1,-132,76)"><tspan class="iso-tag__arrow">→</tspan><tspan class="iso-tag__id" dx="7">C1</tspan><tspan class="iso-tag__en" dx="11">DECISION &amp; PLANNING</tspan></text></g><g class="iso-note iso-note--hover"><line class="iso-note__l" x1="-163" y1="80" x2="-190" y2="80"/><circle class="iso-note__d" cx="-160" cy="80" r="2.6"/><text class="iso-note__t" x="-198" y="84.5" text-anchor="end">决策与商品企划</text></g></a>
+</svg>
+      <figcaption class="hero__cap rv rv--fine" style="--d:1250ms">
+        <span class="hero__progress">匿名化方法示例 · 不对应任何单一企业或真实项目</span>
+        <a class="hero__cue-hit tapx" href="#c">
+          <span class="hero__cue-t">向下</span>
+          <i class="hero__cue-l" aria-hidden="true"></i>
+        </a>
+      </figcaption>
+    </figure>
+
+    <ol class="asks" aria-label="老板进来只想知道三件事">
+      <li class="ask rv" style="--d:1030ms">
+        <a class="ask__hit" href="#c" data-peek="1" data-go-layer="C1">
+          <b class="ask__n">01</b>
+          <span class="ask__q">业务到底怎样运转？</span>
+          <span class="ask__k">C1—C4</span>
+          <i class="ask__a" aria-hidden="true">→</i>
+        </a>
+      </li>
+      <li class="ask rv" style="--d:1120ms">
+        <a class="ask__hit" href="#p">
+          <b class="ask__n">02</b>
+          <span class="ask__q">AI 应该从哪一步进入？</span>
+          <span class="ask__k">P1—P5</span>
+          <i class="ask__a" aria-hidden="true">→</i>
+        </a>
+      </li>
+      <li class="ask rv" style="--d:1210ms">
+        <a class="ask__hit" href="#l">
+          <b class="ask__n">03</b>
+          <span class="ask__q">整家公司走到了哪里？</span>
+          <span class="ask__k">L1—L5</span>
+          <i class="ask__a" aria-hidden="true">→</i>
+        </a>
+      </li>
+    </ol>
+  </div>
+</section>
+<section id="c" class="sec sec--c">
+  <div class="wrap">
+    <header class="shead">
+      <p class="eyebrow rv">COMMERCE LAYERS <i>/</i> C1—C4</p>
+      <h2 class="shead__t rv" data-split="1" style="--d:120ms">一件商品怎样在公司里运转</h2>
+      <p class="shead__d rv" style="--d:220ms">从市场洞察走到商品企划、素材准备、渠道经营和数据反馈</p>
+    </header>
+
+    <div class="cwrap">
+      <div class="cwrap__fig">
+        <div class="cwrap__sticky">
+          <p class="eyebrow cfig__cap rv">COMMERCE STACK <i>/</i> <span>点开任意一层</span></p>
+          <div class="cfig" data-c-figure>
+            <svg class="iso" viewBox="-314 -22 698 714" role="tablist" aria-label="C1 至 C4 商业分层" xmlns="http://www.w3.org/2000/svg">
+  <defs><linearGradient id="c-sheen" x1="0" y1="0" x2="0.3" y2="1"><stop offset="0" stop-color="#ffffff" stop-opacity="0.9"/><stop offset="0.55" stop-color="#ffffff" stop-opacity="0"/><stop offset="1" stop-color="#0c1a20" stop-opacity="0.045"/></linearGradient><filter id="c-blur" x="-20%" y="-60%" width="140%" height="220%"><feGaussianBlur stdDeviation="4"/></filter><clipPath id="c-clip-1"><polygon points="0,122 270,257 110,337 -160,202"/></clipPath><clipPath id="c-clip-2"><polygon points="0,244 270,379 110,459 -160,324"/></clipPath><clipPath id="c-clip-3"><polygon points="0,366 270,501 110,581 -160,446"/></clipPath><clipPath id="c-clip-pl"><polygon points="0,370 326,533 110,641 -216,478"/></clipPath><radialGradient id="c-fade"><stop offset="0.25" stop-color="#fff"/><stop offset="1" stop-color="#fff" stop-opacity="0"/></radialGradient><mask id="c-ground-mask" maskUnits="userSpaceOnUse" x="-340" y="380" width="790" height="340"><ellipse cx="55" cy="548" rx="395" ry="175" fill="url(#c-fade)"/></mask></defs>
+  <g class="iso-ground" mask="url(#c-ground-mask)" aria-hidden="true"><line x1="-340" y1="130" x2="450" y2="525"/><line x1="-340" y1="170" x2="450" y2="565"/><line x1="-340" y1="210" x2="450" y2="605"/><line x1="-340" y1="250" x2="450" y2="645"/><line x1="-340" y1="290" x2="450" y2="685"/><line x1="-340" y1="330" x2="450" y2="725"/><line x1="-340" y1="370" x2="450" y2="765"/><line x1="-340" y1="410" x2="450" y2="805"/><line x1="-340" y1="450" x2="450" y2="845"/><line x1="-340" y1="490" x2="450" y2="885"/><line x1="-340" y1="530" x2="450" y2="925"/><line x1="-340" y1="570" x2="450" y2="965"/><line x1="-340" y1="610" x2="450" y2="1005"/><line x1="-340" y1="510" x2="450" y2="115"/><line x1="-340" y1="550" x2="450" y2="155"/><line x1="-340" y1="590" x2="450" y2="195"/><line x1="-340" y1="630" x2="450" y2="235"/><line x1="-340" y1="670" x2="450" y2="275"/><line x1="-340" y1="710" x2="450" y2="315"/><line x1="-340" y1="750" x2="450" y2="355"/><line x1="-340" y1="790" x2="450" y2="395"/><line x1="-340" y1="830" x2="450" y2="435"/><line x1="-340" y1="870" x2="450" y2="475"/><line x1="-340" y1="910" x2="450" y2="515"/><line x1="-340" y1="950" x2="450" y2="555"/><line x1="-340" y1="990" x2="450" y2="595"/><line x1="-340" y1="1030" x2="450" y2="635"/><line x1="-340" y1="1070" x2="450" y2="675"/></g>
+  <g class="iso-plinth" aria-hidden="true"><polygon class="iso-face iso-face--right" points="326,533 110,641 110,685 326,577"/><polygon class="iso-face iso-face--left" points="-216,478 110,641 110,685 -216,522"/><polygon class="iso-face iso-face--top" points="0,370 326,533 110,641 -216,478"/><polygon class="iso-shade" clip-path="url(#c-clip-pl)" filter="url(#c-blur)" points="-160,468 110,603 270,523 270,541 110,621 -160,486"/><text class="iso-plinth__t" transform="matrix(0.894,0.447,0,1,-194,520)">COMMERCE LAYERS C1—C4</text></g>
+  <g class="iso-slab" data-layer="C4" style="--i:3;--r:0" role="tab" tabindex="-1" aria-controls="panel-c4" aria-label="C4 数据与结果反馈" aria-selected="false"><g class="iso-slab__in"><polygon class="iso-face iso-face--right" points="270,501 110,581 110,603 270,523"/><polygon class="iso-face iso-face--left" points="-160,446 110,581 110,603 -160,468"/><polygon class="iso-face iso-face--top" points="0,366 270,501 110,581 -160,446"/><polygon class="iso-sheen" points="0,366 270,501 110,581 -160,446" fill="url(#c-sheen)"/><polygon class="iso-shade" clip-path="url(#c-clip-3)" filter="url(#c-blur)" points="-160,346 110,481 270,401 270,419 110,499 -160,364"/><g class="iso-cubes"><g class="iso-cube iso-cube--live" style="--k:0" data-tool="0"><polygon class="iso-cube__right" points="81.2,475.8 61.2,485.8 61.2,499.8 81.2,489.8"/><polygon class="iso-cube__left" points="41.2,475.8 61.2,485.8 61.2,499.8 41.2,489.8"/><polygon class="iso-cube__top" points="61.2,465.8 81.2,475.8 61.2,485.8 41.2,475.8"/><circle class="iso-cube__dot" cx="61.2" cy="475.8" r="1.9"/><g class="iso-cube__tip" aria-hidden="true"><line x1="61.2" y1="465.8" x2="45.2" y2="451.8"/><text x="41.2" y="448.8" text-anchor="end">经营数据管道</text></g></g><g class="iso-cube iso-cube--trial" style="--k:1" data-tool="1"><polygon class="iso-cube__right" points="109.2,489.8 89.2,499.8 89.2,513.8 109.2,503.8"/><polygon class="iso-cube__left" points="69.2,489.8 89.2,499.8 89.2,513.8 69.2,503.8"/><polygon class="iso-cube__top" points="89.2,479.8 109.2,489.8 89.2,499.8 69.2,489.8"/><circle class="iso-cube__dot" cx="89.2" cy="489.8" r="1.9"/><g class="iso-cube__tip" aria-hidden="true"><line x1="89.2" y1="479.8" x2="73.2" y2="465.8"/><text x="69.2" y="462.8" text-anchor="end">归因分析辅助</text></g></g><g class="iso-cube iso-cube--trial" style="--k:2" data-tool="2"><polygon class="iso-cube__right" points="137.2,503.8 117.2,513.8 117.2,527.8 137.2,517.8"/><polygon class="iso-cube__left" points="97.2,503.8 117.2,513.8 117.2,527.8 97.2,517.8"/><polygon class="iso-cube__top" points="117.2,493.8 137.2,503.8 117.2,513.8 97.2,503.8"/><circle class="iso-cube__dot" cx="117.2" cy="503.8" r="1.9"/><g class="iso-cube__tip" aria-hidden="true"><line x1="117.2" y1="493.8" x2="101.2" y2="479.8"/><text x="97.2" y="476.8" text-anchor="end">复盘回流报表</text></g></g><g class="iso-cube iso-cube--explore" style="--k:3" data-tool="3"><polygon class="iso-cube__right" points="165.2,517.8 145.2,527.8 145.2,541.8 165.2,531.8"/><polygon class="iso-cube__left" points="125.2,517.8 145.2,527.8 145.2,541.8 125.2,531.8"/><polygon class="iso-cube__top" points="145.2,507.8 165.2,517.8 145.2,527.8 125.2,517.8"/><g class="iso-cube__tip" aria-hidden="true"><line x1="145.2" y1="507.8" x2="129.2" y2="493.8"/><text x="125.2" y="490.8" text-anchor="end">退款趋势预警</text></g></g></g><text class="iso-tag" transform="matrix(0.894,0.447,0,1,-132,442)"><tspan class="iso-tag__arrow">→</tspan><tspan class="iso-tag__id" dx="7">C4</tspan><tspan class="iso-tag__en" dx="11">DATA &amp; FEEDBACK</tspan></text></g><g class="iso-note"><rect class="iso-note__hit" x="-334" y="424" width="172" height="44" rx="2"/><line class="iso-note__l" x1="-163" y1="446" x2="-190" y2="446"/><circle class="iso-note__d" cx="-160" cy="446" r="2.6"/><text class="iso-note__t" x="-198" y="450.5" text-anchor="end">数据与结果反馈</text></g></g>
+  <g class="iso-slab" data-layer="C3" style="--i:2;--r:1" role="tab" tabindex="-1" aria-controls="panel-c3" aria-label="C3 渠道经营" aria-selected="false"><g class="iso-slab__in"><polygon class="iso-face iso-face--right" points="270,379 110,459 110,481 270,401"/><polygon class="iso-face iso-face--left" points="-160,324 110,459 110,481 -160,346"/><polygon class="iso-face iso-face--top" points="0,244 270,379 110,459 -160,324"/><polygon class="iso-sheen" points="0,244 270,379 110,459 -160,324" fill="url(#c-sheen)"/><polygon class="iso-shade" clip-path="url(#c-clip-2)" filter="url(#c-blur)" points="-160,224 110,359 270,279 270,297 110,377 -160,242"/><g class="iso-cubes"><g class="iso-cube iso-cube--live" style="--k:0" data-tool="0"><polygon class="iso-cube__right" points="25.2,325.8 5.2,335.8 5.2,349.8 25.2,339.8"/><polygon class="iso-cube__left" points="-14.8,325.8 5.2,335.8 5.2,349.8 -14.8,339.8"/><polygon class="iso-cube__top" points="5.2,315.8 25.2,325.8 5.2,335.8 -14.8,325.8"/><circle class="iso-cube__dot" cx="5.2" cy="325.8" r="1.9"/><g class="iso-cube__tip" aria-hidden="true"><line x1="5.2" y1="315.8" x2="-10.8" y2="301.8"/><text x="-14.8" y="298.8" text-anchor="end">商品上架辅助</text></g></g><g class="iso-cube iso-cube--trial" style="--k:1" data-tool="1"><polygon class="iso-cube__right" points="53.2,339.8 33.2,349.8 33.2,363.8 53.2,353.8"/><polygon class="iso-cube__left" points="13.2,339.8 33.2,349.8 33.2,363.8 13.2,353.8"/><polygon class="iso-cube__top" points="33.2,329.8 53.2,339.8 33.2,349.8 13.2,339.8"/><circle class="iso-cube__dot" cx="33.2" cy="339.8" r="1.9"/><g class="iso-cube__tip" aria-hidden="true"><line x1="33.2" y1="329.8" x2="17.2" y2="315.8"/><text x="13.2" y="312.8" text-anchor="end">投放调档辅助</text></g></g><g class="iso-cube iso-cube--live" style="--k:2" data-tool="2"><polygon class="iso-cube__right" points="81.2,353.8 61.2,363.8 61.2,377.8 81.2,367.8"/><polygon class="iso-cube__left" points="41.2,353.8 61.2,363.8 61.2,377.8 41.2,367.8"/><polygon class="iso-cube__top" points="61.2,343.8 81.2,353.8 61.2,363.8 41.2,353.8"/><circle class="iso-cube__dot" cx="61.2" cy="353.8" r="1.9"/><g class="iso-cube__tip" aria-hidden="true"><line x1="61.2" y1="343.8" x2="45.2" y2="329.8"/><text x="41.2" y="326.8" text-anchor="end">素材表现看板</text></g></g><g class="iso-cube iso-cube--trial" style="--k:3" data-tool="3"><polygon class="iso-cube__right" points="109.2,367.8 89.2,377.8 89.2,391.8 109.2,381.8"/><polygon class="iso-cube__left" points="69.2,367.8 89.2,377.8 89.2,391.8 69.2,381.8"/><polygon class="iso-cube__top" points="89.2,357.8 109.2,367.8 89.2,377.8 69.2,367.8"/><circle class="iso-cube__dot" cx="89.2" cy="367.8" r="1.9"/><g class="iso-cube__tip" aria-hidden="true"><line x1="89.2" y1="357.8" x2="73.2" y2="343.8"/><text x="69.2" y="340.8" text-anchor="end">类目趋势监测</text></g></g><g class="iso-cube iso-cube--explore" style="--k:4" data-tool="4"><polygon class="iso-cube__right" points="137.2,381.8 117.2,391.8 117.2,405.8 137.2,395.8"/><polygon class="iso-cube__left" points="97.2,381.8 117.2,391.8 117.2,405.8 97.2,395.8"/><polygon class="iso-cube__top" points="117.2,371.8 137.2,381.8 117.2,391.8 97.2,381.8"/><g class="iso-cube__tip" aria-hidden="true"><line x1="117.2" y1="371.8" x2="101.2" y2="357.8"/><text x="97.2" y="354.8" text-anchor="end">直播复盘台</text></g></g><g class="iso-cube iso-cube--live" style="--k:5" data-tool="5"><polygon class="iso-cube__right" points="165.2,395.8 145.2,405.8 145.2,419.8 165.2,409.8"/><polygon class="iso-cube__left" points="125.2,395.8 145.2,405.8 145.2,419.8 125.2,409.8"/><polygon class="iso-cube__top" points="145.2,385.8 165.2,395.8 145.2,405.8 125.2,395.8"/><circle class="iso-cube__dot" cx="145.2" cy="395.8" r="1.9"/><g class="iso-cube__tip" aria-hidden="true"><line x1="145.2" y1="385.8" x2="129.2" y2="371.8"/><text x="125.2" y="368.8" text-anchor="end">渠道数据汇总</text></g></g></g><text class="iso-tag" transform="matrix(0.894,0.447,0,1,-132,320)"><tspan class="iso-tag__arrow">→</tspan><tspan class="iso-tag__id" dx="7">C3</tspan><tspan class="iso-tag__en" dx="11">CHANNEL OPERATION</tspan></text></g><g class="iso-note"><rect class="iso-note__hit" x="-334" y="302" width="172" height="44" rx="2"/><line class="iso-note__l" x1="-163" y1="324" x2="-190" y2="324"/><circle class="iso-note__d" cx="-160" cy="324" r="2.6"/><text class="iso-note__t" x="-198" y="328.5" text-anchor="end">渠道经营</text></g></g>
+  <g class="iso-slab" data-layer="C2" style="--i:1;--r:2" role="tab" tabindex="-1" aria-controls="panel-c2" aria-label="C2 产品与素材准备" aria-selected="false"><g class="iso-slab__in"><polygon class="iso-face iso-face--right" points="270,257 110,337 110,359 270,279"/><polygon class="iso-face iso-face--left" points="-160,202 110,337 110,359 -160,224"/><polygon class="iso-face iso-face--top" points="0,122 270,257 110,337 -160,202"/><polygon class="iso-sheen" points="0,122 270,257 110,337 -160,202" fill="url(#c-sheen)"/><polygon class="iso-shade" clip-path="url(#c-clip-1)" filter="url(#c-blur)" points="-160,102 110,237 270,157 270,175 110,255 -160,120"/><g class="iso-cubes"><g class="iso-cube iso-cube--live" style="--k:0" data-tool="0"><polygon class="iso-cube__right" points="109.2,245.8 89.2,255.8 89.2,269.8 109.2,259.8"/><polygon class="iso-cube__left" points="69.2,245.8 89.2,255.8 89.2,269.8 69.2,259.8"/><polygon class="iso-cube__top" points="89.2,235.8 109.2,245.8 89.2,255.8 69.2,245.8"/><circle class="iso-cube__dot" cx="89.2" cy="245.8" r="1.9"/><g class="iso-cube__tip" aria-hidden="true"><line x1="89.2" y1="235.8" x2="73.2" y2="221.8"/><text x="69.2" y="218.8" text-anchor="end">素材生成辅助</text></g></g><g class="iso-cube iso-cube--live" style="--k:1" data-tool="1"><polygon class="iso-cube__right" points="137.2,259.8 117.2,269.8 117.2,283.8 137.2,273.8"/><polygon class="iso-cube__left" points="97.2,259.8 117.2,269.8 117.2,283.8 97.2,273.8"/><polygon class="iso-cube__top" points="117.2,249.8 137.2,259.8 117.2,269.8 97.2,259.8"/><circle class="iso-cube__dot" cx="117.2" cy="259.8" r="1.9"/><g class="iso-cube__tip" aria-hidden="true"><line x1="117.2" y1="249.8" x2="101.2" y2="235.8"/><text x="97.2" y="232.8" text-anchor="end">卖点整理辅助</text></g></g><g class="iso-cube iso-cube--trial" style="--k:2" data-tool="2"><polygon class="iso-cube__right" points="165.2,273.8 145.2,283.8 145.2,297.8 165.2,287.8"/><polygon class="iso-cube__left" points="125.2,273.8 145.2,283.8 145.2,297.8 125.2,287.8"/><polygon class="iso-cube__top" points="145.2,263.8 165.2,273.8 145.2,283.8 125.2,273.8"/><circle class="iso-cube__dot" cx="145.2" cy="273.8" r="1.9"/><g class="iso-cube__tip" aria-hidden="true"><line x1="145.2" y1="263.8" x2="129.2" y2="249.8"/><text x="125.2" y="246.8" text-anchor="end">素材关联台</text></g></g></g><text class="iso-tag" transform="matrix(0.894,0.447,0,1,-132,198)"><tspan class="iso-tag__arrow">→</tspan><tspan class="iso-tag__id" dx="7">C2</tspan><tspan class="iso-tag__en" dx="11">PRODUCT &amp; CREATIVE</tspan></text></g><g class="iso-note"><rect class="iso-note__hit" x="-334" y="180" width="172" height="44" rx="2"/><line class="iso-note__l" x1="-163" y1="202" x2="-190" y2="202"/><circle class="iso-note__d" cx="-160" cy="202" r="2.6"/><text class="iso-note__t" x="-198" y="206.5" text-anchor="end">产品与素材准备</text></g></g>
+  <g class="iso-slab is-active" data-layer="C1" style="--i:0;--r:3" role="tab" tabindex="0" aria-controls="panel-c1" aria-label="C1 决策与商品企划" aria-selected="true"><g class="iso-slab__in"><polygon class="iso-face iso-face--right" points="270,135 110,215 110,237 270,157"/><polygon class="iso-face iso-face--left" points="-160,80 110,215 110,237 -160,102"/><polygon class="iso-face iso-face--top" points="0,0 270,135 110,215 -160,80"/><polygon class="iso-sheen" points="0,0 270,135 110,215 -160,80" fill="url(#c-sheen)"/><g class="iso-cubes"><g class="iso-cube iso-cube--trial" style="--k:0" data-tool="0"><polygon class="iso-cube__right" points="109.2,123.8 89.2,133.8 89.2,147.8 109.2,137.8"/><polygon class="iso-cube__left" points="69.2,123.8 89.2,133.8 89.2,147.8 69.2,137.8"/><polygon class="iso-cube__top" points="89.2,113.8 109.2,123.8 89.2,133.8 69.2,123.8"/><circle class="iso-cube__dot" cx="89.2" cy="123.8" r="1.9"/><g class="iso-cube__tip" aria-hidden="true"><line x1="89.2" y1="113.8" x2="73.2" y2="99.8"/><text x="69.2" y="96.8" text-anchor="end">市场洞察辅助</text></g></g><g class="iso-cube iso-cube--trial" style="--k:1" data-tool="1"><polygon class="iso-cube__right" points="137.2,137.8 117.2,147.8 117.2,161.8 137.2,151.8"/><polygon class="iso-cube__left" points="97.2,137.8 117.2,147.8 117.2,161.8 97.2,151.8"/><polygon class="iso-cube__top" points="117.2,127.8 137.2,137.8 117.2,147.8 97.2,137.8"/><circle class="iso-cube__dot" cx="117.2" cy="137.8" r="1.9"/><g class="iso-cube__tip" aria-hidden="true"><line x1="117.2" y1="127.8" x2="101.2" y2="113.8"/><text x="97.2" y="110.8" text-anchor="end">商品企划辅助</text></g></g><g class="iso-cube iso-cube--explore" style="--k:2" data-tool="2"><polygon class="iso-cube__right" points="165.2,151.8 145.2,161.8 145.2,175.8 165.2,165.8"/><polygon class="iso-cube__left" points="125.2,151.8 145.2,161.8 145.2,175.8 125.2,165.8"/><polygon class="iso-cube__top" points="145.2,141.8 165.2,151.8 145.2,161.8 125.2,151.8"/><g class="iso-cube__tip" aria-hidden="true"><line x1="145.2" y1="141.8" x2="129.2" y2="127.8"/><text x="125.2" y="124.8" text-anchor="end">共识会准备台</text></g></g></g><text class="iso-tag" transform="matrix(0.894,0.447,0,1,-132,76)"><tspan class="iso-tag__arrow">→</tspan><tspan class="iso-tag__id" dx="7">C1</tspan><tspan class="iso-tag__en" dx="11">DECISION &amp; PLANNING</tspan></text></g><g class="iso-note"><rect class="iso-note__hit" x="-334" y="58" width="172" height="44" rx="2"/><line class="iso-note__l" x1="-163" y1="80" x2="-190" y2="80"/><circle class="iso-note__d" cx="-160" cy="80" r="2.6"/><text class="iso-note__t" x="-198" y="84.5" text-anchor="end">决策与商品企划</text></g></g>
+  <g class="iso-return"><path class="iso-return__line" d="M 282 493 C 330 487 346 435 346 312 C 346 189 330 137 284 131" pathLength="1"/><path class="iso-return__flow" d="M 282 493 C 330 487 346 435 346 312 C 346 189 330 137 284 131"/><circle class="iso-return__from" cx="282" cy="493" r="3"/><path class="iso-return__head" d="M 291 126.5 L 284 131 L 291 135.5"/><text class="iso-return__label" x="346" y="307" text-anchor="middle">数据回流</text></g>
+</svg>
+          </div>
+        </div>
+      </div>
+
+      <div class="cwrap__panel" data-panels>
+      <article class="lpanel is-active" id="panel-c1" data-panel="C1" role="tabpanel" aria-label="C1 决策与商品企划">
+        <p class="eyebrow lpanel__eyebrow rv">COMMERCE LAYER 01 <i>/</i> DECISION &amp; PLANNING</p>
+        <h3 class="lpanel__title rv" style="--d:70ms"><b>C1</b>决策与商品企划</h3>
+        <p class="lpanel__lead rv" style="--d:140ms">公司决定接下来做什么商品、为什么做、先投多少、用什么结果判断行不行</p>
+        <p class="lpanel__by rv" style="--d:200ms"><span>涉及部门</span><span class="term"><b>公司的多个部门</b></span></p>
+
+        <div class="lpanel__tabs rv" style="--d:260ms" role="tablist" aria-label="内容切换">
+          <button class="ltab is-active" data-tab="desc" role="tab" id="tab-c1-desc" aria-controls="body-c1-desc" aria-selected="true">说明</button>
+          <button class="ltab" data-tab="tools" role="tab" id="tab-c1-tools" aria-controls="body-c1-tools" aria-selected="false">工具<i>3</i></button>
+          <span class="ltab__bar" aria-hidden="true"></span>
+        </div>
+
+        <div class="lpanel__body is-active" data-tabpanel="desc" id="body-c1-desc" role="tabpanel" aria-labelledby="tab-c1-desc">
+          <div class="spec rv">
+            <span class="spec__k">链条</span>
+            <p class="spec__v spec__v--flow"><span class="term"><b>市场洞察</b><i aria-hidden="true">→</i></span><span class="term"><b>商品企划</b><i aria-hidden="true">→</i></span><span class="term"><b>产品开发</b><i aria-hidden="true">→</i></span><span class="term"><b>打样</b><i aria-hidden="true">→</i></span><span class="term"><b>商品共识会</b><i aria-hidden="true">→</i></span><span class="term"><b>少量下单</b></span></p>
+          </div>
+          <div class="spec spec--onto rv" style="--d:110ms">
+            <span class="spec__k">沉淀下来的对象与字段</span>
+            <p class="spec__v"><span class="term"><b>商品</b><i aria-hidden="true">·</i></span><span class="term"><b>目标人群</b><i aria-hidden="true">·</i></span><span class="term"><b>价格区间</b><i aria-hidden="true">·</i></span><span class="term"><b>卖点方向</b><i aria-hidden="true">·</i></span><span class="term"><b>首批数量</b><i aria-hidden="true">·</i></span><span class="term"><b>成本</b><i aria-hidden="true">·</i></span><span class="term"><b>验证目标</b></span></p>
+          </div>
+        </div>
+
+        <div class="lpanel__body" data-tabpanel="tools" id="body-c1-tools" role="tabpanel" aria-labelledby="tab-c1-tools">
+          <div class="tools">
+            <button class="tool rv" type="button" aria-pressed="false" style="--d:50ms">
+              <span class="tool__head">
+                <span class="tool__name">市场洞察辅助</span>
+                
+              </span>
+              <span class="tool__desc">整理平台趋势与公开竞品信息，形成待验证的选品假设</span>
+              <span class="tool__metric" data-count>示意：从天级整理缩短到小时级</span>
+              <span class="tool__status tool__status--trial"><i></i>待验证</span>
+            </button>
+            <button class="tool rv" type="button" aria-pressed="false" style="--d:105ms">
+              <span class="tool__head">
+                <span class="tool__name">商品企划辅助</span>
+                
+              </span>
+              <span class="tool__desc">依据历史经营数据生成企划初稿与验证目标</span>
+              <span class="tool__metric" data-count>示意：从人工整理到辅助生成</span>
+              <span class="tool__status tool__status--trial"><i></i>待验证</span>
+            </button>
+            <button class="tool rv" type="button" aria-pressed="false" style="--d:160ms">
+              <span class="tool__head">
+                <span class="tool__name">共识会准备台</span>
+                
+              </span>
+              <span class="tool__desc">会前汇总各部门口径、成本与待确认风险</span>
+              <span class="tool__metric" data-count>示意：减少重复汇总</span>
+              <span class="tool__status tool__status--explore"><i></i>可探索</span>
+            </button>
+          </div>
+        </div>
+      </article>
+      <article class="lpanel" id="panel-c2" data-panel="C2" role="tabpanel" aria-label="C2 产品与素材准备">
+        <p class="eyebrow lpanel__eyebrow rv">COMMERCE LAYER 02 <i>/</i> PRODUCT &amp; CREATIVE</p>
+        <h3 class="lpanel__title rv" style="--d:70ms"><b>C2</b>产品与素材准备</h3>
+        <p class="lpanel__lead rv" style="--d:140ms">通过营销共创会确认这个商品要怎样呈现给买家</p>
+        <p class="lpanel__by rv" style="--d:200ms"><span>涉及部门</span><span class="term"><b>产品和素材部门</b><i aria-hidden="true">·</i></span><span class="term"><b>平面和内容团队</b></span></p>
+
+        <div class="lpanel__tabs rv" style="--d:260ms" role="tablist" aria-label="内容切换">
+          <button class="ltab is-active" data-tab="desc" role="tab" id="tab-c2-desc" aria-controls="body-c2-desc" aria-selected="true">说明</button>
+          <button class="ltab" data-tab="tools" role="tab" id="tab-c2-tools" aria-controls="body-c2-tools" aria-selected="false">工具<i>3</i></button>
+          <span class="ltab__bar" aria-hidden="true"></span>
+        </div>
+
+        <div class="lpanel__body is-active" data-tabpanel="desc" id="body-c2-desc" role="tabpanel" aria-labelledby="tab-c2-desc">
+          <div class="spec rv">
+            <span class="spec__k">链条</span>
+            <p class="spec__v spec__v--flow"><span class="term"><b>板房出货样</b><i aria-hidden="true">→</i></span><span class="term"><b>图片与视频</b><i aria-hidden="true">→</i></span><span class="term"><b>营销共创会</b></span></p>
+          </div>
+          <div class="spec spec--onto rv" style="--d:110ms">
+            <span class="spec__k">沉淀下来的对象与字段</span>
+            <p class="spec__v"><span class="term"><b>商品资料</b><i aria-hidden="true">·</i></span><span class="term"><b>图片</b><i aria-hidden="true">·</i></span><span class="term"><b>视频</b><i aria-hidden="true">·</i></span><span class="term"><b>卖点</b><i aria-hidden="true">·</i></span><span class="term"><b>素材版本</b><i aria-hidden="true">·</i></span><span class="term"><b>各部门确认结果</b></span></p>
+          </div>
+        </div>
+
+        <div class="lpanel__body" data-tabpanel="tools" id="body-c2-tools" role="tabpanel" aria-labelledby="tab-c2-tools">
+          <div class="tools">
+            <button class="tool rv" type="button" aria-pressed="false" style="--d:50ms">
+              <span class="tool__head">
+                <span class="tool__name">素材生成辅助</span>
+                
+              </span>
+              <span class="tool__desc">从商品资料与卖点生成主图方向和短视频脚本草稿</span>
+              <span class="tool__metric" data-count>示意：从逐条制作到批量生成</span>
+              <span class="tool__status tool__status--live"><i></i>可落地</span>
+            </button>
+            <button class="tool rv" type="button" aria-pressed="false" style="--d:105ms">
+              <span class="tool__head">
+                <span class="tool__name">卖点整理辅助</span>
+                
+              </span>
+              <span class="tool__desc">从产品资料提炼可验证的卖点句，并关联素材版本</span>
+              <span class="tool__metric" data-count>示意：可覆盖批量商品</span>
+              <span class="tool__status tool__status--live"><i></i>可落地</span>
+            </button>
+            <button class="tool rv" type="button" aria-pressed="false" style="--d:160ms">
+              <span class="tool__head">
+                <span class="tool__name">素材关联台</span>
+                
+              </span>
+              <span class="tool__desc">让每条素材可回溯到商品、投放动作与最终表现</span>
+              <span class="tool__metric" data-count>示意：减少素材关联缺口</span>
+              <span class="tool__status tool__status--trial"><i></i>待验证</span>
+            </button>
+          </div>
+        </div>
+      </article>
+      <article class="lpanel" id="panel-c3" data-panel="C3" role="tabpanel" aria-label="C3 渠道经营">
+        <p class="eyebrow lpanel__eyebrow rv">COMMERCE LAYER 03 <i>/</i> CHANNEL OPERATION</p>
+        <h3 class="lpanel__title rv" style="--d:70ms"><b>C3</b>渠道经营</h3>
+        <p class="lpanel__lead rv" style="--d:140ms">商品进入内容平台、货架电商和私域渠道，再通过上架、内容、直播和投放被消费者看到</p>
+        <p class="lpanel__by rv" style="--d:200ms"><span>涉及部门</span><span class="term"><b>运营部门</b></span></p>
+
+        <div class="lpanel__tabs rv" style="--d:260ms" role="tablist" aria-label="内容切换">
+          <button class="ltab is-active" data-tab="desc" role="tab" id="tab-c3-desc" aria-controls="body-c3-desc" aria-selected="true">说明</button>
+          <button class="ltab" data-tab="tools" role="tab" id="tab-c3-tools" aria-controls="body-c3-tools" aria-selected="false">工具<i>6</i></button>
+          <span class="ltab__bar" aria-hidden="true"></span>
+        </div>
+
+        <div class="lpanel__body is-active" data-tabpanel="desc" id="body-c3-desc" role="tabpanel" aria-labelledby="tab-c3-desc">
+          <div class="spec rv">
+            <span class="spec__k">链条</span>
+            <p class="spec__v spec__v--flow"><span class="term"><b>商品上架</b><i aria-hidden="true">→</i></span><span class="term"><b>建立计划</b><i aria-hidden="true">→</i></span><span class="term"><b>盯消耗</b><i aria-hidden="true">→</i></span><span class="term"><b>追投</b><i aria-hidden="true">→</i></span><span class="term"><b>升降档</b><i aria-hidden="true">→</i></span><span class="term"><b>直播控盘</b><i aria-hidden="true">→</i></span><span class="term"><b>清库存</b></span></p>
+          </div>
+          <div class="spec spec--onto rv" style="--d:110ms">
+            <span class="spec__k">沉淀下来的对象与字段</span>
+            <p class="spec__v"><span class="term"><b>店铺</b><i aria-hidden="true">·</i></span><span class="term"><b>账号</b><i aria-hidden="true">·</i></span><span class="term"><b>投放计划</b><i aria-hidden="true">·</i></span><span class="term"><b>库存</b><i aria-hidden="true">·</i></span><span class="term"><b>订单</b></span></p>
+          </div>
+        </div>
+
+        <div class="lpanel__body" data-tabpanel="tools" id="body-c3-tools" role="tabpanel" aria-labelledby="tab-c3-tools">
+          <div class="tools">
+            <button class="tool rv" type="button" aria-pressed="false" style="--d:50ms">
+              <span class="tool__head">
+                <span class="tool__name">商品上架辅助</span>
+                
+              </span>
+              <span class="tool__desc">辅助创建商品信息，并在发布前检查关键字段</span>
+              <span class="tool__metric" data-count>示意：从重复录入到辅助校验</span>
+              <span class="tool__status tool__status--live"><i></i>可落地</span>
+            </button>
+            <button class="tool rv" type="button" aria-pressed="false" style="--d:105ms">
+              <span class="tool__head">
+                <span class="tool__name">投放调档辅助</span>
+                
+              </span>
+              <span class="tool__desc">按消耗与目标阈值给出升降档建议，人工确认后执行</span>
+              <span class="tool__metric" data-count>示意：从定时查看到异常提醒</span>
+              <span class="tool__status tool__status--trial"><i></i>待验证</span>
+            </button>
+            <button class="tool rv" type="button" aria-pressed="false" style="--d:160ms">
+              <span class="tool__head">
+                <span class="tool__name">素材表现看板</span>
+                
+              </span>
+              <span class="tool__desc">按计划维度追踪素材变化，提示复核和更换时机</span>
+              <span class="tool__metric" data-count>示意：更早识别衰退</span>
+              <span class="tool__status tool__status--live"><i></i>可落地</span>
+            </button>
+            <button class="tool rv" type="button" aria-pressed="false" style="--d:215ms">
+              <span class="tool__head">
+                <span class="tool__name">类目趋势监测</span>
+                
+              </span>
+              <span class="tool__desc">监测重点类目变化，把异常波动推送给负责人</span>
+              <span class="tool__metric" data-count>示意：覆盖重点类目</span>
+              <span class="tool__status tool__status--trial"><i></i>待验证</span>
+            </button>
+            <button class="tool rv" type="button" aria-pressed="false" style="--d:270ms">
+              <span class="tool__head">
+                <span class="tool__name">直播复盘台</span>
+                
+              </span>
+              <span class="tool__desc">记录直播过程与关键判断，沉淀下一场可验证的结论</span>
+              <span class="tool__metric" data-count>示意：保留关键节点与判断</span>
+              <span class="tool__status tool__status--explore"><i></i>可探索</span>
+            </button>
+            <button class="tool rv" type="button" aria-pressed="false" style="--d:325ms">
+              <span class="tool__head">
+                <span class="tool__name">渠道数据汇总</span>
+                
+              </span>
+              <span class="tool__desc">统一多个内容与交易渠道的口径，写入分析库</span>
+              <span class="tool__metric" data-count>示意：统一多渠道口径</span>
+              <span class="tool__status tool__status--live"><i></i>可落地</span>
+            </button>
+          </div>
+        </div>
+      </article>
+      <article class="lpanel" id="panel-c4" data-panel="C4" role="tabpanel" aria-label="C4 数据与结果反馈">
+        <p class="eyebrow lpanel__eyebrow rv">COMMERCE LAYER 04 <i>/</i> DATA &amp; FEEDBACK</p>
+        <h3 class="lpanel__title rv" style="--d:70ms"><b>C4</b>数据与结果反馈</h3>
+        <p class="lpanel__lead rv" style="--d:140ms">把结果整理成下一轮能够使用的信息，并保留当时做过什么判断、这个判断后来有没有被证明是对的</p>
+
+
+        <div class="lpanel__tabs rv" style="--d:260ms" role="tablist" aria-label="内容切换">
+          <button class="ltab is-active" data-tab="desc" role="tab" id="tab-c4-desc" aria-controls="body-c4-desc" aria-selected="true">说明</button>
+          <button class="ltab" data-tab="tools" role="tab" id="tab-c4-tools" aria-controls="body-c4-tools" aria-selected="false">工具<i>4</i></button>
+          <span class="ltab__bar" aria-hidden="true"></span>
+        </div>
+
+        <div class="lpanel__body is-active" data-tabpanel="desc" id="body-c4-desc" role="tabpanel" aria-labelledby="tab-c4-desc">
+          <div class="spec rv">
+            <span class="spec__k">链条</span>
+            <p class="spec__v spec__v--flow"><span class="term term--wrap"><b>收集成交、投放效率、退款率、素材表现、库存变化和用户反馈</b><i aria-hidden="true">→</i></span><span class="term"><b class="flow__tail">传回前面的环节</b></span></p>
+          </div>
+          <div class="spec spec--onto rv" style="--d:110ms">
+            <span class="spec__k">沉淀下来的对象与字段</span>
+            <p class="spec__v"><span class="term"><b>下一轮能够使用的信息</b><i aria-hidden="true">·</i></span><span class="term"><b>当时做过什么判断</b><i aria-hidden="true">·</i></span><span class="term"><b>这个判断后来有没有被证明是对的</b></span></p>
+          </div>
+        </div>
+
+        <div class="lpanel__body" data-tabpanel="tools" id="body-c4-tools" role="tabpanel" aria-labelledby="tab-c4-tools">
+          <div class="tools">
+            <button class="tool rv" type="button" aria-pressed="false" style="--d:50ms">
+              <span class="tool__head">
+                <span class="tool__name">经营数据管道</span>
+                
+              </span>
+              <span class="tool__desc">汇总已授权的渠道数据，按统一口径写入分析库</span>
+              <span class="tool__metric" data-count>示意：从跨日等待到当日可用</span>
+              <span class="tool__status tool__status--live"><i></i>可落地</span>
+            </button>
+            <button class="tool rv" type="button" aria-pressed="false" style="--d:105ms">
+              <span class="tool__head">
+                <span class="tool__name">归因分析辅助</span>
+                
+              </span>
+              <span class="tool__desc">把成交结果回溯到素材、渠道与具体经营动作</span>
+              <span class="tool__metric" data-count>示意：补齐素材与动作链路</span>
+              <span class="tool__status tool__status--trial"><i></i>待验证</span>
+            </button>
+            <button class="tool rv" type="button" aria-pressed="false" style="--d:160ms">
+              <span class="tool__head">
+                <span class="tool__name">复盘回流报表</span>
+                
+              </span>
+              <span class="tool__desc">把结果推回企划与素材环节，记录结论是否被验证</span>
+              <span class="tool__metric" data-count>示意：从人工拼表到自动汇总</span>
+              <span class="tool__status tool__status--trial"><i></i>待验证</span>
+            </button>
+            <button class="tool rv" type="button" aria-pressed="false" style="--d:215ms">
+              <span class="tool__head">
+                <span class="tool__name">退款趋势预警</span>
+                
+              </span>
+              <span class="tool__desc">发现异常趋势后定位到商品与素材，再交给业务人员复核</span>
+              <span class="tool__metric" data-count>示意：提前发现异常趋势</span>
+              <span class="tool__status tool__status--explore"><i></i>可探索</span>
+            </button>
+          </div>
+        </div>
+      </article>
+      </div>
+    </div>
+
+    <div class="onto rv">
+      <p class="onto__note">真正沉淀下来的 Ontology，是一次次业务访谈和实际运行以后留下来的这七样，只有当它们能够被人和 AI 共同理解并连接到真实系统里时，才开始接近一个可以运行的业务 Ontology</p>
+      <ul class="onto__list"><li><b>对象</b><i>OBJECT</i></li><li><b>关系</b><i>RELATION</i></li><li><b>字段</b><i>FIELD</i></li><li><b>规则</b><i>RULE</i></li><li><b>动作</b><i>ACTION</i></li><li><b>权限</b><i>PERMISSION</i></li><li><b>数据</b><i>DATA</i></li></ul>
+    </div>
+  </div>
+</section>
+<section id="p" class="sec sec--p">
+  <div class="wrap">
+    <div class="pstage" data-axis>
+      <div class="pstage__pin" data-pin style="--p:0">
+        <header class="shead">
+          <p class="eyebrow rv">FDE STAGES <i>/</i> P1—P5</p>
+          <h2 class="shead__t rv" data-split="1" style="--d:120ms">FDE 怎样进入这条业务链路</h2>
+          <p class="shead__d rv" style="--d:220ms">C 回答一个业务动作发生在商品生命周期的什么位置，P 回答 FDE 对它已经理解和推进到了什么阶段</p>
+        </header>
+        <div class="paxis__rail rv rv--fine" data-rail role="tablist" aria-label="P1 至 P5 阶段" style="--d:120ms">
+          <span class="paxis__line" aria-hidden="true"></span>
+          <span class="paxis__prog" data-prog aria-hidden="true"></span>
+          <button class="pnode tapx is-active" data-node="P1"
+            id="pnode-P1" style="--x:10%;--i:0"
+            role="tab" aria-selected="true" aria-controls="pcard-P1"
+            aria-label="P1 商品生命周期">
+            <span class="pnode__short" aria-hidden="true">商品生命周期</span>
+            <span class="pnode__dot" aria-hidden="true"><span class="pnode__face">P1</span><span class="pnode__ping"></span></span>
+          </button>
+          <button class="pnode tapx" data-node="P2"
+            id="pnode-P2" style="--x:30%;--i:1"
+            role="tab" aria-selected="false" aria-controls="pcard-P2"
+            aria-label="P2 部门链路">
+            <span class="pnode__short" aria-hidden="true">部门链路</span>
+            <span class="pnode__dot" aria-hidden="true"><span class="pnode__face">P2</span><span class="pnode__ping"></span></span>
+          </button>
+          <button class="pnode tapx" data-node="P3"
+            id="pnode-P3" style="--x:50%;--i:2"
+            role="tab" aria-selected="false" aria-controls="pcard-P3"
+            aria-label="P3 动作与判断">
+            <span class="pnode__short" aria-hidden="true">动作与判断</span>
+            <span class="pnode__dot" aria-hidden="true"><span class="pnode__face">P3</span><span class="pnode__ping"></span></span>
+          </button>
+          <button class="pnode tapx" data-node="P4"
+            id="pnode-P4" style="--x:70%;--i:3"
+            role="tab" aria-selected="false" aria-controls="pcard-P4"
+            aria-label="P4 AI 进入动作">
+            <span class="pnode__short" aria-hidden="true">AI 进入动作</span>
+            <span class="pnode__dot" aria-hidden="true"><span class="pnode__face">P4</span><span class="pnode__ping"></span></span>
+          </button>
+          <button class="pnode tapx" data-node="P5"
+            id="pnode-P5" style="--x:90%;--i:4"
+            role="tab" aria-selected="false" aria-controls="pcard-P5"
+            aria-label="P5 建立系统">
+            <span class="pnode__short" aria-hidden="true">建立系统</span>
+            <span class="pnode__dot" aria-hidden="true"><span class="pnode__face">P5</span><span class="pnode__ping"></span></span>
+          </button>
+        </div>
+        <div class="ppanel rv" data-cards style="--d:520ms">
+          <span class="ppanel__open" aria-hidden="true"></span>
+          <article class="pcard is-active" id="pcard-P1" data-card="P1"
+            role="tabpanel" aria-labelledby="pnode-P1">
+            <div class="pcard__main">
+              <h3 class="pcard__title">先了解一件商品的完整生命周期</h3>
+              <p class="pcard__lead">在这三个问题没有弄清楚以前，不急着讨论要做什么 AI 工具</p>
+              <p class="pcard__view"><span>视角</span>CEO 与公司整体经营视角</p>
+            </div>
+            <div class="pcard__side">
+              <p class="plist__cap">先回答三个问题</p>
+              <ul class="plist">
+                <li class="plist__i plist__i--bare">
+                  <span class="plist__k">这次看什么业务</span>
+                </li>
+                <li class="plist__i">
+                  <span class="plist__k">从哪里到哪里</span>
+                  <span class="plist__v">从哪里开始，到哪里结束，涉及哪些部门</span>
+                </li>
+                <li class="plist__i">
+                  <span class="plist__k">想改善什么结果</span>
+                  <span class="plist__v">公司希望改善什么结果</span>
+                </li>
+              </ul>
+            </div>
+          </article>
+          <article class="pcard" id="pcard-P2" data-card="P2"
+            role="tabpanel" aria-labelledby="pnode-P2">
+            <div class="pcard__main">
+              <h3 class="pcard__title">看清每个部门参与了什么</h3>
+              <p class="pcard__lead">展开 C1—C4，把每个部门参与的环节、输入、输出、上下游关系写清楚</p>
+              <p class="pcard__view"><span>视角</span>各业务主管视角</p>
+            </div>
+            <div class="pcard__side">
+              <p class="plist__cap">每个部门看到的那一段</p>
+              <ul class="plist">
+                <li class="plist__i">
+                  <span class="plist__k">运营部</span>
+                  <span class="plist__v">上架、投流、直播、复盘</span>
+                </li>
+                <li class="plist__i">
+                  <span class="plist__k">产品部</span>
+                  <span class="plist__v">企划、开发、打样、商品资料</span>
+                </li>
+                <li class="plist__i">
+                  <span class="plist__k">素材部门</span>
+                  <span class="plist__v">拍摄、剪辑、素材确认</span>
+                </li>
+              </ul>
+            </div>
+          </article>
+          <article class="pcard" id="pcard-P3" data-card="P3"
+            role="tabpanel" aria-labelledby="pnode-P3">
+            <div class="pcard__main">
+              <h3 class="pcard__title">进入一线动作并判断什么值得做</h3>
+              <p class="pcard__lead">继续问他们点哪里、看什么、根据什么判断，哪里容易出错，出错以后会造成什么影响</p>
+              <p class="pcard__view"><span>视角</span>一线业务人员视角</p>
+            </div>
+            <div class="pcard__side">
+              <p class="plist__cap">四类工作，各看各的指标</p>
+              <ul class="plist">
+                <li class="plist__i">
+                  <span class="plist__k">执行型</span>
+                  <span class="plist__v">频次、数量、单次耗时、错误率</span>
+                </li>
+                <li class="plist__i">
+                  <span class="plist__k">盯盘型</span>
+                  <span class="plist__v">注意力占用、响应速度、漏看的损失</span>
+                </li>
+                <li class="plist__i">
+                  <span class="plist__k">判断型</span>
+                  <span class="plist__v">涉及金额、输入因素、误判代价</span>
+                </li>
+                <li class="plist__i">
+                  <span class="plist__k">数据型</span>
+                  <span class="plist__v">有没有、存多久、更新多快、口径是否一致</span>
+                </li>
+              </ul>
+            </div>
+          </article>
+          <article class="pcard" id="pcard-P4" data-card="P4"
+            role="tabpanel" aria-labelledby="pnode-P4">
+            <div class="pcard__main">
+              <h3 class="pcard__title">让 AI 进入已经确认的业务动作</h3>
+              <p class="pcard__lead">每天只要在某个板块上做了实际工作，就在工作日志里写清楚做了什么，得到了什么结果</p>
+            </div>
+            <div class="pcard__side">
+              <p class="plist__cap">让 AI 进入的顺序</p>
+              <ul class="plist">
+                <li class="plist__i">
+                  <span class="plist__k">第一版</span>
+                  <span class="plist__v">先做到读取、整理、提醒和生成草稿</span>
+                </li>
+                <li class="plist__i">
+                  <span class="plist__k">稳定之后</span>
+                  <span class="plist__v">业务人员确认运行稳定以后，再逐步开放写操作</span>
+                </li>
+                <li class="plist__i">
+                  <span class="plist__k">遇到边界</span>
+                  <span class="plist__v">读不到数据、规则算不出来或者状态发生冲突时，停下来并通知业务人员</span>
+                </li>
+              </ul>
+            </div>
+          </article>
+          <article class="pcard" id="pcard-P5" data-card="P5"
+            role="tabpanel" aria-labelledby="pnode-P5">
+            <div class="pcard__main">
+              <h3 class="pcard__title">建立可以运行和复盘的系统</h3>
+              <p class="pcard__lead">和业务人员一起确定系统边界，把工具接进真实流程，再用运行数据继续修改规则和方案</p>
+              <p class="pcard__view"><span>视角</span>系统建立与迭代视角</p>
+            </div>
+            <div class="pcard__side">
+              <p class="plist__cap">系统怎样建立和迭代</p>
+              <ul class="plist">
+                <li class="plist__i">
+                  <span class="plist__k">接入流程</span>
+                  <span class="plist__v">确定系统边界，把工具接进真实流程</span>
+                </li>
+                <li class="plist__i">
+                  <span class="plist__k">运行与复盘</span>
+                  <span class="plist__v">记录运行结果、出现的问题和每次修改</span>
+                </li>
+                <li class="plist__i">
+                  <span class="plist__k">数据回流</span>
+                  <span class="plist__v">把分散的结果整理成下一轮能够使用的信息</span>
+                </li>
+                <li class="plist__i">
+                  <span class="plist__k">自我迭代</span>
+                  <span class="plist__v">用运行数据继续修改规则和方案</span>
+                </li>
+              </ul>
+            </div>
+          </article>
+        </div>
+      </div>
+      <div class="pstage__track" aria-hidden="true"></div>
+    </div>
+  </div>
+</section>
+<section id="l" class="sec sec--l">
+  <div class="wrap">
+    <header class="shead">
+      <p class="eyebrow rv">COMPANY LEVELS <i>/</i> L1—L5</p>
+      <h2 class="shead__t rv" data-split="1" style="--d:120ms">这家公司整体走到了哪一步</h2>
+      <p class="shead__d rv" style="--d:220ms">C 和 P 是一个动作一个动作推进的，L 是整家公司的一个数</p>
+    </header>
+
+    <div class="lv" data-levels role="tablist" aria-label="L1 至 L5 五级">
+      <div class="lv__band rv" style="--span:3;--d:620ms">
+        <p class="lv__band-label">FDE 的作用区间</p>
+        <p class="lv__band-note">这些工作累积起来，才有可能把一家 L1 或者 L2 的公司推到 L3，再为 L4 准备底座</p>
+      </div>
+      <div class="lv__col rv is-active" data-level="L1" style="--i:0;--d:160ms"
+        role="tab" aria-selected="true" aria-controls="lvd-L1" id="lv-L1">
+        <div class="lv__head">
+          <p class="lv__id">L1</p>
+          <h3 class="lv__name">工具化</h3>
+          <p class="lv__en">TOOLING</p>
+        </div>
+        <div class="lv__plot"><svg class="lv__dots" viewBox="0 0 168 92" preserveAspectRatio="xMinYMax meet" aria-hidden="true" xmlns="http://www.w3.org/2000/svg"><circle cx="8.9" cy="82" r="2" style="--n:0"/><circle cx="18.6" cy="85.4" r="2" style="--n:1"/><circle cx="36.8" cy="84.4" r="2" style="--n:2"/><circle cx="49.8" cy="82.8" r="2" style="--n:3"/><circle cx="64.7" cy="86.6" r="2" style="--n:4"/><circle cx="77.4" cy="86.5" r="2" style="--n:5"/><circle cx="93.9" cy="84.7" r="2" style="--n:6"/><circle cx="107.5" cy="81.6" r="2" style="--n:7"/><circle cx="120.9" cy="86.2" r="2" style="--n:8"/><circle cx="135.7" cy="84.1" r="2" style="--n:9"/><circle cx="148.5" cy="85.6" r="2" style="--n:10"/><circle cx="161.9" cy="81.9" r="2" style="--n:11"/><circle cx="5.2" cy="72" r="2" style="--n:12"/><circle cx="23.6" cy="71.8" r="2" style="--n:13"/><circle cx="32.7" cy="72.7" r="2" style="--n:14"/><circle cx="51" cy="71.1" r="2" style="--n:15"/><circle cx="61" cy="71.6" r="2" style="--n:16"/><circle cx="74.4" cy="73.3" r="2" style="--n:17"/><circle cx="93.7" cy="71.5" r="2" style="--n:18"/><circle cx="103.2" cy="74.3" r="2" style="--n:19"/><circle cx="120.4" cy="74.9" r="2" style="--n:20"/><circle cx="130.6" cy="71.3" r="2" style="--n:21"/><circle cx="146.4" cy="72.6" r="2" style="--n:22"/><circle cx="163.1" cy="75.7" r="2" style="--n:23"/><circle cx="5.4" cy="62.6" r="2" style="--n:24"/><circle cx="21.2" cy="60.2" r="2" style="--n:25"/><circle cx="35.5" cy="63" r="2" style="--n:26"/><circle cx="48.9" cy="60.7" r="2" style="--n:27"/><circle cx="60.3" cy="63.2" r="2" style="--n:28"/><circle cx="74.3" cy="59.5" r="2" style="--n:29"/><circle cx="89.7" cy="60" r="2" style="--n:30"/><circle cx="105.8" cy="63.6" r="2" style="--n:31"/><circle cx="116.2" cy="59.6" r="2" style="--n:32"/><circle cx="132.2" cy="59.7" r="2" style="--n:33"/><circle cx="148.5" cy="64.9" r="2" style="--n:34"/><circle cx="158.2" cy="60.9" r="2" style="--n:35"/><circle cx="9.9" cy="49.1" r="2" style="--n:36"/><circle cx="18.3" cy="50.2" r="2" style="--n:37"/><circle cx="33.8" cy="52.3" r="2" style="--n:38"/><circle cx="51.3" cy="51.1" r="2" style="--n:39"/><circle cx="60.8" cy="49.8" r="2" style="--n:40"/><circle cx="77.4" cy="53.5" r="2" style="--n:41"/><circle cx="89.7" cy="53.3" r="2" style="--n:42"/><circle cx="105.3" cy="53.3" r="2" style="--n:43"/><circle cx="118.8" cy="52" r="2" style="--n:44"/><circle cx="134.4" cy="51.7" r="2" style="--n:45"/><circle cx="147.8" cy="49.3" r="2" style="--n:46"/><circle cx="160.7" cy="51" r="2" style="--n:47"/><circle cx="5.3" cy="41.6" r="2" style="--n:48"/><circle cx="21.6" cy="41.3" r="2" style="--n:49"/><circle cx="32.3" cy="38.5" r="2" style="--n:50"/><circle cx="48.8" cy="38.6" r="2" style="--n:51"/><circle cx="60.1" cy="41.4" r="2" style="--n:52"/><circle cx="75.9" cy="40.2" r="2" style="--n:53"/><circle cx="93.8" cy="41.9" r="2" style="--n:54"/><circle cx="103.2" cy="42.7" r="2" style="--n:55"/><circle cx="116.4" cy="38.3" r="2" style="--n:56"/><circle cx="132.7" cy="41.7" r="2" style="--n:57"/><circle cx="146.6" cy="38.6" r="2" style="--n:58"/><circle cx="163.3" cy="39.5" r="2" style="--n:59"/><circle cx="7.2" cy="31.7" r="2" style="--n:60"/><circle cx="22.3" cy="30.2" r="2" style="--n:61"/><circle cx="33" cy="30.9" r="2" style="--n:62"/><circle cx="50.9" cy="29" r="2" style="--n:63"/><circle cx="63.9" cy="31.4" r="2" style="--n:64"/><circle cx="78.2" cy="31.6" r="2" style="--n:65"/><circle cx="93.4" cy="29.8" r="2" style="--n:66"/><circle cx="106" cy="27.7" r="2" style="--n:67"/><circle cx="116.8" cy="27.9" r="2" style="--n:68"/><circle cx="133.1" cy="30.8" r="2" style="--n:69"/><circle cx="149.4" cy="28.9" r="2" style="--n:70"/><circle cx="162.4" cy="29.1" r="2" style="--n:71"/><circle cx="9.4" cy="15.8" r="2" style="--n:72"/><circle cx="18.1" cy="17.8" r="2" style="--n:73"/><circle cx="32.9" cy="16.3" r="2" style="--n:74"/><circle cx="50.2" cy="21.8" r="2" style="--n:75"/><circle cx="61.6" cy="20.7" r="2" style="--n:76"/><circle cx="78.1" cy="17.5" r="2" style="--n:77"/><circle cx="93.4" cy="17.3" r="2" style="--n:78"/><circle cx="107.2" cy="20.4" r="2" style="--n:79"/><circle cx="118" cy="19.5" r="2" style="--n:80"/><circle cx="135.5" cy="16.8" r="2" style="--n:81"/><circle cx="149.4" cy="19" r="2" style="--n:82"/><circle cx="164" cy="16.2" r="2" style="--n:83"/><circle cx="4.1" cy="8.5" r="2" style="--n:84"/><circle cx="18.3" cy="5.6" r="2" style="--n:85"/><circle cx="36.5" cy="8.5" r="2" style="--n:86"/><circle cx="51.6" cy="10.7" r="2" style="--n:87"/><circle cx="64.1" cy="10.6" r="2" style="--n:88"/><circle cx="74.1" cy="7.2" r="2" style="--n:89"/><circle cx="92.5" cy="9.7" r="2" style="--n:90"/></svg></div>
+        <div class="lv__stat">
+          <p class="lv__pop">大多数公司</p>
+        </div>
+      </div>
+      <div class="lv__col rv" data-level="L2" style="--i:1;--d:290ms"
+        role="tab" aria-selected="false" aria-controls="lvd-L2" id="lv-L2">
+        <div class="lv__head">
+          <p class="lv__id">L2</p>
+          <h3 class="lv__name">流程化</h3>
+          <p class="lv__en">PROCESS</p>
+        </div>
+        <div class="lv__plot"><svg class="lv__dots" viewBox="0 0 168 92" preserveAspectRatio="xMinYMax meet" aria-hidden="true" xmlns="http://www.w3.org/2000/svg"><circle cx="5.2" cy="82" r="2.5" style="--n:0"/><circle cx="20.9" cy="84.7" r="2.5" style="--n:1"/><circle cx="36.2" cy="83.8" r="2.5" style="--n:2"/><circle cx="50" cy="85.1" r="2.5" style="--n:3"/><circle cx="63.1" cy="84.1" r="2.5" style="--n:4"/><circle cx="78.5" cy="85" r="2.5" style="--n:5"/><circle cx="91.6" cy="84.6" r="2.5" style="--n:6"/><circle cx="106" cy="82.7" r="2.5" style="--n:7"/><circle cx="119.4" cy="84" r="2.5" style="--n:8"/><circle cx="134.3" cy="82.9" r="2.5" style="--n:9"/><circle cx="145.2" cy="82.4" r="2.5" style="--n:10"/><circle cx="162.5" cy="84.1" r="2.5" style="--n:11"/><circle cx="6.8" cy="74.2" r="2.5" style="--n:12"/><circle cx="22.2" cy="71.1" r="2.5" style="--n:13"/><circle cx="33.7" cy="71.8" r="2.5" style="--n:14"/><circle cx="46.9" cy="73.8" r="2.5" style="--n:15"/><circle cx="63.5" cy="71.3" r="2.5" style="--n:16"/><circle cx="75.1" cy="74" r="2.5" style="--n:17"/><circle cx="91.1" cy="72.8" r="2.5" style="--n:18"/><circle cx="107" cy="73.5" r="2.5" style="--n:19"/><circle cx="118.9" cy="70.9" r="2.5" style="--n:20"/><circle cx="134.5" cy="71.7" r="2.5" style="--n:21"/><circle cx="146.4" cy="72.6" r="2.5" style="--n:22"/><circle cx="161.8" cy="71.1" r="2.5" style="--n:23"/><circle cx="6.7" cy="61" r="2.5" style="--n:24"/><circle cx="20.3" cy="63.3" r="2.5" style="--n:25"/><circle cx="33.3" cy="63.9" r="2.5" style="--n:26"/><circle cx="50.4" cy="60" r="2.5" style="--n:27"/><circle cx="62.5" cy="62.5" r="2.5" style="--n:28"/><circle cx="76.3" cy="63.7" r="2.5" style="--n:29"/><circle cx="90.6" cy="59.9" r="2.5" style="--n:30"/><circle cx="106.9" cy="61.2" r="2.5" style="--n:31"/><circle cx="119.2" cy="63.9" r="2.5" style="--n:32"/><circle cx="133.4" cy="61.4" r="2.5" style="--n:33"/><circle cx="147" cy="63.3" r="2.5" style="--n:34"/></svg></div>
+        <div class="lv__stat">
+          <p class="lv__pop">少数公司</p>
+        </div>
+      </div>
+      <div class="lv__col rv" data-level="L3" style="--i:2;--d:420ms"
+        role="tab" aria-selected="false" aria-controls="lvd-L3" id="lv-L3">
+        <div class="lv__head">
+          <p class="lv__id">L3</p>
+          <h3 class="lv__name">角色化</h3>
+          <p class="lv__en">ROLE</p>
+        </div>
+        <div class="lv__plot"><svg class="lv__dots" viewBox="0 0 168 92" preserveAspectRatio="xMinYMax meet" aria-hidden="true" xmlns="http://www.w3.org/2000/svg"><circle cx="7.2" cy="82.9" r="3" style="--n:0"/><circle cx="20.6" cy="83.4" r="3" style="--n:1"/><circle cx="35.7" cy="83.6" r="3" style="--n:2"/><circle cx="49" cy="82.8" r="3" style="--n:3"/><circle cx="61.9" cy="83.7" r="3" style="--n:4"/><circle cx="76" cy="83.6" r="3" style="--n:5"/><circle cx="91.4" cy="82.6" r="3" style="--n:6"/><circle cx="104.5" cy="83.6" r="3" style="--n:7"/><circle cx="118.8" cy="83.3" r="3" style="--n:8"/><circle cx="133.3" cy="83.7" r="3" style="--n:9"/><circle cx="146.9" cy="82.4" r="3" style="--n:10"/><circle cx="160.6" cy="83.8" r="3" style="--n:11"/><circle cx="8.2" cy="71.7" r="3" style="--n:12"/><circle cx="21.9" cy="73.9" r="3" style="--n:13"/></svg></div>
+        <div class="lv__stat">
+          <p class="lv__pop">极少数公司</p>
+        </div>
+      </div>
+      <div class="lv__col rv" data-level="L4" style="--i:3;--d:550ms"
+        role="tab" aria-selected="false" aria-controls="lvd-L4" id="lv-L4">
+        <div class="lv__head">
+          <p class="lv__id">L4</p>
+          <h3 class="lv__name">系统化</h3>
+          <p class="lv__en">SYSTEM</p>
+        </div>
+        <div class="lv__plot"><svg class="lv__dots" viewBox="0 0 168 92" preserveAspectRatio="xMinYMax meet" aria-hidden="true" xmlns="http://www.w3.org/2000/svg"><circle cx="6.6" cy="83.2" r="3.6" style="--n:0"/><circle cx="20.9" cy="83.6" r="3.6" style="--n:1"/><circle cx="34.6" cy="83.7" r="3.6" style="--n:2"/><circle cx="48.9" cy="84.1" r="3.6" style="--n:3"/><circle cx="62.8" cy="84.1" r="3.6" style="--n:4"/><circle cx="77.2" cy="83.5" r="3.6" style="--n:5"/></svg></div>
+        <div class="lv__stat">
+          <p class="lv__pop">极少数先行者</p>
+        </div>
+      </div>
+      <div class="lv__col rv" data-level="L5" style="--i:4;--d:680ms"
+        role="tab" aria-selected="false" aria-controls="lvd-L5" id="lv-L5">
+        <div class="lv__head">
+          <p class="lv__id">L5</p>
+          <h3 class="lv__name">原生态</h3>
+          <p class="lv__en">AI NATIVE</p>
+        </div>
+        <div class="lv__plot"><svg class="lv__dots" viewBox="0 0 168 92" preserveAspectRatio="xMinYMax meet" aria-hidden="true" xmlns="http://www.w3.org/2000/svg"><circle cx="7" cy="83.6" r="4.3" style="--n:0"/><circle cx="21" cy="83.6" r="4.3" style="--n:1"/></svg></div>
+        <div class="lv__stat">
+          <p class="lv__pop">少量 AI 原生团队</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="lvds rv" data-level-details>
+      <div class="lvd is-active" data-level-detail="L1" id="lvd-L1" role="tabpanel" aria-labelledby="lv-L1">
+        <p class="lvd__id">L1<span>工具化</span></p>
+        <div class="lvd__body">
+          <p class="lvd__lede">AI 贴在旧流程上，各干各的，买工具、开账号、零散提效</p>
+          <p class="lvd__text">某几个员工自己用上了 AI，但这件事只发生在他一个人身上，他换岗或者离职，这份效率就跟着消失，公司层面看不到任何变化</p>
+        </div>
+      </div>
+      <div class="lvd" data-level-detail="L2" id="lvd-L2" role="tabpanel" aria-labelledby="lv-L2">
+        <p class="lvd__id">L2<span>流程化</span></p>
+        <div class="lvd__body">
+          <p class="lvd__lede">单点流程翻倍，但组织考核没变，红利被跨部门等待吃掉</p>
+          <p class="lvd__text">某个部门整体用起来，这一段确实快了很多，但整条链路没有一起提速，多出来的产能卡在部门之间的等待里，这一级最容易让人误判：部门内部的数据很好看，公司整体的结果没有动</p>
+        </div>
+      </div>
+      <div class="lvd" data-level-detail="L3" id="lvd-L3" role="tabpanel" aria-labelledby="lv-L3">
+        <p class="lvd__id">L3<span>角色化</span></p>
+        <div class="lvd__body">
+          <p class="lvd__lede">人和 Agent 编队，产出开始脱离人头，组织问题的起点</p>
+          <p class="lvd__text">Agent 不再只是某个人手里的工具，而是承担了一部分固定职责，有明确的权限边界，从这一级开始，真正的难题不再是技术，而是组织：谁给 Agent 派活，谁为它的结果负责，它做错了又算谁的</p>
+        </div>
+      </div>
+      <div class="lvd" data-level-detail="L4" id="lvd-L4" role="tabpanel" aria-labelledby="lv-L4">
+        <p class="lvd__id">L4<span>系统化</span></p>
+        <div class="lvd__body">
+          <p class="lvd__lede">AI 进入经营系统，考核、编制和分钱跟着改，真转型开始</p>
+          <p class="lvd__text">AI 不再挂在流程旁边，而是进入经营系统本身，到这一级，公司不是在用 AI 做事，而是按照「有 AI」这个前提重新设计怎么做事</p>
+        </div>
+      </div>
+      <div class="lvd" data-level-detail="L5" id="lvd-L5" role="tabpanel" aria-labelledby="lv-L5">
+        <p class="lvd__id">L5<span>原生态</span></p>
+        <div class="lvd__body">
+          <p class="lvd__lede">拿掉 AI 业务停摆，组织围绕 Agent 设计，AI 原生企业</p>
+          <p class="lvd__text">把 AI 拿掉，业务直接停摆，因为整个组织本来就是围绕 Agent 建起来的，岗位、协作方式和交付节奏都以此为默认前提</p>
+        </div>
+      </div>
+    </div>
+
+    <p class="lv__note rv">点阵只表达相对多少，不是统计数据</p>
+  </div>
+
+  <div class="lvclose">
+    <div class="wrap">
+      <p class="lvclose__lead rv">一个动作已经做到 C3—P5，公司仍然可能停在 L2</p>
+      <p class="lvclose__body rv" style="--d:140ms">反过来，公司想从 L2 走到 L3，靠的也不是某一个动作做得多好，而是 C1—C4 里已经有足够多的动作走到了 P4 和 P5，Agent 才有稳定的职责可以承担</p>
+      <p class="mocknote rv" style="--d:240ms">以下工具、状态与效果仅用于说明方法，不对应任何真实企业或项目</p>
+    </div>
+  </div>
+</section>
+</main>
+<script src="js/motion.js"></script>
+<script src="js/layers.js"></script>
+<script src="js/stages.js"></script>
+<script src="js/levels.js"></script>
+<script src="js/main.js"></script>
+</body>
+</html>

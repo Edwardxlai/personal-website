@@ -1,0 +1,92 @@
+/* 设计变量 —— 配色已定稿，不要在别处硬写颜色
+ *
+ * 强调色 #c2410c 只出现在四个地方：
+ *   标题里的关键词 / 编号（C3 P4 L2）/ metric 数字 / 状态点
+ * 板材、卡片、分隔线一律走中性灰阶，靠明度拉层次。
+ * #c2410c 在 #edf0f1 上约 4.5:1，页面有大量 10-12px 的等宽小字用这个色，
+ * 不要往亮里调，再亮就掉到 3:1 以下。
+ */
+
+:root {
+  /* 底色 */
+  --bg: #edf0f1;
+  --panel: #ffffff;
+  --sunk: #e3e8ea;
+
+  /* 文字 */
+  --ink: #10161a;
+  --ink-2: #5c6b73;
+  --ink-3: #93a1a8;
+
+  /* 线 */
+  --line: rgba(12, 26, 32, 0.12);
+  --line-2: rgba(12, 26, 32, 0.22);
+  --line-3: rgba(12, 26, 32, 0.42);
+
+  /* 强调 */
+  --accent: #c2410c;
+  --accent-soft: rgba(194, 65, 12, 0.1);
+
+  /* 状态 */
+  --live: #1f7a58;
+  --trial: #c2410c;
+  --explore: #93a1a8;
+
+  /* 等距板的三个面：立体感来自三个明度，不是三个色相 */
+  --face-top: #f6f8f8;
+  --face-left: #dde4e6;
+  --face-right: #c5cfd2;
+  --face-top-on: #ffffff;
+  --face-left-on: #ccd6d9;
+  --face-right-on: #aab7bb;
+  --face-edge: rgba(12, 26, 32, 0.28);
+  --face-edge-on: rgba(12, 26, 32, 0.62);
+
+  /* 字体 */
+  --serif: "Noto Serif SC", "Source Han Serif SC", "Songti SC", SimSun, STSong, serif;
+  --sans: "Noto Sans SC", "Source Han Sans SC", "PingFang SC", "Microsoft YaHei", "Hiragino Sans GB", system-ui, sans-serif;
+  --mono: "IBM Plex Mono", ui-monospace, SFMono-Regular, Consolas, "Liberation Mono", Menlo, monospace;
+
+  /* 版心 */
+  --wrap: 1220px;
+  --pad: 40px;
+
+  /* 动效（docs/03-参考库.md 第 1 节的词汇表） */
+  --ease: cubic-bezier(0.2, 0.7, 0.2, 1);   /* power3.out 的 CSS 近似，M-1 / M-2 */
+  --t-rv: 800ms;      /* A1 序列入场，M-4。渐显要看得出来，短了就跟没动一样 */
+  --t-swap: 220ms;    /* 面板内容切换 */
+  --t-slab: 320ms;    /* A3 落位 / 选中过渡，C-4 */
+}
+
+@media (max-width: 900px) {
+  :root { --pad: 22px; }
+}
+
+/* ── 字号阶梯 ──────────────────────────────────────────
+ * 原来只有「特大 46 / 正文 15.5 / 微 10.5」三档，46 到 15.5 之间是空的，
+ * 一屏里没有任何东西处在中间层，读者眼睛只能在标题和小字之间跳。
+ * 补一档 lede：导语第一句、hero 副标、P 卡片首段都走这一档。
+ */
+:root {
+  --fs-display: clamp(23px, 3.4vw, 46px);
+  --fs-h2:      clamp(30px, 3.6vw, 46px);
+  --fs-h3:      clamp(23px, 2.3vw, 30px);
+  --fs-lede:    clamp(17px, 1.45vw, 20px);
+  --fs-body:    15.5px;
+  --fs-small:   13px;
+  --fs-micro:   10.5px;
+}
+
+/* 全页只有一种底色。上一版把 P 屏和 L 屏收尾翻成了暗场，
+ * 老板的反馈是「突然加入的深色很显眼、意料之外」——层次靠留白和字号拉，不靠翻底色。 */
+
+/* ── 交互 ──────────────────────────────────────────────
+ * 上一轮的毛病：能点的东西热区只有文字本身那几个像素（C 屏 DESCRIPTION /
+ * TOOLS 那两个 tab 是重灾区），点下去也没有任何即时反馈，全靠内容自己变。
+ * 定三个量，四屏统一用，别各写各的：
+ */
+:root {
+  --tap: 44px;        /* 可点元素的最小热区，低于这个值必须用 .tapx 撑开 */
+  --t-press: 90ms;    /* 按下的即时反馈，必须比 --t-swap 快，手感才跟手 */
+  --ease-out: cubic-bezier(0.16, 1, 0.3, 1);   /* 收得住的减速，用于位移 */
+}

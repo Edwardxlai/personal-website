@@ -1,0 +1,215 @@
+/* 全站动效词汇表 —— 一共 5 个，四屏复用，不要再发明第六个
+ * 每一条都能在 docs/03-参考库.md 里指回具体条目：
+ *
+ *   A1 序列入场   .rv           ← M-2 AnimatedContent 参数 + M-4 MotionSites 延迟表
+ *                 三档轻重：.rv--lead 主角 / .rv 默认 / .rv--fine 小字
+ *   A2 字级揭示   [data-split]  ← M-1 React Bits SplitText（chars / stagger / power3.out）
+ *   A3 落位       .iso-slab     ← C-4 React Bits ScrollStack
+ *   A4 等距点阵   .dotfield     ← L-3 React Bits DotGrid（改成和剪影同一套等距网格）
+ *   A5 滚动接管   .hero__figure ← M-5 MotionSites 的 scrub；现代浏览器直接用
+ *                                 animation-timeline: scroll()，老浏览器落回 main.js 的 rAF
+ *
+ * ★ 上一版三条毛病，这一版逐条改掉，改动理由写在各自小节里：
+ *   1) 全页只有一个动作（下移 20px + 从 0.12 渐显），主角配角同一个时长同一条缓动
+ *   2) 起始 opacity 0.12 不是设计是兜底，观感是「网页没加载好」
+ *   3) A2 和 A1 挂在同一个元素上打架，拆了字看不出拆过
+ *
+ * ★ 内容可读性仍然不依赖动效执行成功：
+ *   1) 所有「先隐藏」的样式都挂在 html.js 下。关掉 JS 就没有隐藏，全页正常显示。
+ *   2) motion.js 里有一个每 1.2s 的兜底扫描器，只补「已经滚进过视口」的元素，
+ *      IntersectionObserver 不回调也点得亮；reveal() 整个包在 try 里，抛错就全亮。
+ *   3) 起始透明度从 0.12 收到 0：0.12 既不是「看得见」也不是「没出现」，
+ *      它只是让整页看起来没加载完。安全网交给上面两条，不要再用半透明当兜底。
+ */
+
+/* ── A1 序列入场 ──────────────────────────────────────────
+ * M-2 的参数：distance 100px → 收到 22px（B2B 不要大位移），duration 0.8s → 0.56s。
+ * 上一版 --t-rv 是 800ms 配 20px 位移，视觉上是「粘住了」不是「进来了」。
+ *
+ * 位移和渐显走两条时间线：渐显更短、走线性，位移更长、走 --ease-out。
+ * 字先读得清，再滑到位——一条缓动同时管两件事，出来就是一坨匀速的糊。
+ */
+.js .rv {
+  --rv-y: 22px;
+  --rv-t: 560ms;
+  opacity: 0;
+  transform: translate3d(0, var(--rv-y), 0);
+  transition:
+    opacity calc(var(--rv-t) * 0.62) linear var(--d, 0ms),
+    transform var(--rv-t) var(--ease-out) var(--d, 0ms);
+  will-change: transform, opacity;
+}
+/* 主角：屏名、Hero 主张这一级。走得慢、走得远，落地要有重量 */
+.js .rv--lead { --rv-y: 34px; --rv-t: 880ms; }
+/* 配角：mono 小标签、进度行这一级。10-11px 的字位移大了会抖，几乎只做渐显 */
+.js .rv--fine { --rv-y: 9px;  --rv-t: 400ms; }
+
+.js .rv.is-in { opacity: 1; transform: none; }
+/* 进场跑完就把 will-change 摘掉，别一直占着合成层 */
+.js .rv.is-done { will-change: auto; transition: none; }
+
+/* A2 接管以后，同一个元素上的 A1 必须让位。
+ * 上一版四个大标题都是 class="rv" + data-split：外层整块往上推、里层每个字往上推，
+ * 两个位移叠在一起合成出来就是一次普通渐显——这就是「拆了字看不出拆过」的原因。 */
+.js .rv.split { opacity: 1; transform: none; transition: none; will-change: auto; }
+
+/* ── A2 字级揭示：整页只有 Hero 主张的两行 + 三个屏名用它 ────
+ * M-1 官方参数是 chars / stagger 50ms / duration 1.25s / power3.out / from y:40。
+ * 两处按中文调整，理由写在这里：
+ *   · stagger 50ms 是给英文短句的。中文一行 22 个字，50ms 要扫 1.1s，
+ *     Hero 五行叠起来就是 5 秒，收到 22ms（render-hero.js 里排行间延迟用同一个数）。
+ *   · y 用 em 不用 px：46px 的标题和 23px 的手机标题得按各自字号位移，
+ *     写死 40px 到手机上就是半行高的跳动。
+ */
+.js .split__c {
+  display: inline-block;
+  opacity: 0;
+  transform: translate3d(0, 0.62em, 0);
+  transition:
+    opacity 420ms linear calc(var(--d, 0ms) + var(--cd, 0ms)),
+    transform 760ms var(--ease-out) calc(var(--d, 0ms) + var(--cd, 0ms));
+}
+.js .split.is-in .split__c { opacity: 1; transform: none; }
+.split__c { color: inherit; }
+
+/* 强调词最后才着色：整句先用本色落地，等这一行的字扫完再点亮关键词。
+ * --cn 是这一行的字数，由 motion.js 拆字时写上去。 */
+.js .split em {
+  color: var(--ink);
+  transition: color 520ms var(--ease) calc(var(--d, 0ms) + var(--cn, 0) * 22ms + 140ms);
+}
+.js .split.is-in em { color: var(--accent); }
+
+/* ── A3 落位：C 屏那张图 ──────────────────────────────────
+ * 自底向上搭起来（--r 是倒序号：C4 先落、C1 最后落）：板从上方落下，
+ * 先落 C1 再在它下面出现 C2 物理上说不通。
+ * 顺序：地面网格浮现 → 底座升起 → 四块板逐块落位 → 各板的中文标注 → 立方体逐颗落下 → 弧线画出 → 弧线标签。
+ * 整段 1600ms，js/layers.js 里 settle() 的等待时间照这个数写死，改这里就得同步改那边。 */
+.js .iso:not(.iso--hero) .iso-ground { opacity: 0; transition: opacity 600ms linear; }
+.js .iso:not(.iso--hero) .iso-plinth {
+  opacity: 0; transform: translateY(16px);
+  transition: opacity 320ms linear 80ms, transform 520ms var(--ease-out) 80ms;
+}
+.js .iso:not(.iso--hero) .iso-slab__in {
+  opacity: 0;
+  transform: translateY(-34px);
+  transition:
+    opacity 300ms linear calc(220ms + var(--r) * 130ms),
+    transform 640ms var(--ease-out) calc(220ms + var(--r) * 130ms);
+}
+.js .iso:not(.iso--hero) .iso-note { opacity: 0; transition: opacity 300ms linear calc(480ms + var(--r) * 130ms); }
+.js .iso:not(.iso--hero) .iso-cube {
+  opacity: 0; transform: translateY(-6px);
+  transition:
+    opacity 240ms linear calc(520ms + var(--r) * 130ms + var(--k) * 45ms),
+    transform 360ms var(--ease-out) calc(520ms + var(--r) * 130ms + var(--k) * 45ms);
+}
+.js .iso:not(.iso--hero) .iso-return__line {
+  stroke-dasharray: 1; stroke-dashoffset: 1;
+  transition: stroke-dashoffset 700ms var(--ease) 900ms;
+}
+.js .iso:not(.iso--hero) :is(.iso-return__label, .iso-return__head, .iso-return__from) {
+  opacity: 0; transition: opacity 300ms linear 1400ms;
+}
+.js .iso.is-in :is(.iso-ground, .iso-plinth, .iso-slab__in, .iso-note, .iso-cube) { opacity: 1; transform: none; }
+.js .iso.is-in :is(.iso-return__label, .iso-return__head, .iso-return__from) { opacity: 1; }
+.js .iso.is-in .iso-return__line { stroke-dashoffset: 0; }
+/* 落位跑完以后把延迟摘掉，免得点击切换也要等 */
+.js .iso.is-settled .iso-slab__in { transition: filter var(--t-slab) var(--ease); }
+.js .iso.is-settled :is(.iso-note, .iso-plinth, .iso-ground, .iso-return__line) { transition: none; }
+.js .iso.is-settled .iso-cube { transition: transform 200ms var(--ease-out); }
+
+/* Hero 的那叠板：同一个动作（自底向上落位），只是起得更晚，等大标题先立住。
+ * 标签和立方体跟在各自那块板后面亮。 */
+.js .iso--hero .iso-slab__in {
+  opacity: 0;
+  transform: translateY(-28px);
+  transition:
+    opacity 420ms linear calc(320ms + var(--r) * 140ms),
+    transform 640ms var(--ease-out) calc(320ms + var(--r) * 140ms);
+}
+.js .iso--hero .iso-tag { opacity: 0; transition: opacity 300ms linear calc(600ms + var(--r) * 140ms); }
+.js .iso--hero .iso-cube { opacity: 0; transition: opacity 300ms linear calc(640ms + var(--r) * 140ms + var(--k) * 40ms); }
+/* ⚠ .iso-tag 只能动 opacity：它的位置全靠 SVG 的 transform 属性（顺棱剪切矩阵），
+ * CSS 的 transform: none 会把那个属性盖掉，四块板的标签就全挤到原点去了。 */
+.js .iso--hero.is-in :is(.iso-slab__in, .iso-cube) { opacity: 1; transform: none; }
+.js .iso--hero.is-in .iso-tag { opacity: 1; }
+/* 落定以后：位移只留给 hover（220ms）；待机动画挂在同一层，hover 时由 motion.js 摘掉 is-idle */
+.js .iso--hero.is-settled .iso-slab__in { transition: transform 220ms var(--ease-out); }
+
+/* Hero 待机：四层「走一遍」——C1 → C4 依次抬 3px、编号点一下橙，8s 一轮，只跑 3 轮。
+ * 幅度 3px、每层约 1.1s：它在说「一件商品从 C1 走到 C4」，不是装饰。
+ * 到场时「活」，24s 后安静下来——Linear / Palantir 不会让首屏永远在动。整页唯一循环的东西。 */
+@keyframes slab-pass { 0% { transform: none; } 4%, 9% { transform: translateY(-3px); } 15%, 100% { transform: none; } }
+@keyframes id-pass { 0% { fill: var(--ink-2); } 4%, 9% { fill: var(--accent); } 15%, 100% { fill: var(--ink-2); } }
+.js .iso--hero.is-idle .iso-slab__in { animation: slab-pass 8s var(--ease) calc(var(--i) * 1.3s) 3; }
+.js .iso--hero.is-idle .iso-tag__id { animation: id-pass 8s var(--ease) calc(var(--i) * 1.3s) 3; }
+
+/* ── A4 等距点阵 ─────────────────────────────────────────
+ * 上一版是满屏 24px 正交网格、透明度 0.09，和剪影叠在一起只是把底子搞脏。
+ * 这一版换成和剪影同一套 2:1 等距网格（画法在 motion.js 里），
+ * 读起来是「这张等距工程图所在的那张坐标纸」，不是背景噪点。 */
+.dotfield {
+  position: absolute; inset: 0;
+  width: 100%; height: 100%;
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity 900ms var(--ease) 260ms;
+}
+.js .dotfield.is-in { opacity: 1; }
+
+/* ── A5 滚动接管：Hero 那叠板「放下」，不是「飞走」 ─────────
+ * --hk 由 js/main.js 写在 .hero 上：scrollY / (60vh)，每帧 lerp 0.12（M-5）。
+ * 0 → 1 的过程里四块板收紧（C4 上移 36px、C3 24、C2 12、C1 不动）、接触阴影消失、
+ * 点阵淡到 40%——物件落到纸面上，然后随页面一起滚出去。整叠不位移、不缩放、不淡出，
+ * 上一版「整块平移淡出」看起来像图被推走了。 */
+.js .iso--hero .iso-slab { transform: translateY(calc(var(--hk, 0) * var(--r) * -12px)); }
+.js .iso--hero .iso-shade { opacity: calc(1 - var(--hk, 0)); }
+.js .hero .dotfield.is-in { opacity: calc(1 - var(--hk, 0) * 0.6); }
+
+/* ── L 层点阵：一颗一颗浮出来 ────────────────────────────── */
+.js .lv__col .lv__dots circle {
+  opacity: 0;
+  transition: opacity 420ms linear calc(var(--n) * 9ms);
+}
+.js .lv__col.is-in .lv__dots circle { opacity: 1; }
+
+/* ── 降级：prefers-reduced-motion 下全部关掉，内容一次到位 ── */
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+
+  .js .rv,
+  .js .rv.is-in,
+  .js .split__c,
+  .js .split.is-in .split__c,
+  .js .iso .iso-slab,
+  .js .iso .iso-slab__in,
+  .js .iso .iso-ground,
+  .js .iso .iso-plinth,
+  .js .iso .iso-note,
+  .js .iso .iso-cube,
+  .js .iso .iso-shade,
+  .js .iso .iso-return__label,
+  .js .iso .iso-return__head,
+  .js .iso .iso-return__from,
+  .js .lv__col .lv__dots circle,
+  .js .lv__col.is-in .lv__dots circle {
+    opacity: 1 !important;
+    transform: none !important;
+    transition: none !important;
+    animation: none !important;
+  }
+  .js .iso .iso-slab__in { filter: none !important; }
+  /* 标签的位置靠 SVG transform 属性，这里只碰 opacity，不能写 transform: none */
+  .js .iso .iso-tag { opacity: 1 !important; transition: none !important; }
+  .js .iso .iso-tag__id { animation: none !important; }
+
+  .js .split em, .js .split.is-in em { color: var(--accent) !important; transition: none !important; }
+
+  .dotfield, .js .dotfield.is-in { opacity: 0 !important; }
+
+  .js .iso .iso-return__line { stroke-dasharray: none !important; stroke-dashoffset: 0 !important; transition: none !important; }
+  .iso-return__flow { animation: none !important; opacity: 0 !important; }
+  .pnode__dot, .tool, .nav__item, .lpanel, .pcard { transition: none !important; }
+  * { animation-duration: 0.001ms !important; animation-iteration-count: 1 !important; }
+}

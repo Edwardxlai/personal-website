@@ -1,0 +1,400 @@
+/* C1—C4 —— 屏 2
+ * 等距板：三个面三个明度（C-1 Palantir）+ 板间接触阴影 + 板上小立方体 + 板外水平标注。
+ * 几何在 build/iso.js，这里只管颜色、三态和响应式。
+ *
+ * 三态（老板原话「四层的建模非常差」，上一版未选中层压 0.55 透明度发灰）：
+ *   默认   顶面 --face-top，两个立面用深一档的 -on 值——体积靠立面的明度差，不靠透明度
+ *   hover  板抬 4px，顶面变白
+ *   选中   板抬 12px，顶面白、描边加深、投影落下，编号变橙，板外标注变正文色 + 角点变橙
+ * 没有任何一个面走 opacity。
+ *
+ * 两栏的对位靠三条线定死：上面一条通栏横线、中间一条通高竖线、下面 .onto 那条横线。
+ */
+
+/* 图向左出血到页边距里：中文标注挂在版心外，像页边注。
+ * 不出血的话，viewBox 从 562 加宽到 698，板会在同一栏里缩小 14%，和「要有分量」相反。 */
+.sec--c { --bleed: clamp(0px, (100vw - var(--wrap)) / 2, 110px); }
+
+.cwrap {
+  display: grid;
+  grid-template-columns: minmax(0, 45fr) minmax(0, 55fr);
+  /* align-items 保持默认的 stretch：两栏都撑满行高，中间那条竖线才能通到底 */
+  border-top: 1px solid var(--line-2);
+  padding-bottom: 44px;
+}
+
+/* ── 左：粘性分层图 ───────────────────────────────────── */
+.cwrap__fig { padding: 24px 40px 0 0; }
+/* 图连着它的说明一起粘，粘的是内层——外层要留在原地把竖线撑满 */
+.cwrap__sticky { position: sticky; top: 96px; }
+.cfig { position: relative; margin: 14px 0 0 calc(-1 * var(--bleed)); }
+.iso { width: 100%; height: auto; overflow: visible; }
+
+/* 左栏这条说明和右栏的 eyebrow 走同一个组件、同一条基线——
+ * 两栏「对位」这件事，读者是从这一行看出来的。 */
+.cfig__cap { display: flex; align-items: baseline; flex-wrap: wrap; }
+
+/* ── 三个面 —— 明度差就是立体感 ─────────────────────────
+ * 顶 #f6f8f8 / 左 #ccd6d9 / 右 #aab7bb，每级差 11—12 个明度点（原来只差 7 个）。
+ * vector-effect 让描边永远是整像素发丝线，图缩放也不会糊成一圈灰边。 */
+.iso-face {
+  stroke: var(--face-edge); stroke-width: 1; stroke-linejoin: round;
+  vector-effect: non-scaling-stroke;
+  transition: fill var(--t-slab) var(--ease), stroke var(--t-slab) var(--ease), stroke-width var(--t-slab) var(--ease);
+}
+.iso-face--top { fill: var(--face-top); }
+.iso-face--left { fill: var(--face-left-on); }
+.iso-face--right { fill: var(--face-right-on); }
+/* 顶面上叠的一层高光：后角近白、前沿压暗 4%，板面才不是一块平涂 */
+.iso-sheen { stroke: none; pointer-events: none; }
+/* 上一块板压在本板顶面上的接触阴影（几何在 iso.js） */
+.iso-shade { fill: rgba(12, 26, 32, 0.17); pointer-events: none; }
+
+/* ── 板的三态（C 屏那张图；Hero 的 .iso--hero 在 hero.css） ──
+ * 位移只写一处：transform 读 --lift，默认 0 / hover -4 / 选中 -12；按下一律在当前位置再往下 3px。
+ * 这样 hover、:active、.is-active 三条规则各自只换变量，不会互相盖。 */
+.iso:not(.iso--hero) .iso-slab {
+  --lift: 0px;
+  cursor: pointer;
+  transform: translateY(var(--lift));
+  transition: transform var(--t-slab) var(--ease);
+}
+.iso-slab__in { transition: filter var(--t-slab) var(--ease); }
+@media (hover: hover) {
+  .iso:not(.iso--hero) .iso-slab:hover {
+    --lift: -4px;
+    transition-duration: 200ms; transition-timing-function: var(--ease-out);
+  }
+  .iso:not(.iso--hero) .iso-slab:hover .iso-face--top { fill: var(--panel); }
+  .iso:not(.iso--hero) .iso-slab:hover .iso-face { stroke: var(--line-3); }
+}
+.iso:not(.iso--hero) .iso-slab:active { transform: translateY(calc(var(--lift) + 3px)); transition-duration: var(--t-press); }
+/* 选中写在 hover 之后：同权重靠顺序赢。点已经选中的板不是哑火——板上的立方体会依次弹一下（layers.js） */
+.iso-slab.is-active,
+.iso-slab.is-active:hover { --lift: -12px; transition-duration: var(--t-slab); }
+.iso-slab.is-active .iso-slab__in { filter: drop-shadow(0 12px 10px rgba(12, 26, 32, 0.16)); }
+.iso-slab.is-active .iso-face { stroke: var(--face-edge-on); stroke-width: 1.25; }
+.iso-slab.is-active .iso-face--top { fill: var(--panel); }
+/* Chromium 会给带 tabindex 的 <g> 画一个黑色默认焦点框，去掉它，
+   键盘可见焦点改用顶面描边表示 */
+.iso-slab:focus { outline: none; }
+.iso-slab:focus-visible .iso-face--top { stroke: var(--accent); stroke-width: 2; }
+
+/* ── 立方体：一个工具一颗 ─────────────────────────────────
+ * 三面和板是同一套明度；探索中的工具是线框（还没立起来）；
+ * 顶上的状态点走 --live / --trial——属于 tokens.css 允许的「状态点」那一类。 */
+.iso-cube polygon {
+  stroke: var(--face-edge); stroke-width: 0.75; stroke-linejoin: round;
+  vector-effect: non-scaling-stroke;
+  transition: stroke var(--t-slab) var(--ease), fill var(--t-slab) var(--ease);
+}
+.iso-cube__top { fill: var(--panel); }
+.iso-cube__left { fill: var(--face-left); }
+.iso-cube__right { fill: var(--face-right); }
+.iso-cube--explore polygon { fill: none; stroke: var(--line-3); stroke-dasharray: 2 1.6; }
+.iso-cube--live .iso-cube__dot { fill: var(--live); }
+.iso-cube--trial .iso-cube__dot { fill: var(--trial); }
+.iso-slab.is-active .iso-cube polygon { stroke: var(--face-edge-on); }
+/* 右栏工具行悬停 / 点击时，对应这颗立方体抬起来并标出工具名——抽象的「工具」和板上的「物证」是同一个东西。
+ * is-hot 跟着悬停走，is-on 是点过以后钉住的（再点、切层、切 tab 才摘）。
+ * 同一块板上其它立方体的描边同时变淡，让被指的那颗更突出——不用 opacity，那会让板看起来坏了。 */
+.iso-cube { transform-box: fill-box; transform-origin: center bottom; }
+.iso-cube.is-hot, .iso-cube.is-on { transform: translateY(-10px); }
+.iso-cube.is-hot polygon, .iso-cube.is-on polygon { stroke: var(--accent); }
+.iso-cubes.has-hot .iso-cube:not(.is-hot):not(.is-on) polygon { stroke: var(--line); }
+.iso-cube.is-ping { animation: cube-ping 520ms var(--ease-out); }
+@keyframes cube-ping { 30% { transform: translateY(-16px); } 100% { transform: translateY(-10px); } }
+/* 立方体上挂的名字：一条引线 + 一行字，只在被指到时出现 */
+.iso-cube__tip { opacity: 0; pointer-events: none; transition: opacity 160ms var(--ease); }
+.iso-cube.is-hot .iso-cube__tip, .iso-cube.is-on .iso-cube__tip { opacity: 1; }
+.iso-cube__tip line { stroke: var(--line-3); stroke-width: 1; vector-effect: non-scaling-stroke; }
+.iso-cube__tip text {
+  font-family: var(--sans); font-size: 12px; font-weight: 500; fill: var(--ink);
+  paint-order: stroke; stroke: var(--bg); stroke-width: 4px; stroke-linejoin: round;
+}
+
+/* ── 板上的拉丁字：→ C1 DECISION & PLANNING（顺棱剪切，拉丁字不怕 skew） ── */
+.iso-tag { font-family: var(--mono); }
+/* 箭头用无衬线：等宽字体里的 → 又小又短，剪切以后像一条波浪 */
+.iso-tag__arrow { font-family: var(--sans); font-size: 13px; fill: var(--ink-3); transition: fill var(--t-slab) var(--ease); }
+.iso-tag__id {
+  font-size: 15px; font-weight: 600; letter-spacing: 0.04em; fill: var(--ink-2);
+  transition: fill var(--t-slab) var(--ease);
+}
+.iso-tag__en { font-size: 10.5px; font-weight: 500; letter-spacing: 0.14em; fill: var(--ink-3); transition: fill var(--t-slab) var(--ease); }
+.iso-slab:hover .iso-tag__id { fill: var(--ink); }
+.iso-slab.is-active .iso-tag__id { fill: var(--accent); }
+.iso-slab.is-active .iso-tag__arrow, .iso-slab.is-active .iso-tag__en { fill: var(--ink); }
+
+/* ── 板外的中文标注：引线 + 角点 + 层名，水平排、不 skew ── */
+.iso-note__hit { fill: transparent; stroke: none; }
+.iso-note__t {
+  font-family: var(--sans); font-size: 15px; fill: var(--ink-2);
+  paint-order: stroke; stroke: var(--bg); stroke-width: 4px; stroke-linejoin: round;
+  transition: fill 220ms var(--ease);
+}
+.iso-note__l { stroke: var(--line-2); stroke-width: 1; vector-effect: non-scaling-stroke; transition: stroke 220ms var(--ease); }
+.iso-note__d { fill: var(--ink-3); transition: fill 220ms var(--ease); }
+.iso-slab:hover .iso-note__t { fill: var(--ink); }
+.iso-slab.is-active .iso-note__t { fill: var(--ink); font-weight: 500; }
+.iso-slab.is-active .iso-note__l { stroke: var(--line-3); }
+.iso-slab.is-active .iso-note__d { fill: var(--accent); }
+
+/* ── 底座 + 地面网格 ─────────────────────────────────── */
+.iso-plinth__t { font-family: var(--mono); font-size: 19px; font-weight: 600; letter-spacing: 0.16em; fill: var(--ink-2); }
+.iso-ground line { stroke: var(--line); stroke-width: 1; vector-effect: non-scaling-stroke; }
+
+/* ── 回流弧线：实线 + 起点空心点 + 末端开口箭头；选中 C4 时橙色虚线在上面流动 ──
+ * 老板会点这条线：点了就是选 C4（layers.js），悬停时线加深一档。 */
+.iso-return { cursor: pointer; }
+.iso-return__line { fill: none; stroke: var(--line-3); stroke-width: 1.75; stroke-linecap: round; transition: stroke var(--t-slab) var(--ease); }
+@media (hover: hover) {
+  .iso-return:hover .iso-return__line, .iso-return:hover .iso-return__head { stroke: var(--ink-2); }
+  .iso-return:hover .iso-return__label { fill: var(--ink); }
+}
+.iso-return__flow {
+  fill: none; stroke: var(--accent); stroke-width: 1.75; stroke-dasharray: 5 9; stroke-linecap: round;
+  opacity: 0; transition: opacity var(--t-slab) var(--ease);
+}
+.iso-return__from { fill: var(--bg); stroke: var(--line-3); stroke-width: 1.5; transition: stroke var(--t-slab) var(--ease); }
+.iso-return__head {
+  fill: none; stroke: var(--line-3); stroke-width: 1.75; stroke-linecap: round; stroke-linejoin: round;
+  transition: stroke var(--t-slab) var(--ease);
+}
+/* 标签压在弧顶上，靠 paint-order 先描一圈底色再填字，线从字背后穿过去 */
+.iso-return__label {
+  font-family: var(--serif); font-size: 15px; font-weight: 600; fill: var(--ink-2);
+  paint-order: stroke; stroke: var(--bg); stroke-width: 5px; stroke-linejoin: round;
+  transition: fill var(--t-slab) var(--ease);
+}
+.cfig.is-c4 .iso-return__flow { opacity: 1; animation: dashflow 1.4s linear infinite; }
+.cfig.is-c4 .iso-return__from, .cfig.is-c4 .iso-return__head { stroke: var(--accent); }
+.cfig.is-c4 .iso-return__label { fill: var(--ink); }
+@keyframes dashflow { to { stroke-dashoffset: -28; } }
+
+/* ── 右：内容面板 ─────────────────────────────────────── */
+.cwrap__panel {
+  padding: 24px 0 0 48px;
+  border-left: 1px solid var(--line);
+}
+
+.js .lpanel { display: none; }
+.js .lpanel.is-active { display: block; animation: swapin var(--t-swap) var(--ease); }
+
+/* 没有 JS 时四块面板全部显示，各自加一条分隔 */
+.lpanel + .lpanel { margin-top: 48px; padding-top: 40px; border-top: 1px solid var(--line-2); }
+.js .lpanel + .lpanel { margin-top: 0; padding-top: 0; border-top: 0; }
+
+.lpanel__eyebrow { margin-bottom: 14px; }
+.lpanel__title {
+  font-family: var(--serif); font-size: var(--fs-h3);
+  display: flex; align-items: baseline; gap: 14px;
+}
+.lpanel__title b {
+  font-family: var(--mono); font-size: 0.66em; font-weight: 600;
+  color: var(--accent); letter-spacing: 0.02em;
+}
+/* 46px 标题和 15.5px 正文之间原来是空的，导语吃 lede 这一档把台阶补上 */
+.lpanel__lead {
+  margin-top: 14px; font-size: var(--fs-lede); line-height: 1.7;
+  color: var(--ink); max-width: 34ch;
+}
+/* 部门是署名性质的信息——压成一行灰字挂在导语下面 */
+.lpanel__by {
+  margin-top: 16px; font-size: var(--fs-small); color: var(--ink-2);
+}
+.lpanel__by span {
+  font-family: var(--mono); font-size: var(--fs-micro); letter-spacing: 0.14em;
+  text-transform: uppercase; color: var(--ink-3); margin-right: 14px;
+}
+.lpanel__by b { font-weight: 400; }
+.lpanel__by i { font-style: normal; color: var(--line-2); margin: 0 0.5em; }
+
+/* ── tabs ──────────────────────────────────────────────
+ * 老板原话：「DESCRIPTION / TOOLS 这块 tab 显然太小」。
+ * 上一版是 10.5px 的英文、只有文字本身那几个像素可点，按下去也没有反馈。
+ * 现在：中文短标签（「说明 / 工具」）、48px 高、
+ * 只有一种指示语言：底沿一条 2px 强调线在两个 tab 之间滑动（Linear 导航 / X-4 的做法）。
+ * hover 只在字下加一条 1px 细线，不浮白块；按下沉 1px。
+ * 没有 JS 时滑动线不存在，靠每个 tab 自己的 ::after 兜底。 */
+.lpanel__tabs {
+  position: relative;
+  display: flex; gap: 32px;
+  margin: 26px 0 8px;
+  border-bottom: 1px solid var(--line);
+}
+.ltab {
+  display: inline-flex; align-items: baseline; gap: 8px;
+  min-width: 44px; min-height: 48px; padding: 0 4px; justify-content: center;
+  margin-bottom: -1px;
+  font-family: var(--sans); font-size: 14.5px; font-weight: 500; letter-spacing: 0.01em;
+  color: var(--ink-2);
+  position: relative;
+  transition: color var(--t-swap) var(--ease), box-shadow 120ms var(--ease), transform var(--t-press) var(--ease);
+}
+.ltab:first-child { margin-left: -4px; }
+.ltab i {
+  font-style: normal; font-family: var(--mono); font-size: 12px; letter-spacing: 0.04em;
+  color: var(--ink-3);
+  transition: color var(--t-swap) var(--ease);
+}
+/* 每个 tab 自己的线：无 JS 时的兜底；有 JS 时由滑动的 .ltab__bar 接管 */
+.ltab::after {
+  content: ""; position: absolute; left: 4px; right: 4px; bottom: 0; height: 2px;
+  background: var(--accent); transform: scaleX(0); transform-origin: left;
+  transition: transform var(--t-swap) var(--ease-out);
+}
+.ltab.is-active::after { transform: scaleX(1); }
+.js .lpanel__tabs.has-bar .ltab::after { display: none; }
+.ltab__bar {
+  display: none;
+  position: absolute; bottom: -1px; height: 2px;
+  left: var(--x, 0px); width: var(--w, 0px);
+  background: var(--accent);
+  transition: left 260ms var(--ease-out), width 260ms var(--ease-out);
+}
+.js .lpanel__tabs.has-bar .ltab__bar { display: block; }
+@media (hover: hover) {
+  .ltab:hover { color: var(--ink); box-shadow: inset 0 -1px 0 var(--line-3); }
+  .ltab:hover i { color: var(--ink-2); }
+}
+.ltab:active { transform: translateY(1px); }
+.ltab.is-active { color: var(--ink); }
+.ltab.is-active i { color: var(--accent); }
+
+.js .lpanel__body { display: none; }
+.js .lpanel__body.is-active { display: block; animation: swapin var(--t-swap) var(--ease); }
+.lpanel__body { padding-top: 4px; }
+
+/* ── 标签值行 ─────────────────────────────────────────
+ * 左边一个等宽小标签，右边就是一行字。值里的词一个框都不包，词与词之间用一个淡分隔点。 */
+.spec {
+  display: flex; gap: 16px; align-items: baseline;
+  padding: 15px 0; border-top: 1px solid var(--line);
+}
+.spec__k {
+  flex: 0 0 128px;
+  font-family: var(--mono); font-size: var(--fs-micro); letter-spacing: 0.14em;
+  text-transform: uppercase; color: var(--ink-3); line-height: 1.9;
+}
+.spec__v { min-width: 0; font-size: var(--fs-small); color: var(--ink-2); line-height: 1.9; }
+.spec__v b { font-weight: 400; }
+.spec__v i { font-style: normal; color: var(--line-2); margin: 0 0.55em; }
+/* 词和它后面的分隔符一起换行，新行永远从完整词开始 */
+.term { white-space: nowrap; }
+/* C4 的长句必须允许自然换行，避免窄屏被一个不可拆单元撑开 */
+.term--wrap { white-space: normal; }
+
+/* 链条是一串有方向的动作，所以词用正文色、箭头留灰 */
+.spec__v--flow b { color: var(--ink); }
+.spec__v--flow i { color: var(--ink-3); margin: 0 0.4em; }
+.spec__v--flow .flow__tail { color: var(--accent); }
+
+/* 沉淀下来的对象与字段是这一屏的落点，也是下面七要素那一条的上文，
+ * 所以比别的值行重一档，和底下那条用同一种字号 */
+.spec--onto { border-top-color: var(--line-2); }
+.spec--onto .spec__v { font-size: var(--fs-body); color: var(--ink); }
+.spec--onto .spec__v i { color: var(--line-2); }
+
+/* ── 工具行（X-2 Palantir 链接行：一行字 + ↗） ──
+ * 每一行都有反馈：hover 浮白底 + 左侧 2px 竖线 + 板上对应立方体抬起并标出名字；
+ * 点一下是「钉住」（is-on：竖线变橙、立方体留在抬起态），再点一下松开。
+ * href 接上以后那一行变成 <a>，多一个 ↗ 并开新页，联动行为不变。 */
+.tools { margin-top: 6px; border-top: 1px solid var(--line); }
+.tool {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  column-gap: 28px; row-gap: 3px;
+  width: calc(100% + 28px);
+  text-align: left;
+  padding: 15px 14px 14px;
+  margin: 0 -14px;
+  border-bottom: 1px solid var(--line);
+  border-radius: 3px;
+  cursor: pointer;
+  box-shadow: inset 0 0 0 transparent;
+  transition: background var(--t-swap) var(--ease), box-shadow var(--t-swap) var(--ease), transform var(--t-press) var(--ease);
+}
+@media (hover: hover) {
+  .tool:hover { background: var(--panel); box-shadow: inset 2px 0 0 var(--line-3); }
+}
+.tool:active { transform: translateY(1px); background: var(--sunk); }
+.tool.is-on { background: var(--panel); box-shadow: inset 2px 0 0 var(--accent); }
+.tool:focus-visible { outline: 2px solid var(--accent); outline-offset: -2px; }
+.tool__head { grid-area: 1 / 1; display: flex; align-items: baseline; gap: 8px; }
+.tool__name { font-size: var(--fs-body); font-weight: 400; color: var(--ink); }
+.tool.is-clickable:hover .tool__name { text-decoration: underline; text-underline-offset: 3px; }
+.tool__ext { font-size: 12px; color: var(--ink-3); transition: color var(--t-swap) var(--ease); }
+.tool.is-clickable:hover .tool__ext { color: var(--accent); }
+.tool__desc { grid-area: 2 / 1; font-size: var(--fs-small); color: var(--ink-2); line-height: 1.7; }
+/* metric 和状态点右对齐成一列：16 个数字排成一条竖线，比散在卡片里好扫 */
+.tool__metric {
+  grid-area: 1 / 2; justify-self: end; text-align: right; white-space: nowrap;
+  font-family: var(--mono); font-size: var(--fs-small); font-weight: 500;
+  color: var(--accent); letter-spacing: 0.01em;
+}
+.tool__status {
+  grid-area: 2 / 2; justify-self: end;
+  display: inline-flex; align-items: center; gap: 6px; white-space: nowrap;
+  font-family: var(--mono); font-size: 10px; letter-spacing: 0.13em; color: var(--ink-3);
+}
+.tool__status i { width: 6px; height: 6px; border-radius: 50%; background: currentColor; }
+.tool__status--live { color: var(--live); }
+.tool__status--trial { color: var(--trial); }
+.tool__status--explore { color: var(--explore); }
+
+/* ── Ontology 七要素条 ─────────────────────────────────── */
+.onto {
+  margin-top: 0; padding-top: 26px; border-top: 1px solid var(--line-2);
+  display: grid; grid-template-columns: minmax(0, 34fr) minmax(0, 66fr); gap: 48px;
+  align-items: start;
+}
+.onto__note { font-size: var(--fs-small); line-height: 1.85; color: var(--ink-2); }
+.onto__list {
+  display: grid; grid-template-columns: repeat(7, minmax(0, 1fr)); gap: 4px 12px;
+}
+.onto__list li { display: flex; flex-direction: column; gap: 3px; }
+.onto__list b { font-weight: 400; font-size: var(--fs-body); color: var(--ink); }
+.onto__list i {
+  font-style: normal; font-family: var(--mono); font-size: 8.5px;
+  letter-spacing: 0.13em; color: var(--ink-3);
+}
+
+@media (max-width: 1100px) {
+  /* 两栏塌成一栏，那条竖线就没有意义了；对位交给上下两条横线 */
+  .cwrap { grid-template-columns: 1fr; padding-bottom: 36px; }
+  .cwrap__fig { padding: 24px 0 0; }
+  .cwrap__sticky { position: static; }
+  .cwrap__panel { padding: 36px 0 0; border-left: 0; border-top: 1px solid var(--line); }
+  .cfig { max-width: 600px; margin-left: 0; }
+  .lpanel__lead { max-width: 46ch; }
+  /* 一栏时右栏没有内边距了，工具行的悬停出血区跟着收掉，否则会顶出版心 */
+  .tool { margin: 0; width: 100%; padding-inline: 10px; }
+  .onto { grid-template-columns: 1fr; gap: 24px; }
+  .onto__list { grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 14px 12px; }
+}
+
+@media (max-width: 700px) {
+  .cfig { max-width: 100%; }
+  /* 窄屏上整张图被压到 0.55 倍，10.5px 的英文缩成噪点：撤掉，编号和标注放大 */
+  .iso-tag__en { display: none; }
+  .iso-tag__id { font-size: 19px; }
+  .iso-note__t { font-size: 18px; }
+  .iso-plinth__t { font-size: 20px; }
+  .iso-return__label { font-size: 19px; }
+
+  .spec { flex-direction: column; gap: 6px; padding: 14px 0; }
+  .spec__k { flex: none; }
+  /* 长句在手机上换行时隐藏承上箭头，避免箭头单独落到新行 */
+  .spec__v--flow .term--wrap > i { display: none; }
+  .lpanel__by span { display: block; margin: 0 0 4px; }
+  .lpanel__tabs { gap: 22px; }
+
+  /* 窄屏放不下「左文字 / 右数字」，改成顺流：名字 → 说明 → 数字 → 状态 */
+  .tool { grid-template-columns: minmax(0, 1fr); row-gap: 5px; }
+  .tool__head, .tool__desc, .tool__metric, .tool__status {
+    grid-area: auto; justify-self: start; text-align: left;
+  }
+
+  .onto__list { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+}

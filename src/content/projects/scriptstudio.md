@@ -1,6 +1,6 @@
 ---
-title: FDE 实践
-tagline: 走进电商业务现场，把人的经验、数据的口径和 AI 能执行的工作接起来
+title: FDE Roadmap
+tagline: 我做 FDE 过程中整理的一张路线图，点击展开
 order: 3
 draft: false
 ---

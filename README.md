@@ -42,3 +42,5 @@ npm run preview   # 本地预览 build 产物
 ## 每周内容更新
 
 自媒体账号配置在 `src/data/social-sources.json`，核实后的文章和成就数据保存在 `src/data/social-snapshot.json`。运行 `npm run social:collect` 采集原文，再用 `npm run social:apply -- <verified-update.json>` 合并核实结果。每周一北京时间 09:00 由 Codex 定时任务执行并推送，Cloudflare Pages 自动部署；电脑和 Codex 需可运行。接入范围、证据格式和失败处理见 [机器人说明](docs/social-bot.md)。
+
+FDE 项目入口跳转至 `/fde-roadmap/`，内容来自 `E:\CursorProject\token-engine-review` 的公开版本，页面与资源收录在 `public/fde-roadmap/`。只在收录副本中增加返回个人站的链接，原项目保持不变。

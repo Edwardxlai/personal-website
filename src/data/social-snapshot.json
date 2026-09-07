@@ -17,9 +17,9 @@
       "reason": "需要登录授权，公开读取暂不可用"
     },
     "threads": {
-      "checkedAt": "2026-09-07T10:22:25.754Z",
+      "checkedAt": "2026-09-07T10:33:11.646Z",
       "status": "partial",
-      "reason": "公开主页可读，作品列表或发布时间不完整，保留已收录内容"
+      "reason": "公开正文、链接、时间和粉丝数已接通；累计浏览仍保留历史记录"
     },
     "xiaohongshu": {
       "checkedAt": "2026-09-07T10:22:25.772Z",
@@ -27,7 +27,48 @@
       "reason": "公开主页可读，作品列表或发布时间不完整，保留已收录内容"
     }
   },
-  "works": [],
+  "works": [
+    {
+      "sourceId": "threads",
+      "asOf": "2026-09-07T10:33:11.646Z",
+      "evidenceUrl": "https://www.threads.com/@ledwardsama/post/Dc3axp4DtVt",
+      "quote": "干FDE的Day 22，前两天觉得Fable 5.1烧得太疯狂了，一看其实是多agent的锅，其实审计、测试这些脏活累活不应该让它干",
+      "title": "干FDE的Day 22，前两天觉得Fable 5.1烧得太疯狂了，一看其实是多agent的锅，其实审计、测试这些脏活累活不应该让它干",
+      "url": "https://www.threads.com/@ledwardsama/post/Dc3axp4DtVt",
+      "publishedAt": "2026-09-04T12:45:56.000Z",
+      "stat": "单篇 4 赞"
+    },
+    {
+      "sourceId": "threads",
+      "asOf": "2026-09-07T10:33:11.646Z",
+      "evidenceUrl": "https://www.threads.com/@ledwardsama/post/DcyY3QlGzew",
+      "quote": "干FDE的Day 21，今天团队被CEO骂了一通，原本我们是想用外面专门做数仓的公司搭数据底座，但那家公司又贵做事又慢，所以这几天我们都在纠结于怎么更好地爬数据",
+      "title": "干FDE的Day 21，今天团队被CEO骂了一通，原本我们是想用外面专门做数仓的公司搭数据底座，但那家公司又贵做事又慢，所以这几天我们都在纠结于怎么更好地爬数据",
+      "url": "https://www.threads.com/@ledwardsama/post/DcyY3QlGzew",
+      "publishedAt": "2026-09-02T13:53:01.000Z",
+      "stat": "单篇 5 赞"
+    },
+    {
+      "sourceId": "threads",
+      "asOf": "2026-09-07T10:33:11.646Z",
+      "evidenceUrl": "https://www.threads.com/@ledwardsama/post/DcvwEIsmMUP",
+      "quote": "干FDE的Day 20，今天领悟到一件事，你觉得很稀疏平常的事但别人干不好，那很有可能这就是你的优势",
+      "title": "干FDE的Day 20，今天领悟到一件事，你觉得很稀疏平常的事但别人干不好，那很有可能这就是你的优势",
+      "url": "https://www.threads.com/@ledwardsama/post/DcvwEIsmMUP",
+      "publishedAt": "2026-09-01T13:18:02.000Z",
+      "stat": "单篇 4 赞"
+    },
+    {
+      "sourceId": "threads",
+      "asOf": "2026-09-07T10:33:11.646Z",
+      "evidenceUrl": "https://www.threads.com/@ledwardsama/post/Dcs9DS-mARe",
+      "quote": "干FDE的Day 19，今天汇报才明白对齐业务语言有多重要",
+      "title": "干FDE的Day 19，今天汇报才明白对齐业务语言有多重要",
+      "url": "https://www.threads.com/@ledwardsama/post/Dcs9DS-mARe",
+      "publishedAt": "2026-08-31T11:13:47.000Z",
+      "stat": "单篇 11 赞"
+    }
+  ],
   "metrics": [
     {
       "sourceId": "douyin-study",
@@ -73,6 +114,15 @@
       "key": "likesAndSaves",
       "value": "1万+",
       "label": "累计获赞与收藏"
+    },
+    {
+      "sourceId": "threads",
+      "asOf": "2026-09-07T10:33:11.646Z",
+      "evidenceUrl": "https://www.threads.com/@ledwardsama",
+      "quote": "[356 followers]",
+      "key": "followers",
+      "value": "356",
+      "label": "粉丝"
     }
   ]
 }

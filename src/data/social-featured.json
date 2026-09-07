@@ -3,15 +3,29 @@
     "contentKey": "vibecoding-workflow",
     "platform": "抖音作品",
     "title": "vibecoding 最佳实践，大佬都在用的极简工作流",
-    "href": "https://v.douyin.com/AwDt_hEYFAc/",
-    "stat": "单条赞藏 7K+"
+    "href": "https://www.douyin.com/video/7647175251755984997",
+    "stat": "单条赞藏 8K+"
   },
   {
-    "contentKey": "personal-website-tutorial",
+    "contentKey": "ai-tools-adoption",
+    "platform": "小红书",
+    "title": "为什么大家对这无动于衷",
+    "href": "https://www.xiaohongshu.com/user/profile/62c44930000000001b024533/6a0c1a67000000003503b425?xsec_token=ABIaGZ_OGukQOnd5b-vGew2hAcWyTuuniVbkqFVWRWWZY%3D&xsec_source=pc_user",
+    "stat": "单篇赞藏 12K+"
+  },
+  {
+    "contentKey": "fde-career-first-week",
     "platform": "抖音作品",
-    "title": "如何从 0 到 1 制作自己的个人网站",
-    "href": "https://v.douyin.com/tBcT1w3yJRs",
-    "stat": "单条赞藏 500+"
+    "title": "FDE 真的是 AI 时代的版本答案吗",
+    "href": "https://www.douyin.com/video/7674896933869840249",
+    "stat": "单条赞藏 1.8K+"
+  },
+  {
+    "contentKey": "fde-ontology-method",
+    "platform": "抖音作品",
+    "title": "学 Ontology，不如先学我这套工作方法论",
+    "href": "https://www.douyin.com/video/7677526175661011685",
+    "stat": "单条赞藏 1K+"
   },
   {
     "contentKey": "academic-writing",
@@ -21,24 +35,10 @@
     "stat": "单篇赞藏 2K+"
   },
   {
-    "contentKey": "financial-freedom",
-    "platform": "X 观点",
-    "title": "普通人最快实现财富自由的路径",
-    "href": "https://x.com/lnxinsh00633331/status/2072684791095324770?s=20",
-    "stat": "单篇 20K+ 浏览"
-  },
-  {
     "contentKey": "tuixue-trading",
     "platform": "X 文章",
     "title": "白毛股神打得过中国股神吗？中国游资拆解之——退学炒股",
     "href": "https://x.com/edwardxlaime/status/2073736476945248676?s=20",
     "stat": "单篇 15K+ 浏览"
-  },
-  {
-    "contentKey": "google-flow-tutorial",
-    "platform": "X 视频",
-    "title": "Google Flow 保姆级教学，自媒体人必学的 AI 工具！",
-    "href": "https://x.com/edwardxlaime/status/2082819835738673261?s=20",
-    "stat": "系列视频赞藏 500+"
   }
 ]

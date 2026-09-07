@@ -5,12 +5,14 @@ import { promisify } from 'node:util';
 import { fileURLToPath } from 'node:url';
 import path from 'node:path';
 import { parseThreads } from './parse-threads.mjs';
+import { collectOpenCli } from './collect-opencli.mjs';
 
 const exec = promisify(execFile);
 const root = fileURLToPath(new URL('../', import.meta.url));
 const sources = JSON.parse(await readFile(path.join(root, 'src/data/social-sources.json'), 'utf8'));
 const directory = path.join(root, '.cache/social', new Date().toISOString().replaceAll(':', '-'));
 await mkdir(directory, { recursive: true });
+const browserSources = await collectOpenCli(sources, directory);
 let proxy = process.env.HTTPS_PROXY || process.env.HTTP_PROXY;
 if (!proxy && process.platform === 'win32') {
   const { stdout } = await exec('powershell.exe', ['-NoProfile', '-Command', "$p = Get-ItemProperty 'HKCU:\\Software\\Microsoft\\Windows\\CurrentVersion\\Internet Settings'; if ($p.ProxyEnable -eq 1) { $p.ProxyServer }"]);
@@ -40,4 +42,4 @@ const results = await Promise.all(sources.map(async source => {
   }
 }));
 await writeFile(path.join(directory, 'manifest.json'), JSON.stringify(results, null, 2) + '\n');
-console.log(JSON.stringify({ directory, sources: results.map(({ sourceId, status }) => ({ sourceId, status })) }, null, 2));
+console.log(JSON.stringify({ directory, browserSources, sources: results.map(({ sourceId, status }) => ({ sourceId, status })) }, null, 2));

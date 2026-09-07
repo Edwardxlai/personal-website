@@ -7,9 +7,9 @@
       "reason": "公开主页可读，作品列表或发布时间不完整，保留已收录内容"
     },
     "douyin-ai": {
-      "checkedAt": "2026-09-07T10:22:25.718Z",
+      "checkedAt": "2026-09-07T15:36:39.581Z",
       "status": "partial",
-      "reason": "公开主页可读，作品列表或发布时间不完整，保留已收录内容"
+      "reason": "AI 号作品、点赞与收藏已通过浏览器接通；公开播放量为占位零，不作为真实播放量"
     },
     "x": {
       "checkedAt": "2026-09-07T10:22:25.737Z",
@@ -22,12 +22,22 @@
       "reason": "公开正文、链接、时间和粉丝数已接通；累计浏览仍保留历史记录"
     },
     "xiaohongshu": {
-      "checkedAt": "2026-09-07T10:22:25.772Z",
+      "checkedAt": "2026-09-07T15:36:39.581Z",
       "status": "partial",
-      "reason": "公开主页可读，作品列表或发布时间不完整，保留已收录内容"
+      "reason": "60 条作品和精选候选的点赞收藏已读取；后台浏览量未取得"
     }
   },
   "works": [
+    {
+      "sourceId": "douyin-ai",
+      "asOf": "2026-09-07T15:36:39.581Z",
+      "evidenceUrl": "https://www.douyin.com/video/7682286392618002917",
+      "quote": "如何入职FDE 风口行业其实是最容易进入的",
+      "title": "如何入职FDE 风口行业其实是最容易进入的",
+      "url": "https://www.douyin.com/video/7682286392618002917",
+      "publishedAt": "2026-09-06T05:14:46.000Z",
+      "stat": "单条赞藏 529"
+    },
     {
       "sourceId": "threads",
       "asOf": "2026-09-07T10:33:11.646Z",
@@ -67,6 +77,176 @@
       "url": "https://www.threads.com/@ledwardsama/post/Dcs9DS-mARe",
       "publishedAt": "2026-08-31T11:13:47.000Z",
       "stat": "单篇 11 赞"
+    },
+    {
+      "sourceId": "douyin-ai",
+      "asOf": "2026-09-07T15:36:39.581Z",
+      "evidenceUrl": "https://www.douyin.com/video/7677526175661011685",
+      "quote": "学Ontology不如先学我这套工作方法论",
+      "title": "学Ontology不如先学我这套工作方法论",
+      "url": "https://www.douyin.com/video/7677526175661011685",
+      "publishedAt": "2026-08-24T09:22:42.000Z",
+      "stat": "单条赞藏 1094"
+    },
+    {
+      "sourceId": "xiaohongshu",
+      "asOf": "2026-09-07T15:36:39.581Z",
+      "evidenceUrl": "https://www.xiaohongshu.com/user/profile/62c44930000000001b024533/6a8c0afb000000003302ae31?xsec_token=ABlWMRP9kGGruecRTcRRagIXP8u7U1zw_eLrMYGyTtijA%3D&xsec_source=pc_user",
+      "quote": "FDE必学的Ontology其实是这样构建的",
+      "title": "FDE必学的Ontology其实是这样构建的",
+      "url": "https://www.xiaohongshu.com/user/profile/62c44930000000001b024533/6a8c0afb000000003302ae31?xsec_token=ABlWMRP9kGGruecRTcRRagIXP8u7U1zw_eLrMYGyTtijA%3D&xsec_source=pc_user",
+      "publishedAt": "2026-08-24T09:12:27.000Z",
+      "stat": "单篇赞藏 896"
+    },
+    {
+      "sourceId": "douyin-ai",
+      "asOf": "2026-09-07T15:36:39.581Z",
+      "evidenceUrl": "https://www.douyin.com/video/7675622551037265893",
+      "quote": "FDE周总结来了。忙到只能拿午休的时间来写了，创作不易😭，如果有帮助的话也请大家点个赞支持一下呀，后续每周我都会发一篇周总结去梳理我这周学到的知识",
+      "title": "FDE周总结来了。忙到只能拿午休的时间来写了，创作不易😭，如果有帮助的话也请大家点个赞支持一下呀，后续每周我都会发一篇周总结去梳理我这周学到的知识",
+      "url": "https://www.douyin.com/video/7675622551037265893",
+      "publishedAt": "2026-08-19T06:15:39.000Z",
+      "stat": "单条赞藏 859"
+    },
+    {
+      "sourceId": "douyin-ai",
+      "asOf": "2026-09-07T15:36:39.581Z",
+      "evidenceUrl": "https://www.douyin.com/video/7674896933869840249",
+      "quote": "FDE真的是AI时代的版本答案吗 入职第一周，感觉完全是风口",
+      "title": "FDE真的是AI时代的版本答案吗 入职第一周，感觉完全是风口",
+      "url": "https://www.douyin.com/video/7674896933869840249",
+      "publishedAt": "2026-08-17T07:19:53.000Z",
+      "stat": "单条赞藏 1845"
+    },
+    {
+      "sourceId": "douyin-ai",
+      "asOf": "2026-09-07T15:36:39.581Z",
+      "evidenceUrl": "https://www.douyin.com/video/7671196125772856296",
+      "quote": "我手搓了一个超好用的AI学习神器 我是长期费曼学习法的实践者了，这套流程完全就是我学习的全过程，现在把它做成了网页",
+      "title": "我手搓了一个超好用的AI学习神器 我是长期费曼学习法的实践者了，这套流程完全就是我学习的全过程，现在把它做成了网页",
+      "url": "https://www.douyin.com/video/7671196125772856296",
+      "publishedAt": "2026-08-07T07:58:52.000Z",
+      "stat": "单条赞藏 141"
+    },
+    {
+      "sourceId": "douyin-ai",
+      "asOf": "2026-09-07T15:36:39.581Z",
+      "evidenceUrl": "https://www.douyin.com/video/7668985153783741177",
+      "quote": "AI时代值得所有人注意的风口岗位 大学生们看过来！！！",
+      "title": "AI时代值得所有人注意的风口岗位 大学生们看过来！！！",
+      "url": "https://www.douyin.com/video/7668985153783741177",
+      "publishedAt": "2026-08-01T08:59:10.000Z",
+      "stat": "单条赞藏 133"
+    },
+    {
+      "sourceId": "xiaohongshu",
+      "asOf": "2026-09-07T15:36:39.581Z",
+      "evidenceUrl": "https://www.xiaohongshu.com/user/profile/62c44930000000001b024533/6a676de50000000011012cdf?xsec_token=ABSaBqoB3CUzeCY9PX1aCS78i0r7V_V9Cy63ngqKfbWQc%3D&xsec_source=pc_user",
+      "quote": "原来这样就能省下我的口语私教钱",
+      "title": "原来这样就能省下我的口语私教钱",
+      "url": "https://www.xiaohongshu.com/user/profile/62c44930000000001b024533/6a676de50000000011012cdf?xsec_token=ABSaBqoB3CUzeCY9PX1aCS78i0r7V_V9Cy63ngqKfbWQc%3D&xsec_source=pc_user",
+      "publishedAt": "2026-07-27T14:40:37.000Z",
+      "stat": "单篇赞藏 289"
+    },
+    {
+      "sourceId": "douyin-ai",
+      "asOf": "2026-09-07T15:36:39.581Z",
+      "evidenceUrl": "https://www.douyin.com/video/7666845919891001576",
+      "quote": "我是如何与10W失之交臂的 本来没啥后劲的，知道问题以后差点一口气没喘上来@抖音校园",
+      "title": "我是如何与10W失之交臂的 本来没啥后劲的，知道问题以后差点一口气没喘上来@抖音校园",
+      "url": "https://www.douyin.com/video/7666845919891001576",
+      "publishedAt": "2026-07-26T14:37:51.000Z",
+      "stat": "单条赞藏 74"
+    },
+    {
+      "sourceId": "douyin-ai",
+      "asOf": "2026-09-07T15:36:39.581Z",
+      "evidenceUrl": "https://www.douyin.com/video/7666218908819753445",
+      "quote": "Opus 5来了 Opus 5只用了十分钟生成的玩具，感觉3D建模能力得到了极大提升",
+      "title": "Opus 5来了 Opus 5只用了十分钟生成的玩具，感觉3D建模能力得到了极大提升",
+      "url": "https://www.douyin.com/video/7666218908819753445",
+      "publishedAt": "2026-07-24T22:04:43.000Z",
+      "stat": "单条赞藏 81"
+    },
+    {
+      "sourceId": "douyin-ai",
+      "asOf": "2026-09-07T15:36:39.581Z",
+      "evidenceUrl": "https://www.douyin.com/video/7665222433456375781",
+      "quote": "不用到处找了，Kimi K3和GLM-5。想体验 Kimi K3 和 GLM-5.2，不用再分别找平台了。 云知声Tokenplan现在只需 1.9 元，即可获得 1.8 亿 Cr……版本过低，升级后可展示全部信息",
+      "title": "不用到处找了，Kimi K3和GLM-5。想体验 Kimi K3 和 GLM-5.2，不用再分别找平台了。 云知声Tokenplan现在只需 1.9 元，即可获得 1.8 亿 Cr……版本过低，升级后可展示全部信息",
+      "url": "https://www.douyin.com/video/7665222433456375781",
+      "publishedAt": "2026-07-22T05:37:53.000Z",
+      "stat": "单条赞藏 9"
+    },
+    {
+      "sourceId": "douyin-ai",
+      "asOf": "2026-09-07T15:36:39.581Z",
+      "evidenceUrl": "https://www.douyin.com/video/7664565437175014568",
+      "quote": "普通人有必要学AI吗 其实只需要学工作需要用到的，不用去追各种AI热点",
+      "title": "普通人有必要学AI吗 其实只需要学工作需要用到的，不用去追各种AI热点",
+      "url": "https://www.douyin.com/video/7664565437175014568",
+      "publishedAt": "2026-07-20T11:08:25.000Z",
+      "stat": "单条赞藏 26"
+    },
+    {
+      "sourceId": "douyin-ai",
+      "asOf": "2026-09-07T15:36:39.581Z",
+      "evidenceUrl": "https://www.douyin.com/video/7660398754718338939",
+      "quote": "WorkBuddy实战体验 WorkBuddy必然是下半年现象级的产品，使用简单生态优秀",
+      "title": "WorkBuddy实战体验 WorkBuddy必然是下半年现象级的产品，使用简单生态优秀",
+      "url": "https://www.douyin.com/video/7660398754718338939",
+      "publishedAt": "2026-07-09T08:35:00.000Z",
+      "stat": "单条赞藏 26"
+    },
+    {
+      "sourceId": "douyin-ai",
+      "asOf": "2026-09-07T15:36:39.581Z",
+      "evidenceUrl": "https://www.douyin.com/video/7658671262961107643",
+      "quote": "如何从0到1搭建属于自己的网站 个人站搭建其实非常简单，一天速通全程免费",
+      "title": "如何从0到1搭建属于自己的网站 个人站搭建其实非常简单，一天速通全程免费",
+      "url": "https://www.douyin.com/video/7658671262961107643",
+      "publishedAt": "2026-07-04T13:56:00.000Z",
+      "stat": "单条赞藏 477"
+    },
+    {
+      "sourceId": "douyin-ai",
+      "asOf": "2026-09-07T15:36:39.581Z",
+      "evidenceUrl": "https://www.douyin.com/video/7657738433821579697",
+      "quote": "DiffMind—超好用的vibecoding工具 让六个模型一起头脑风暴",
+      "title": "DiffMind—超好用的vibecoding工具 让六个模型一起头脑风暴",
+      "url": "https://www.douyin.com/video/7657738433821579697",
+      "publishedAt": "2026-07-02T13:00:00.000Z",
+      "stat": "单条赞藏 114"
+    },
+    {
+      "sourceId": "douyin-ai",
+      "asOf": "2026-09-07T15:36:39.581Z",
+      "evidenceUrl": "https://www.douyin.com/video/7647175251755984997",
+      "quote": "vibecoding最佳实践，大佬都在用的极简工作流",
+      "title": "vibecoding最佳实践，大佬都在用的极简工作流",
+      "url": "https://www.douyin.com/video/7647175251755984997",
+      "publishedAt": "2026-06-03T14:25:36.000Z",
+      "stat": "单条赞藏 8047"
+    },
+    {
+      "sourceId": "xiaohongshu",
+      "asOf": "2026-09-07T15:36:39.581Z",
+      "evidenceUrl": "https://www.xiaohongshu.com/user/profile/62c44930000000001b024533/6a0c1a67000000003503b425?xsec_token=ABIaGZ_OGukQOnd5b-vGew2hAcWyTuuniVbkqFVWRWWZY%3D&xsec_source=pc_user",
+      "quote": "为什么大家对这无动于衷",
+      "title": "为什么大家对这无动于衷",
+      "url": "https://www.xiaohongshu.com/user/profile/62c44930000000001b024533/6a0c1a67000000003503b425?xsec_token=ABIaGZ_OGukQOnd5b-vGew2hAcWyTuuniVbkqFVWRWWZY%3D&xsec_source=pc_user",
+      "publishedAt": "2026-05-19T08:08:07.000Z",
+      "stat": "单篇赞藏 12877"
+    },
+    {
+      "sourceId": "douyin-ai",
+      "asOf": "2026-09-07T15:36:39.581Z",
+      "evidenceUrl": "https://www.douyin.com/video/7639381634676925113",
+      "quote": "2026最简单的AI副业 90天AI改造计划第九期",
+      "title": "2026最简单的AI副业 90天AI改造计划第九期",
+      "url": "https://www.douyin.com/video/7639381634676925113",
+      "publishedAt": "2026-05-13T14:22:24.000Z",
+      "stat": "单条赞藏 149"
     }
   ],
   "metrics": [

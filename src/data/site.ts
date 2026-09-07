@@ -143,6 +143,7 @@ export type WorkSlot = {
   stat: string | null;
 };
 
+// 初始选品记录。首页当前精选由 social-featured.json 独立维护。
 export const selectedWorks: readonly WorkSlot[] = [
   {
     slot: '01',

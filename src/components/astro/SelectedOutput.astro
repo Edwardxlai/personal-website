@@ -1,46 +1,29 @@
 ---
 import SectionHeading from './SectionHeading.astro';
-import { recentWorks, featuredWorks, hasRecentWorks } from '../../data/social';
-const selectedWorks = hasRecentWorks ? recentWorks : featuredWorks;
+import { featuredWorks } from '../../data/social';
 ---
 
 <section class="section container output" aria-labelledby="output">
-  <SectionHeading id="output" eyebrow="Writing / Video / Notes" index="S / 04" title={hasRecentWorks ? '最近在分享' : '内容与代表作'} />
-  <p class="output-note">{hasRecentWorks ? '来自各平台的近期发布，按时间倒序整理' : '以下为已收录的代表作，新内容核实后会在这里更新'}</p>
+  <SectionHeading id="output" eyebrow="Writing / Video" index="S / 04" title="代表作" />
 
   <ol class="output-list" role="list">
-    {selectedWorks.map((w, i) => (
+    {featuredWorks.map((w, i) => (
       <li class="output-row reveal" style={`--reveal-i:${i}`}>
         <a class="output-link glare-hover" href={w.href} target="_blank" rel="noopener noreferrer" data-magnet>
           <span class="output-num">{w.slot}</span>
           <span class="output-main">
             <span class="output-platform">{w.platform}</span>
-            {'date' in w && <time datetime={w.publishedAt}>{w.date}</time>}
             <span class="output-title">{w.title}</span>
           </span>
-          <span class="output-stat">{w.stat}{w.stat && !('date' in w) && <small>2026.07 记录</small>}</span>
+          <span class="output-stat">{w.stat}</span>
           <span class="output-arrow" aria-hidden="true">↗</span>
         </a>
       </li>
     ))}
   </ol>
-  {hasRecentWorks && <details class="output-archive">
-    <summary>以前的代表作 <span>↗</span></summary>
-    <ul role="list">{featuredWorks.map(w => <li><a href={w.href} target="_blank" rel="noopener noreferrer"><span>{w.platform}</span>{w.title}<small>{w.stat} · 2026.07 记录</small></a></li>)}</ul>
-  </details>}
 </section>
 
 <style>
-  .output-note { margin-bottom: 24px; font-size: 13px; color: var(--text-secondary); }
-  .output-stat small { display: block; margin-top: 6px; font-size: 10px; }
-  time { font-size: 11px; color: var(--text-secondary); }
-  .output-archive { margin-top: 32px; border-bottom: 1px solid var(--line-subtle); }
-  summary { cursor: pointer; font-size: 15px; padding: 20px 0; }
-  summary span { color: var(--accent); margin-left: 8px; }
-  .output-archive li { border-top: 1px solid var(--line-subtle); }
-  .output-archive a { display: grid; gap: 10px; padding: 20px 0; }
-  .output-archive a span { color: var(--accent); font-size: 11px; }
-  .output-archive small { color: var(--text-secondary); font-size: 11px; }
   .output-list {
     display: flex;
     flex-direction: column;

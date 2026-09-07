@@ -1,6 +1,6 @@
 ---
 import SectionHeading from './SectionHeading.astro';
-import { socialSignals, lastChecked, formatDate } from '../../data/social';
+import { socialSignals } from '../../data/social';
 
 // 信号条静态高度节奏（纯装饰，不编码数据）
 const BAR_COUNT = 7;
@@ -30,8 +30,6 @@ const BAR_COUNT = 7;
           <span class="sb-stat">
             <b>{s.stat}</b>
             <em>{s.statLabel}</em>
-            {s.asOf && <small>{s.asOf}</small>}
-            {s.extra.map(line => <small class="sb-extra">{line}</small>)}
           </span>
 
           <span class="sb-arrow" aria-hidden="true">↗</span>
@@ -39,13 +37,9 @@ const BAR_COUNT = 7;
       </li>
     ))}
   </ul>
-  <p class="sb-note">{lastChecked ? `最近核对 ${formatDate(lastChecked)} · ` : ''}每周整理公开数据；暂未取得的新数据保留原记录，各项日期单独标注</p>
 </section>
 
 <style>
-  .sb-note { margin-top: 20px; font-size: 12px; line-height: 1.8; color: var(--text-secondary); }
-  .sb-stat small { font-size: 10px; color: var(--text-secondary); margin-top: 6px; line-height: 1.6; text-align: right; }
-  .sb-stat .sb-extra { max-width: 220px; color: var(--accent); }
   .sb-list { display: flex; flex-direction: column; }
   .sb-row { border-top: 1px solid var(--line-subtle); }
   .sb-row:last-child { border-bottom: 1px solid var(--line-subtle); }

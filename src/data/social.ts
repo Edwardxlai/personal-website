@@ -16,7 +16,7 @@ const overrides: Record<string, { key: string; value: string; label: string; asO
 // Collection is a candidate pool. Only editorial selections reach the page.
 export const featuredWorks = curatedWorks
   .filter((work, i, all) => all.findIndex(other => other.contentKey === work.contentKey || other.href === work.href) === i)
-  .slice(0, 6)
+  .slice(0, 7)
   .map((work, i) => ({ ...work, slot: String(i + 1).padStart(2, '0') }));
 
 function milestone(value: string) {

@@ -7,13 +7,6 @@
     "stat": "单条赞藏 8K+"
   },
   {
-    "contentKey": "ai-tools-adoption",
-    "platform": "小红书",
-    "title": "为什么大家对这无动于衷",
-    "href": "https://www.xiaohongshu.com/user/profile/62c44930000000001b024533/6a0c1a67000000003503b425?xsec_token=ABIaGZ_OGukQOnd5b-vGew2hAcWyTuuniVbkqFVWRWWZY%3D&xsec_source=pc_user",
-    "stat": "单篇赞藏 12K+"
-  },
-  {
     "contentKey": "fde-career-first-week",
     "platform": "抖音作品",
     "title": "FDE 真的是 AI 时代的版本答案吗",
@@ -26,6 +19,20 @@
     "title": "学 Ontology，不如先学我这套工作方法论",
     "href": "https://www.douyin.com/video/7677526175661011685",
     "stat": "单条赞藏 1K+"
+  },
+  {
+    "contentKey": "fde-mindset",
+    "platform": "X 观点",
+    "title": "FDE 必学的思维模式：人流钱暗界",
+    "href": "https://x.com/edwardxlaime/status/2083434360305528927",
+    "stat": "单篇 15K+ 浏览"
+  },
+  {
+    "contentKey": "google-flow-tutorial",
+    "platform": "X 视频",
+    "title": "Google Flow 保姆级教学，自媒体人必学的 AI 工具！",
+    "href": "https://x.com/edwardxlaime/status/2082819835738673261",
+    "stat": "单篇 9K+ 浏览"
   },
   {
     "contentKey": "academic-writing",

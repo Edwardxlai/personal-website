@@ -17,9 +17,9 @@
       "reason": "需要登录授权，公开读取暂不可用"
     },
     "threads": {
-      "checkedAt": "2026-09-07T10:33:11.646Z",
+      "checkedAt": "2026-10-05T07:33:18.823Z",
       "status": "partial",
-      "reason": "公开正文、链接、时间和粉丝数已接通；累计浏览仍保留历史记录"
+      "reason": "公开主页读取到近期作品与互动数据"
     },
     "xiaohongshu": {
       "checkedAt": "2026-09-07T15:36:39.581Z",
@@ -28,6 +28,16 @@
     }
   },
   "works": [
+    {
+      "sourceId": "threads",
+      "asOf": "2026-10-05T07:33:18.823Z",
+      "evidenceUrl": "https://www.threads.com/@ledwardsama/post/Dd8ME9uknfI",
+      "quote": "EasyRead就是为了让你更舒服地读论文",
+      "title": "EasyRead：为更舒服地读论文搓的阅读工具",
+      "url": "https://www.threads.com/@ledwardsama/post/Dd8ME9uknfI",
+      "publishedAt": "2026-10-01T05:45:06.000Z",
+      "stat": "单篇 500+ 赞"
+    },
     {
       "sourceId": "douyin-ai",
       "asOf": "2026-09-07T15:36:39.581Z",

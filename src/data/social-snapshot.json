@@ -12,9 +12,9 @@
       "reason": "AI 号作品、点赞与收藏已通过浏览器接通；公开播放量为占位零，不作为真实播放量"
     },
     "x": {
-      "checkedAt": "2026-09-07T10:22:25.737Z",
-      "status": "unavailable",
-      "reason": "需要登录授权，公开读取暂不可用"
+      "checkedAt": "2026-10-15T00:00:00.000Z",
+      "status": "partial",
+      "reason": "EasyRead 原帖通过公开索引与 TwStalker 转推页面核对，显示 104K 浏览；X 直读不可用，未刷新账号累计数据"
     },
     "threads": {
       "checkedAt": "2026-10-05T07:33:18.823Z",
@@ -37,6 +37,16 @@
       "url": "https://www.threads.com/@ledwardsama/post/Dd8ME9uknfI",
       "publishedAt": "2026-10-01T05:45:06.000Z",
       "stat": "单篇 500+ 赞"
+    },
+    {
+      "sourceId": "x",
+      "asOf": "2026-10-15T00:00:00.000Z",
+      "evidenceUrl": "https://x.com/edwardxlaime/status/2105511571967668267",
+      "quote": "EasyRead就是为了让你更舒服地读论文",
+      "title": "EasyRead：为更舒服地读论文搓的阅读工具",
+      "url": "https://x.com/edwardxlaime/status/2105511571967668267",
+      "publishedAt": "2026-10-01T04:14:11.927Z",
+      "stat": "单篇 100K+ 浏览"
     },
     {
       "sourceId": "douyin-ai",

@@ -10,6 +10,7 @@ const projects = defineCollection({
       title: z.string(),
       // 一句问题定义 / 首页一句话
       tagline: z.string(),
+      href: z.string().url().optional(),
       // 列表展示顺序，数字越小越靠前
       order: z.number(),
       cover: image().optional(),

@@ -117,10 +117,11 @@ export const signalBoard = [
     platform: 'GitHub',
     status: 'OPEN',
     tag: 'CODE',
-    blurb: '公开仓库与旧项目归档',
-    stat: 'CODE',
-    statLabel: '公开项目入口',
-    href: identity.github,
+    blurb: 'EasyRead · 让你更舒服地读论文',
+    // GitHub API: Edwardxlai/easyread, 949 stars verified on 2026-10-15.
+    stat: '900+',
+    statLabel: 'EasyRead Stars',
+    href: 'https://github.com/Edwardxlai/easyread',
   },
 ] as const;
 

@@ -11,7 +11,7 @@ interface Props {
 const { projects } = Astro.props;
 
 const labels: Record<string, { title: string; side: string; mode: 'wide-stack' | 'poster' | 'field-notes' }> = {
-  flowcast: { title: 'Flowcast', side: '流转', mode: 'wide-stack' },
+  easyread: { title: 'EasyRead', side: '论文阅读', mode: 'wide-stack' },
   'in-the-word': { title: 'In-the-word', side: '字里行间', mode: 'poster' },
   scriptstudio: { title: 'FDE Roadmap', side: '我的理解', mode: 'field-notes' },
 };
@@ -23,7 +23,8 @@ const labels: Record<string, { title: string; side: string; mode: 'wide-stack' |
   <div class="work-shell">
     <div class="work-list" role="list" aria-label="精选项目">
       {projects.map((project, i) => {
-        const Tag = project.id === 'scriptstudio' ? 'a' : 'button';
+        const href = project.data.href ?? (project.id === 'scriptstudio' ? '/fde-roadmap/' : undefined);
+        const Tag = href ? 'a' : 'button';
         const meta = labels[project.id] ?? {
           title: project.data.title,
           side: project.data.title,
@@ -38,7 +39,7 @@ const labels: Record<string, { title: string; side: string; mode: 'wide-stack' |
             data-work-index={i}
             style={`--reveal-i:${i}`}
           >
-            <Tag type={Tag === 'button' ? 'button' : undefined} href={Tag === 'a' ? '/fde-roadmap/' : undefined} class="work-link glare-hover" data-magnet aria-pressed={Tag === 'button' ? i === 0 : undefined}>
+            <Tag type={Tag === 'button' ? 'button' : undefined} href={href} target={project.data.href ? '_blank' : undefined} rel={project.data.href ? 'noopener noreferrer' : undefined} class="work-link glare-hover" data-magnet aria-pressed={Tag === 'button' ? i === 0 : undefined}>
               <span class="work-num">{String(project.data.order).padStart(2, '0')}</span>
               <span class="work-text">
                 <span class="work-title">{meta.title}</span>

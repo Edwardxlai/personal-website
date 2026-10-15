@@ -5,5 +5,5 @@ order: 1
 cover: ../../assets/projects/flowcast/cover.png
 gallery:
   - ../../assets/projects/flowcast/workbench.png
-draft: false
+draft: true
 ---

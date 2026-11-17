@@ -118,9 +118,9 @@ export const signalBoard = [
     status: 'OPEN',
     tag: 'CODE',
     blurb: 'EasyRead · 让你更舒服地读论文',
-    // GitHub API: Edwardxlai/easyread, 949 stars verified on 2026-10-15.
-    stat: '900+',
-    statLabel: 'EasyRead Stars',
+    // GitHub API: Edwardxlai/easyread, 1,275 stars verified on 2026-11-17.
+    stat: '1,275',
+    statLabel: 'GitHub Stars · 100+ Forks',
     href: 'https://github.com/Edwardxlai/easyread',
   },
 ] as const;

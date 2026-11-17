@@ -291,12 +291,21 @@
   ],
   "metrics": [
     {
+      "sourceId": "xiaohongshu",
+      "asOf": "2026-09-07T10:22:25.772Z",
+      "evidenceUrl": "https://www.xiaohongshu.com/user/profile/62c44930000000001b024533",
+      "quote": "1万+获赞与收藏",
+      "key": "likesAndSaves",
+      "value": "1万+",
+      "label": "累计获赞与收藏"
+    },
+    {
       "sourceId": "douyin-study",
       "asOf": "2026-08-11T03:35:12.000Z",
       "evidenceUrl": "https://www.douyin.com/user/MS4wLjABAAAAzaMQlMN59ZkwjV2RupWMpp09xgtrJ6HKDlWLGH2l5w4JVzEw1pJkchK90_3Smbkw",
-      "quote": "粉丝\n\n3284",
+      "quote": "粉丝\n\n3182",
       "key": "followers",
-      "value": "3284",
+      "value": "3182",
       "label": "粉丝"
     },
     {
@@ -310,38 +319,38 @@
     },
     {
       "sourceId": "douyin-ai",
-      "asOf": "2026-08-11T03:35:12.000Z",
+      "asOf": "2026-11-10T03:02:51.000Z",
       "evidenceUrl": "https://www.douyin.com/user/MS4wLjABAAAAQn5DxuKcbNPeh-1dvPJ6YjCUu0dYhSvanWFgI7PBOU7zxidoyL6dSrNFOVISBkaH",
-      "quote": "粉丝\n\n871",
+      "quote": "粉丝\n\n1070",
       "key": "followers",
-      "value": "871",
+      "value": "1070",
       "label": "粉丝"
     },
     {
       "sourceId": "douyin-ai",
-      "asOf": "2026-08-11T03:35:12.000Z",
+      "asOf": "2026-11-10T03:02:51.000Z",
       "evidenceUrl": "https://www.douyin.com/user/MS4wLjABAAAAQn5DxuKcbNPeh-1dvPJ6YjCUu0dYhSvanWFgI7PBOU7zxidoyL6dSrNFOVISBkaH",
-      "quote": "获赞\n\n7247",
+      "quote": "获赞\n\n8210",
       "key": "likes",
-      "value": "7247",
+      "value": "8210",
       "label": "累计获赞"
     },
     {
-      "sourceId": "xiaohongshu",
-      "asOf": "2026-09-07T10:22:25.772Z",
-      "evidenceUrl": "https://www.xiaohongshu.com/user/profile/62c44930000000001b024533",
-      "quote": "1万+获赞与收藏",
-      "key": "likesAndSaves",
-      "value": "1万+",
-      "label": "累计获赞与收藏"
+      "sourceId": "x",
+      "asOf": "2026-11-17T03:01:20.648Z",
+      "evidenceUrl": "https://x.com/edwardxlaime",
+      "quote": "[1,510 Followers]",
+      "key": "followers",
+      "value": "1,510",
+      "label": "粉丝"
     },
     {
       "sourceId": "threads",
-      "asOf": "2026-09-07T10:33:11.646Z",
+      "asOf": "2026-11-17T03:01:20.671Z",
       "evidenceUrl": "https://www.threads.com/@ledwardsama",
-      "quote": "[356 followers]",
+      "quote": "[408 followers]",
       "key": "followers",
-      "value": "356",
+      "value": "408",
       "label": "粉丝"
     }
   ]
